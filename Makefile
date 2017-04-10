@@ -6,19 +6,23 @@
 
 NAME = Gomoku
 
-SRC = ./src/main.cpp
+SRC =  ./src/MainController.cpp \
+./src/SDLHandler.cpp \
+./src/main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
 CC = clang++ -g -Wall -Werror -Wextra
 
+SDL = -framework SDL2 -framework Cocoa
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $@
+	$(CC) $(SDL) $(OBJ) -o $@
 
 %.o: %.cpp
-	$(CC) -o $@ -c $<
+	$(CC)  -o $@ -c $<
 
 clean:
 	rm -rf $(OBJ)

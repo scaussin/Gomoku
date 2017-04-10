@@ -24,17 +24,52 @@
 # include <algorithm>
 # include <math.h>
 
-// color in text;
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
-#define KRESET "\x1B[0m"
+# include <SDL2/SDL.h>
 
-//class		Heuristic;
+// color in text;
+# define KNRM  "\x1B[0m"
+# define KRED  "\x1B[31m"
+# define KGRN  "\x1B[32m"
+# define KYEL  "\x1B[33m"
+# define KBLU  "\x1B[34m"
+# define KMAG  "\x1B[35m"
+# define KCYN  "\x1B[36m"
+# define KWHT  "\x1B[37m"
+# define KRESET "\x1B[0m"
+
+/*
+**	Game defines
+*/
+
+typedef enum 	e_GameStage
+{
+	MAIN_MENU,
+	IN_GAME
+}				t_GameStage;
+
+/*
+**	Gomoku structures
+*/
+
+typedef	struct	s_GameDatas
+{
+	
+}				t_GameDatas;
+
+
+// class forward declarations.
+
+class		SDLHandler;
+class		MainController;
+
+# include "SDLHandler.hpp"
+# include "MainController.hpp"
+
+
+/*
+**	Structure containing game datas.
+*/
+
+
 
 #endif
