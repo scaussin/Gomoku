@@ -14,6 +14,7 @@ MainController::~MainController()
 void	MainController::InitGomoku()
 {
 	SDLHandler.InitWindow();
+	MainMenu.LoadImages(SDLHandler);
 }
 
 void	MainController::MainLoop()
@@ -33,9 +34,14 @@ void	MainController::MainLoop()
 		}
 
 		// Game loop will go here...
+		if (CurrentStage == MAIN_MENU)
+		{
+			MainMenu.DisplayImages(SDLHandler);
+			//MainMenu.Events();
+		}
 
 		SDL_RenderPresent(SDLHandler.renderer);
 	}
-	// Tell the SDL to clean up and shut down
+	// SDL to clean up and shut down
 	SDL_Quit();
 }

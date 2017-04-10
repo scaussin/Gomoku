@@ -25,6 +25,7 @@
 # include <math.h>
 
 # include <SDL2/SDL.h>
+# include "../Frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
 
 // color in text;
 # define KNRM  "\x1B[0m"
@@ -36,6 +37,16 @@
 # define KCYN  "\x1B[36m"
 # define KWHT  "\x1B[37m"
 # define KRESET "\x1B[0m"
+
+/*
+**	SDL engine defines
+*/
+
+# define WINDOW_WIDTH 1280
+# define WINDOW_HEIGHT 720
+# define SCREEN_RATIO_X 16
+# define SCREEN_RATIO_Y 9
+# define SCREEN_RATIO 1.7
 
 /*
 **	Game defines
@@ -60,9 +71,11 @@ typedef	struct	s_GameDatas
 // class forward declarations.
 
 class		SDLHandler;
+class		MainMenuController;
 class		MainController;
 
 # include "SDLHandler.hpp"
+# include "MainMenuController.hpp"
 # include "MainController.hpp"
 
 

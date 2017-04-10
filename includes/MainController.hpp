@@ -16,14 +16,16 @@ class MainController
 		~MainController();
 
 		// This struct will stock all required game datas.
-		t_GameDatas		GameDatas;
+		t_GameDatas				GameDatas;
 
-		// This Handler will take care of all SLD related calls.
-		SDLHandler		SDLHandler;
+		// This Handler will take care of all SDL related calls.
+		SDLHandler				SDLHandler;
 
 		// Variable stocking which stage of the game we're in.
-		t_GameStage		CurrentStage;
-		
+		t_GameStage				CurrentStage;
+
+		// As long as we are in the main menu, this class will act.
+		MainMenuController		MainMenu;
 
 		// MainController methods.
 		void			InitGomoku();

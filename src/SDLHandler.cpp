@@ -27,7 +27,7 @@ int		SDLHandler::InitWindow()
 	pWindow = SDL_CreateWindow("Gomoku",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
-				1280, 720,
+				WINDOW_WIDTH, WINDOW_HEIGHT,
 				SDL_WINDOW_SHOWN);
 	if (!pWindow)
 	{
