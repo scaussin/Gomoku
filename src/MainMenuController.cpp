@@ -82,7 +82,7 @@ void	MainMenuController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	on_hover->SetAlpha(0);
 	on_hover->PutImage(SDLHandler);
 
-	btn_play_p2->SetImgPos(655, 470);
+	btn_play_p2->SetImgPos(655, 490);
 	btn_play_p2->SetImgSize(600, 125);
 	btn_play_p2->SetAlpha(0);
 	btn_play_p2->PutImage(SDLHandler);
@@ -98,6 +98,65 @@ void	MainMenuController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	credits->PutImage(SDLHandler);
 }
 
+/*
+**	For each hoverable button, will check if the mouse is on it.
+**	If it is, displace the hover cursor and make it appear.
+*/
+
+void	MainMenuController::CheckHover(SDLHandler &SDLHandler)
+{
+	SDL_GetMouseState(&MouseX, &MouseY);
+	if (btn_play_ia->IsColliding(MouseX, MouseY))
+	{
+		on_hover->SetImgPos(750, 402);
+		on_hover->SetAlpha(255);
+	}
+	else if (btn_play_p2->IsColliding(MouseX, MouseY))
+	{
+		on_hover->SetImgPos(700, 512);
+		on_hover->SetAlpha(255);
+	}
+	else if (btn_quit->IsColliding(MouseX, MouseY))
+	{
+		on_hover->SetImgPos(760, 672);
+		on_hover->SetAlpha(255);
+	}
+	else
+	{
+		on_hover->SetAlpha(0);
+	}
+	on_hover->PutImage(SDLHandler);
+}
+
+void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
+			SDLHandler &SDLHandler)
+{
+	(void)GameDatas;
+	(void)SDLHandler;
+	if (event.type == SDL_MOUSEBUTTONDOWN)
+	{
+		if (event.button.button == SDL_BUTTON_LEFT)
+		{
+			if (btn_play_ia->IsColliding(event.button.x,
+						event.button.y))
+			{
+				std::cout << "Onclick play ia" << std::endl;
+			}
+			else if (btn_play_p2->IsColliding(event.button.x,
+						event.button.y))
+			{
+				std::cout << "Onclick play p2" << std::endl;
+			}
+			else if (btn_quit->IsColliding(event.button.x,
+						event.button.y))
+			{
+				std::cout << "Onclick play quit" << std::endl;
+				SDL_Quit();
+				exit (0);
+			}
+		}
+	}
+}
 
 // EASY CODE FOR WRITING TEXT
 

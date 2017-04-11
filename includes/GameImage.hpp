@@ -29,8 +29,9 @@ class GameImage
 
 		SDL_Rect		GetRect();
 
-	private:
+		bool			IsColliding(int x, int y);
 
+	private:
 		SDL_Surface		*_imgSurface;
 		SDL_Texture		*_imgTexture;
 		SDL_Rect		_imgRect;

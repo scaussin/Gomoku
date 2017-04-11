@@ -25,6 +25,9 @@ class MainMenuController
 
 		GameImage		*on_hover;
 
+		int				MouseX;
+		int				MouseY;
+
 		// Main menu scene states
 		bool			ImagesPlaced;
 
@@ -33,6 +36,9 @@ class MainMenuController
 		void		LoadImages(SDLHandler &SDLHandler);
 		void		DisplayImages(SDLHandler &SDLHandler);
 		void		PlaceImagesOnStart(SDLHandler &SDLHandler);
+		void		CheckHover(SDLHandler &SDLHandler);
+		void		HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
+								SDLHandler &SDLHandler);
 };
 
 #endif

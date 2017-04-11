@@ -1,6 +1,6 @@
 #include "../includes/Gomoku.hpp"
 
-MainController::MainController() : CurrentStage(MAIN_MENU)
+MainController::MainController() : CurrentScene(MAIN_MENU)
 {
 
 }
@@ -44,20 +44,19 @@ void	MainController::MainLoop()
 				// Quit the program
 				break ;
 			}
-
-			if (CurrentStage == MAIN_MENU)
+			if (CurrentScene == MAIN_MENU)
 			{
-
+				MainMenu.HandleEvents(GameDatas, SDLHandler.event, SDLHandler);
 			}
 		}
 
-		// Game loop will go here
-		if (CurrentStage == MAIN_MENU)
+		// Permanent game loop methods
+		if (CurrentScene == MAIN_MENU)
 		{
 			MainMenu.DisplayImages(SDLHandler);
+			MainMenu.CheckHover(SDLHandler);
 			//MainMenu.Events();
 		}
-
 		SDL_RenderPresent(SDLHandler.renderer);
 	}
 	// SDL to clean up and shut down

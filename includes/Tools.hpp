@@ -5,8 +5,7 @@
 
 class Tools
 {
-
-	
+	static bool		RectCollision(int x, int y, SDL_Rect Rect);
 };
 
 #endif

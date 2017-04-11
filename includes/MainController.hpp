@@ -22,7 +22,7 @@ class MainController
 		SDLHandler				SDLHandler;
 
 		// Variable stocking which stage of the game we're in.
-		t_GameStage				CurrentStage;
+		t_GameScene				CurrentScene;
 
 		// As long as we are in the main menu, this class will act.
 		MainMenuController		MainMenu;

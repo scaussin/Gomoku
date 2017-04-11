@@ -98,3 +98,11 @@ SDL_Rect	GameImage::GetRect()
 {
 	return (this->_imgRect);
 }
+
+bool		GameImage::IsColliding(int x, int y)
+{
+	if (x >= _imgRect.x && x <= _imgRect.x + _imgRect.w
+		&& y >= _imgRect.y && y <= _imgRect.y + _imgRect.h)
+		return (true);
+	return (false);
+}

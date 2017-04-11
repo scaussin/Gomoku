@@ -17,7 +17,7 @@ OBJ = $(SRC:.cpp=.o)
 
 CC = clang++ -g -Wall -Werror -Wextra
 
-SDL =  -framework Cocoa -F./Frameworks -framework SDL2_ttf -framework SDL2
+SDL =  -framework Cocoa -framework SDL2 -F./Frameworks -framework SDL2_ttf
 
 #todo : create the ~/Library/Frameworks/ folder if needed,
 # and copy the SDL2_ttf.framework in it.

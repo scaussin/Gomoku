@@ -52,11 +52,11 @@
 **	Game defines
 */
 
-typedef enum 		e_GameStage
+typedef enum 		e_GameScene
 {
 	MAIN_MENU,
 	IN_GAME
-}					t_GameStage;
+}					t_GameScene;
 
 typedef enum		e_GameMode
 {
