@@ -70,6 +70,7 @@ typedef enum		e_GameMode
 
 typedef	struct		s_GameDatas
 {
+	t_GameScene		SelectedScene;
 	t_GameMode		SelectedGameMode;
 }					t_GameDatas;
 

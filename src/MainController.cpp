@@ -44,7 +44,8 @@ void	MainController::MainLoop()
 				// Quit the program
 				break ;
 			}
-			if (CurrentScene == MAIN_MENU)
+			if (CurrentScene == MAIN_MENU
+				&& MainMenu.TransitionningOut == false)
 			{
 				MainMenu.HandleEvents(GameDatas, SDLHandler.event, SDLHandler);
 			}
@@ -53,9 +54,20 @@ void	MainController::MainLoop()
 		// Permanent game loop methods
 		if (CurrentScene == MAIN_MENU)
 		{
-			MainMenu.DisplayImages(SDLHandler);
-			MainMenu.CheckHover(SDLHandler);
-			//MainMenu.Events();
+			if (!MainMenu.TransitionningOut)
+			{
+				MainMenu.DisplayImages(SDLHandler);
+				MainMenu.CheckHover(SDLHandler);
+			}
+			else
+			{
+				MainMenu.TransitionOut(SDLHandler);
+			}
+			if (MainMenu.TransitionEnd == true)
+			{
+				std::cout << "SCENE CHANGE" << std::endl;
+				CurrentScene = GameDatas.SelectedScene;
+			}
 		}
 		SDL_RenderPresent(SDLHandler.renderer);
 	}

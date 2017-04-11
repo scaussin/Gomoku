@@ -30,6 +30,8 @@ class MainMenuController
 
 		// Main menu scene states
 		bool			ImagesPlaced;
+		bool			TransitionningOut;
+		bool			TransitionEnd;
 
 
 		// class methods.
@@ -39,6 +41,7 @@ class MainMenuController
 		void		CheckHover(SDLHandler &SDLHandler);
 		void		HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 								SDLHandler &SDLHandler);
+		void		TransitionOut(SDLHandler &SDLHandler);
 };
 
 #endif

@@ -1,6 +1,9 @@
 #include "../includes/Gomoku.hpp"
 
-MainMenuController::MainMenuController()
+MainMenuController::MainMenuController() :
+ImagesPlaced(false),
+TransitionningOut(false),
+TransitionEnd(false)
 {
 
 }
@@ -131,7 +134,6 @@ void	MainMenuController::CheckHover(SDLHandler &SDLHandler)
 void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			SDLHandler &SDLHandler)
 {
-	(void)GameDatas;
 	(void)SDLHandler;
 	if (event.type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -141,11 +143,17 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 						event.button.y))
 			{
 				std::cout << "Onclick play ia" << std::endl;
+				GameDatas.SelectedGameMode = VS_IA;
+				GameDatas.SelectedScene = IN_GAME;
+				TransitionningOut = true;  // give the order to change scene.
 			}
 			else if (btn_play_p2->IsColliding(event.button.x,
 						event.button.y))
 			{
 				std::cout << "Onclick play p2" << std::endl;
+				GameDatas.SelectedGameMode = VS_P2;
+				GameDatas.SelectedScene = IN_GAME;
+				TransitionningOut = true; // give the order to change scene.
 			}
 			else if (btn_quit->IsColliding(event.button.x,
 						event.button.y))
@@ -156,6 +164,32 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			}
 		}
 	}
+}
+
+void	MainMenuController::TransitionOut(SDLHandler &SDLHandler)
+{
+	bg_1->FadeOut();
+	bg_1->PutImage(SDLHandler);
+	title_1->FadeOut();
+	title_1->PutImage(SDLHandler);
+	btn_play_ia->FadeOut();
+	btn_play_ia->PutImage(SDLHandler);
+	btn_play_p2->FadeOut();
+	btn_play_p2->PutImage(SDLHandler);
+	btn_quit->FadeOut();
+	btn_quit->PutImage(SDLHandler);
+	credits->FadeOut();
+	credits->PutImage(SDLHandler);
+	if (bg_1->GetAlpha() == 0
+		&& title_1->GetAlpha() == 0
+		&& btn_play_ia->GetAlpha() == 0
+		&& btn_play_p2->GetAlpha() == 0
+		&& btn_quit->GetAlpha() == 0
+		&& credits->GetAlpha() == 0)
+	{
+		TransitionEnd = true;
+	}
+
 }
 
 // EASY CODE FOR WRITING TEXT
