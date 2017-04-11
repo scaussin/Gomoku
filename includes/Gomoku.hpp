@@ -42,8 +42,8 @@
 **	SDL engine defines
 */
 
-# define WINDOW_WIDTH 1280
-# define WINDOW_HEIGHT 720
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1080
 # define SCREEN_RATIO_X 16
 # define SCREEN_RATIO_Y 9
 # define SCREEN_RATIO 1.7
@@ -70,10 +70,12 @@ typedef	struct	s_GameDatas
 
 // class forward declarations.
 
+class		GameImage;
 class		SDLHandler;
 class		MainMenuController;
 class		MainController;
 
+# include "GameImage.hpp"
 # include "SDLHandler.hpp"
 # include "MainMenuController.hpp"
 # include "MainController.hpp"

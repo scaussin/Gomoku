@@ -40,6 +40,16 @@ int		SDLHandler::InitWindow()
 	return (0);
 }
 
+int		SDLHandler::InitSDL_ttf()
+{
+	if (!TTF_WasInit() && TTF_Init() == -1)
+	{
+		std::cout << "TTF_Init: " << TTF_GetError() << std::endl;
+		return (-1);
+	}
+	return (0);
+}
+
 /*
 **	Clear the image to black.
 */

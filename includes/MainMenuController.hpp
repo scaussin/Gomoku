@@ -14,9 +14,19 @@ class MainMenuController
 		~MainMenuController();
 	
 		// class variables
-		SDL_Surface		*surface;
-		SDL_Texture		*bg_1_texture;
-		SDL_Texture		*title_1_texture;
+		GameImage		*bg_1;
+		GameImage		*title_1;
+
+		GameImage		*btn_play_ia;
+		GameImage		*btn_play_p2;
+		GameImage		*btn_quit;
+
+		GameImage		*credits;
+
+		GameImage		*on_hover;
+
+		// Main menu scene states
+		bool			ImagesPlaced;
 
 
 

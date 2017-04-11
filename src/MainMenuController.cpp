@@ -10,36 +10,65 @@ MainMenuController::~MainMenuController()
 
 }
 
+/*
+**	Before we actually see the main menu, we load and stock
+**	the images we will need.
+**	This is a preload method.
+*/
+
 void	MainMenuController::LoadImages(SDLHandler &SDLHandler)
 {
-	// load first surface and texture -> background 1.
-	if (!(surface = SDL_LoadBMP("./ressources/img/main_menu/main_menu_bg.bmp")))
-		std::cerr << "Error loading bmp: " << SDL_GetError() << std::endl;
-	bg_1_texture = SDL_CreateTextureFromSurface(SDLHandler.renderer, surface);
-	SDL_FreeSurface(surface);
-	if (!(surface = SDL_LoadBMP("./ressources/img/main_menu/main_menu_title_1.bmp")))
-		std::cerr << "Error loading bmp: " << SDL_GetError() << std::endl;
-	title_1_texture = SDL_CreateTextureFromSurface(SDLHandler.renderer, surface);
-	SDL_FreeSurface(surface);
+	bg_1 = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_bg.bmp");
+	title_1 = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_title_1.bmp");
+	btn_play_ia = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_btn_play_ia.bmp");
+	btn_play_p2 = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_btn_play_p2.bmp");
+	btn_quit = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_btn_quit.bmp");
+	credits = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_credit_txt.bmp");
+	on_hover = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_hover_selected.bmp");
 }
+
+/*
+**	Here, we will put our image on the sdl screen buffer.
+**	Used in the game's main loop.
+*/
 
 void	MainMenuController::DisplayImages(SDLHandler &SDLHandler)
 {
-	SDL_RenderCopy(SDLHandler.renderer, bg_1_texture, NULL, NULL);
+	// Put every image of the scene on the screen.
+	bg_1->SetImgPos(0, 0);
+	bg_1->SetImgSize(1920, 1080);
+	bg_1->SetAlpha(255);
+	bg_1->PutImage(SDLHandler);
 
-	SDL_Rect temp_rect; //create a rect
-	temp_rect.x = 340;  //controls the rect's x coordinate 
-	temp_rect.y = 60; // controls the rect's y coordinte
-	temp_rect.w = 600 * (1980 / WINDOW_WIDTH); // controls the width of the rect
-	temp_rect.h = 125 * (1080 / WINDOW_HEIGHT); // controls the height of the rect
+	title_1->SetImgPos(655, 140);
+	title_1->SetImgSize(600, 125);
+	title_1->SetAlpha(255);
+	title_1->PutImage(SDLHandler);
 
-	SDL_RenderCopy(SDLHandler.renderer, title_1_texture, NULL, &temp_rect);
+	btn_play_ia->SetImgPos(655, 380);
+	btn_play_ia->SetImgSize(600, 125);
+	btn_play_ia->SetAlpha(255);
+	btn_play_ia->PutImage(SDLHandler);
 
- 	
-	// if(!TTF_WasInit() && TTF_Init()==-1) {
-	//     printf("TTF_Init: %s\n", TTF_GetError());
-	//     exit(1);
-	// }
+	on_hover->SetImgPos(750, 402);
+	on_hover->SetImgSize(80, 80);
+	on_hover->SetAlpha(255);
+	on_hover->PutImage(SDLHandler);
+
+	btn_play_p2->SetImgPos(655, 470);
+	btn_play_p2->SetImgSize(600, 125);
+	btn_play_p2->SetAlpha(255);
+	btn_play_p2->PutImage(SDLHandler);
+
+	btn_quit->SetImgPos(655, 650);
+	btn_quit->SetImgSize(600, 125);
+	btn_quit->SetAlpha(255);
+	btn_quit->PutImage(SDLHandler);
+
+	credits->SetImgPos(800, 800);
+	credits->SetImgSize(250, 182);
+	credits->SetAlpha(255);
+	credits->PutImage(SDLHandler);
 
 	// TTF_Font* Sans = TTF_OpenFont("./ressources/Dosis/Dosis-Regular.ttf", 24); //this opens a font style and sets a size
 	// if (!Sans)

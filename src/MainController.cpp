@@ -13,9 +13,22 @@ MainController::~MainController()
 
 void	MainController::InitGomoku()
 {
+	// Init SDL engine and components.
 	SDLHandler.InitWindow();
+	SDLHandler.InitSDL_ttf();
+
+	// For the main Menu scene
 	MainMenu.LoadImages(SDLHandler);
+
+	// TODO: For the In Game scene
+	//InGame.LoadImages(SDLHandler);
 }
+
+// ------------------------------------------------------------	//
+//																//
+//				Main loop for the Game							//
+//																//
+// ------------------------------------------------------------	//
 
 void	MainController::MainLoop()
 {
@@ -33,7 +46,7 @@ void	MainController::MainLoop()
 			}
 		}
 
-		// Game loop will go here...
+		// Game loop will go here
 		if (CurrentStage == MAIN_MENU)
 		{
 			MainMenu.DisplayImages(SDLHandler);

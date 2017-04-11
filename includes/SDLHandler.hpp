@@ -16,7 +16,7 @@ class SDLHandler
 
 		// class methods
 		int		InitWindow();
-	
+		int		InitSDL_ttf();
 		void	ClearWindow();
 };
 
