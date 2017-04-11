@@ -10,6 +10,7 @@ SRC =  ./src/MainController.cpp \
 ./src/GameImage.cpp \
 ./src/SDLHandler.cpp \
 ./src/MainMenuController.cpp \
+./src/InGameController.cpp \
 ./src/Tools.cpp \
 ./src/main.cpp
 

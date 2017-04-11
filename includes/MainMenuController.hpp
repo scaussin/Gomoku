@@ -33,7 +33,6 @@ class MainMenuController
 		bool			TransitionningOut;
 		bool			TransitionEnd;
 
-
 		// class methods.
 		void		LoadImages(SDLHandler &SDLHandler);
 		void		DisplayImages(SDLHandler &SDLHandler);

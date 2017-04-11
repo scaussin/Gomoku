@@ -91,7 +91,8 @@ void		GameImage::FadeOut()
 }
 
 /*
-**	Returns the image's SDL_Rect. Useful for collision checks.
+**	Returns the image's SDL_Rect for reading.
+**	Useful for collision checks and prints.
 */
 
 SDL_Rect	GameImage::GetRect()

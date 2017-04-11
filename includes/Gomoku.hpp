@@ -64,6 +64,13 @@ typedef enum		e_GameMode
 	VS_P2
 }					t_GameMode;
 
+typedef enum		e_Color
+{
+	NONE,
+	BLACK,
+	WHITE
+}					t_Color;
+
 /*
 **	Gomoku structures
 */
@@ -72,6 +79,12 @@ typedef	struct		s_GameDatas
 {
 	t_GameScene		SelectedScene;
 	t_GameMode		SelectedGameMode;
+
+	t_Color			ActivePlayer;
+	int				TurnNumber;
+
+	int				BlackCaptures;
+	int				WhiteCaptures;
 }					t_GameDatas;
 
 
@@ -80,12 +93,14 @@ typedef	struct		s_GameDatas
 class				GameImage;
 class				SDLHandler;
 class				MainMenuController;
+class				InGameController;
 class				MainController;
 class				Tools;
 
 # include "GameImage.hpp"
 # include "SDLHandler.hpp"
 # include "MainMenuController.hpp"
+# include "InGameController.hpp"
 # include "MainController.hpp"
 # include "Tools.hpp"
 

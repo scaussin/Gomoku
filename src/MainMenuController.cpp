@@ -1,9 +1,9 @@
 #include "../includes/Gomoku.hpp"
 
 MainMenuController::MainMenuController() :
-ImagesPlaced(false),
-TransitionningOut(false),
-TransitionEnd(false)
+	ImagesPlaced(false),
+	TransitionningOut(false),
+	TransitionEnd(false)
 {
 
 }
@@ -158,7 +158,7 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			else if (btn_quit->IsColliding(event.button.x,
 						event.button.y))
 			{
-				std::cout << "Onclick play quit" << std::endl;
+				std::cout << "Onclick quit" << std::endl;
 				SDL_Quit();
 				exit (0);
 			}

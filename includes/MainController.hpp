@@ -27,9 +27,12 @@ class MainController
 		// As long as we are in the main menu, this class will act.
 		MainMenuController		MainMenu;
 
+		// As long as we are playing a game, this class will act.
+		InGameController		InGame;
+
 		// MainController methods.
-		void			InitGomoku();
-		void			MainLoop();
+		void					InitGomoku();
+		void					MainLoop();
 };
 
 #endif

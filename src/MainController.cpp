@@ -35,7 +35,10 @@ void	MainController::MainLoop()
 	while (1)
 	{
 		SDLHandler.ClearWindow(); // set the window black.
-		// Check for messages
+
+		// --------------------------------------------	//
+		// For the events								//
+		// --------------------------------------------	//
 		if (SDL_PollEvent(&(SDLHandler.event)))
 		{
 			// Check for the quit message
@@ -44,14 +47,18 @@ void	MainController::MainLoop()
 				// Quit the program
 				break ;
 			}
+
 			if (CurrentScene == MAIN_MENU
 				&& MainMenu.TransitionningOut == false)
 			{
-				MainMenu.HandleEvents(GameDatas, SDLHandler.event, SDLHandler);
+				MainMenu.HandleEvents(GameDatas, SDLHandler.event,
+										SDLHandler);
 			}
 		}
 
-		// Permanent game loop methods
+		// --------------------------------------------	//
+		// For the MAIN_MENU SCENE						//
+		// --------------------------------------------	//
 		if (CurrentScene == MAIN_MENU)
 		{
 			if (!MainMenu.TransitionningOut)
@@ -68,6 +75,13 @@ void	MainController::MainLoop()
 				std::cout << "SCENE CHANGE" << std::endl;
 				CurrentScene = GameDatas.SelectedScene;
 			}
+		}
+		// --------------------------------------------	//
+		// For the IN_GAME SCENE						//
+		// --------------------------------------------	//
+		else if (CurrentScene == IN_GAME)
+		{
+			InGame.GameHandle(GameDatas, SDLHandler);
 		}
 		SDL_RenderPresent(SDLHandler.renderer);
 	}
