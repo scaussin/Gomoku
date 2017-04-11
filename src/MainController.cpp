@@ -44,6 +44,11 @@ void	MainController::MainLoop()
 				// Quit the program
 				break ;
 			}
+
+			if (CurrentStage == MAIN_MENU)
+			{
+
+			}
 		}
 
 		// Game loop will go here

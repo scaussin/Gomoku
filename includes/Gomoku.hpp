@@ -24,7 +24,7 @@
 # include <algorithm>
 # include <math.h>
 
-# include <SDL2/SDL.h>
+# include "../Frameworks/SDL2.framework/Headers/SDL.h"
 # include "../Frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
 
 // color in text;
@@ -52,39 +52,40 @@
 **	Game defines
 */
 
-typedef enum 	e_GameStage
+typedef enum 		e_GameStage
 {
 	MAIN_MENU,
 	IN_GAME
-}				t_GameStage;
+}					t_GameStage;
+
+typedef enum		e_GameMode
+{
+	VS_IA,
+	VS_P2
+}					t_GameMode;
 
 /*
 **	Gomoku structures
 */
 
-typedef	struct	s_GameDatas
+typedef	struct		s_GameDatas
 {
-	
-}				t_GameDatas;
+	t_GameMode		SelectedGameMode;
+}					t_GameDatas;
 
 
 // class forward declarations.
 
-class		GameImage;
-class		SDLHandler;
-class		MainMenuController;
-class		MainController;
+class				GameImage;
+class				SDLHandler;
+class				MainMenuController;
+class				MainController;
+class				Tools;
 
 # include "GameImage.hpp"
 # include "SDLHandler.hpp"
 # include "MainMenuController.hpp"
 # include "MainController.hpp"
-
-
-/*
-**	Structure containing game datas.
-*/
-
-
+# include "Tools.hpp"
 
 #endif

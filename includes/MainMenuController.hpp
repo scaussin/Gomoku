@@ -29,12 +29,10 @@ class MainMenuController
 		bool			ImagesPlaced;
 
 
-
 		// class methods.
 		void		LoadImages(SDLHandler &SDLHandler);
 		void		DisplayImages(SDLHandler &SDLHandler);
-
-
+		void		PlaceImagesOnStart(SDLHandler &SDLHandler);
 };
 
 #endif

@@ -27,6 +27,7 @@ class GameImage
 		void			FadeIn();
 		void			FadeOut();
 
+		SDL_Rect		GetRect();
 
 	private:
 

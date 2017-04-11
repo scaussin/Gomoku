@@ -10,13 +10,14 @@ SRC =  ./src/MainController.cpp \
 ./src/GameImage.cpp \
 ./src/SDLHandler.cpp \
 ./src/MainMenuController.cpp \
+./src/Tools.cpp \
 ./src/main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
 CC = clang++ -g -Wall -Werror -Wextra
 
-SDL = -framework SDL2 -framework Cocoa -F./Frameworks -framework SDL2_ttf
+SDL =  -framework Cocoa -F./Frameworks -framework SDL2_ttf -framework SDL2
 
 #todo : create the ~/Library/Frameworks/ folder if needed,
 # and copy the SDL2_ttf.framework in it.

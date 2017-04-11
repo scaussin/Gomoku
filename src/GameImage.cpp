@@ -26,13 +26,13 @@ GameImage::~GameImage()
 	SDL_DestroyTexture(_imgTexture);
 }
 
-void	GameImage::SetImgPos(int x, int y)
+void		GameImage::SetImgPos(int x, int y)
 {
 	_imgRect.x = x;
 	_imgRect.y = y;
 }
 
-void	GameImage::SetImgSize(int width, int height)
+void		GameImage::SetImgSize(int width, int height)
 {
 	_imgRect.w = width;
 	_imgRect.h = height;
@@ -42,7 +42,7 @@ void	GameImage::SetImgSize(int width, int height)
 **	Put the image on the renderer -> will be displayed at next draw.
 */
 
-void	GameImage::PutImage(SDLHandler &SDLHandler)
+void		GameImage::PutImage(SDLHandler &SDLHandler)
 {
 	SDL_RenderCopy(SDLHandler.renderer, _imgTexture, NULL, &_imgRect);
 }
@@ -54,25 +54,25 @@ void	GameImage::PutImage(SDLHandler &SDLHandler)
 **	SDL_BLENDMODE_MOD
 */
 
-void	GameImage::SetBlendMode(SDL_BlendMode blending)
+void		GameImage::SetBlendMode(SDL_BlendMode blending)
 {
     //Set blending function
     SDL_SetTextureBlendMode(_imgTexture, blending);
 }
         
-void	GameImage::SetAlpha(Uint8 alpha)
+void		GameImage::SetAlpha(Uint8 alpha)
 {
     //Modulate texture alpha
     _alpha = alpha;
     SDL_SetTextureAlphaMod(_imgTexture, _alpha);
 }
 
-Uint8	GameImage::GetAlpha()
+Uint8		GameImage::GetAlpha()
 {
 	return (_alpha);
 }
 
-void	GameImage::FadeIn()
+void		GameImage::FadeIn()
 {
 	if (_alpha < 255)
 	{
@@ -81,11 +81,20 @@ void	GameImage::FadeIn()
 	}
 }
 
-void	GameImage::FadeOut()
+void		GameImage::FadeOut()
 {
 	if (_alpha > 0)
 	{
 		_alpha -= 1;
 		SDL_SetTextureAlphaMod(_imgTexture, _alpha);
 	}
+}
+
+/*
+**	Returns the image's SDL_Rect. Useful for collision checks.
+*/
+
+SDL_Rect	GameImage::GetRect()
+{
+	return (this->_imgRect);
 }
