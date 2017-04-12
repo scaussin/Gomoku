@@ -191,30 +191,3 @@ void	MainMenuController::TransitionOut(SDLHandler &SDLHandler)
 	}
 
 }
-
-// EASY CODE FOR WRITING TEXT
-
-// TTF_Font* Sans = TTF_OpenFont("./ressources/Dosis/Dosis-Regular.ttf", 24); //this opens a font style and sets a size
-// if (!Sans)
-// {
-// 	std::cout << "font error: " << SDL_GetError() << std::endl;
-// 	exit (-1);
-// }
-
-// SDL_Color White = {255, 255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
-
-// SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "put your text here", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
-
-// SDL_Texture* Message = SDL_CreateTextureFromSurface(SDLHandler.renderer, surfaceMessage); //now you can convert it into a texture
-
-// SDL_Rect Message_rect; //create a rect
-// Message_rect.x = 0;  //controls the rect's x coordinate 
-// Message_rect.y = 0; // controls the rect's y coordinte
-// Message_rect.w = 400; // controls the width of the rect
-// Message_rect.h = 400; // controls the height of the rect
-
-// //Mind you that (0,0) is on the top left of the window/screen, think a rect as the text's box, that way it would be very simple to understance
-
-// //Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
-
-// SDL_RenderCopy(SDLHandler.renderer, Message, NULL, &Message_rect);

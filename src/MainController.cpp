@@ -1,6 +1,6 @@
 #include "../includes/Gomoku.hpp"
 
-MainController::MainController() : CurrentScene(MAIN_MENU)
+MainController::MainController() : CurrentScene(IN_GAME)
 {
 
 }
@@ -47,6 +47,15 @@ void	MainController::MainLoop()
 				// Quit the program
 				break ;
 			}
+			// Check for press escape -> leave.
+			if (SDLHandler.event.type == SDL_KEYDOWN)
+			{
+				if (SDLHandler.event.key.keysym.sym == SDLK_ESCAPE)
+				{
+					std::cout << "Escape pressed, quitting..." << std::endl;
+					break;
+				}
+			}
 
 			if (CurrentScene == MAIN_MENU
 				&& MainMenu.TransitionningOut == false)
@@ -61,7 +70,7 @@ void	MainController::MainLoop()
 		// --------------------------------------------	//
 		if (CurrentScene == MAIN_MENU)
 		{
-			if (!MainMenu.TransitionningOut)
+			if (MainMenu.TransitionningOut == false)
 			{
 				MainMenu.DisplayImages(SDLHandler);
 				MainMenu.CheckHover(SDLHandler);

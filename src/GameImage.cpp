@@ -90,6 +90,14 @@ void		GameImage::FadeOut()
 	}
 }
 
+bool		GameImage::IsColliding(int x, int y)
+{
+	if (x >= _imgRect.x && x <= _imgRect.x + _imgRect.w
+		&& y >= _imgRect.y && y <= _imgRect.y + _imgRect.h)
+		return (true);
+	return (false);
+}
+
 /*
 **	Returns the image's SDL_Rect for reading.
 **	Useful for collision checks and prints.
@@ -100,10 +108,12 @@ SDL_Rect	GameImage::GetRect()
 	return (this->_imgRect);
 }
 
-bool		GameImage::IsColliding(int x, int y)
+SDL_Texture	*GameImage::GetTexture()
 {
-	if (x >= _imgRect.x && x <= _imgRect.x + _imgRect.w
-		&& y >= _imgRect.y && y <= _imgRect.y + _imgRect.h)
-		return (true);
-	return (false);
+	return (this->_imgTexture);
+}
+
+void	GameImage::SetTexture(SDL_Texture *texture)
+{
+	this->_imgTexture = texture;
 }

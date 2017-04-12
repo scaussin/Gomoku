@@ -15,6 +15,11 @@ class InGameController
 
 		// images
 		GameImage	*GobanImg;
+		GameImage	*InGameBgImg;
+		GameImage	*InGameTitleImg;
+
+		GameImage	*GameModeCaseImg;
+		GameText	*GameModeText;
 
 		// class methods
 		void		GameHandle(t_GameDatas &Game, SDLHandler &SDLHandler);

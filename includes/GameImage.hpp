@@ -27,9 +27,13 @@ class GameImage
 		void			FadeIn();
 		void			FadeOut();
 
-		SDL_Rect		GetRect();
-
 		bool			IsColliding(int x, int y);
+
+		SDL_Rect		GetRect();
+		SDL_Texture		*GetTexture();
+		void			SetTexture(SDL_Texture *texture);
+
+		
 
 	private:
 		SDL_Surface		*_imgSurface;

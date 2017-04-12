@@ -81,6 +81,8 @@ typedef	struct		s_GameDatas
 	t_GameScene		SelectedScene;
 	t_GameMode		SelectedGameMode;
 
+	// 				board.
+
 	t_Color			ActivePlayer;
 	int				TurnNumber;
 
@@ -92,6 +94,7 @@ typedef	struct		s_GameDatas
 // class forward declarations.
 
 class				GameImage;
+class				GameText;
 class				SDLHandler;
 class				MainMenuController;
 class				InGameController;
@@ -99,6 +102,7 @@ class				MainController;
 class				Tools;
 
 # include "GameImage.hpp"
+# include "GameText.hpp"
 # include "SDLHandler.hpp"
 # include "MainMenuController.hpp"
 # include "InGameController.hpp"
