@@ -23,16 +23,20 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 										SDLHandler &SDLHandler)
 {
 	(void)Game;
+	// initializing visuals
 	if (!ImagesLoaded)
 	{
 		LoadImages(SDLHandler);
 		PlaceImagesOnStart(SDLHandler);
+		Goban.InitBoard(SDLHandler);
 		ImagesLoaded = true;
 	}
 	DisplayImages(SDLHandler);
+	Goban.UpdateDisplay(Game, SDLHandler);
+
 
 	// Game turn stages:
-	// attendre player move// 
+	// attendre player move//
 	// move authorized ??
 	// update board
 	// check captures
@@ -49,7 +53,7 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 
 void	InGameController::LoadImages(SDLHandler &SDLHandler)
 {
-	GobanImg = new GameImage(SDLHandler, "./ressources/img/in_game/goban.bmp");
+	
 	InGameBgImg = new GameImage(SDLHandler, "./ressources/img/in_game/in_game_bg.bmp");
 	InGameTitleImg = new GameImage(SDLHandler, "./ressources/img/in_game/in_game_title.bmp");
 	GameModeCaseImg = new GameImage(SDLHandler, "./ressources/img/in_game/info_back.bmp");
@@ -60,8 +64,6 @@ void	InGameController::DisplayImages(SDLHandler &SDLHandler)
 {
 	InGameBgImg->FadeIn();
 	InGameBgImg->PutImage(SDLHandler);
-	GobanImg->FadeIn();
-	GobanImg->PutImage(SDLHandler);
 	InGameTitleImg->FadeIn();
 	InGameTitleImg->PutImage(SDLHandler);
 	GameModeCaseImg->FadeIn();
@@ -76,10 +78,6 @@ void InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	InGameBgImg->SetImgSize(1920, 1080);
 	InGameBgImg->SetAlpha(0);
 
-	GobanImg->SetImgPos(420, 0);
-	GobanImg->SetImgSize(1080, 1080);
-	GobanImg->SetAlpha(0);
-	GobanImg->PutImage(SDLHandler);
 
 	InGameTitleImg->SetImgPos(0, 0);
 	InGameTitleImg->SetImgSize(418, 85);
@@ -95,6 +93,4 @@ void InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	GameModeText->SetTextSize(300, 60);
 	GameModeText->SetAlpha(255);
 	GameModeText->PutText(SDLHandler);
-
-
 }

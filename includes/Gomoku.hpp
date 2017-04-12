@@ -98,6 +98,7 @@ class				GameText;
 class				SDLHandler;
 class				MainMenuController;
 class				InGameController;
+class				GobanController;
 class				MainController;
 class				Tools;
 
@@ -105,6 +106,7 @@ class				Tools;
 # include "GameText.hpp"
 # include "SDLHandler.hpp"
 # include "MainMenuController.hpp"
+# include "GobanController.hpp"
 # include "InGameController.hpp"
 # include "MainController.hpp"
 # include "Tools.hpp"

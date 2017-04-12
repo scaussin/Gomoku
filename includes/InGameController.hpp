@@ -9,17 +9,19 @@ class InGameController
 		InGameController();
 		~InGameController();
 	
+		// class controllers
+		GobanController		Goban; // control interactions between go board and players
+
 		// class variables
-		bool		ImagesLoaded;
-		bool		ImagesDisplayed;
+		bool				ImagesLoaded;
+		bool				ImagesDisplayed;
 
 		// images
-		GameImage	*GobanImg;
-		GameImage	*InGameBgImg;
-		GameImage	*InGameTitleImg;
+		GameImage			*InGameBgImg;
+		GameImage			*InGameTitleImg;
 
-		GameImage	*GameModeCaseImg;
-		GameText	*GameModeText;
+		GameImage			*GameModeCaseImg;
+		GameText			*GameModeText;
 
 		// class methods
 		void		GameHandle(t_GameDatas &Game, SDLHandler &SDLHandler);
