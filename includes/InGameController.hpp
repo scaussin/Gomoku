@@ -19,6 +19,7 @@ class InGameController
 		// class methods
 		void		GameHandle(t_GameDatas &Game, SDLHandler &SDLHandler);
 		void		LoadImages(SDLHandler &SDLHandler);
+		void		PlaceImagesOnStart(SDLHandler &SDLHandler);
 		void		DisplayImages(SDLHandler &SDLHandler);
 };
 

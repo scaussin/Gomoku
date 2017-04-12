@@ -68,7 +68,8 @@ typedef enum		e_Color
 {
 	NONE,
 	BLACK,
-	WHITE
+	WHITE,
+	SUGGESTION
 }					t_Color;
 
 /*

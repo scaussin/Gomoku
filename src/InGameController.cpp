@@ -26,9 +26,17 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 	if (!ImagesLoaded)
 	{
 		LoadImages(SDLHandler);
+		PlaceImagesOnStart(SDLHandler);
 		ImagesLoaded = true;
 	}
+	DisplayImages(SDLHandler);
 }
+
+// ------------------------------------------------------------	//
+//																//
+//	Methods of the scene										//
+//																//
+// ------------------------------------------------------------	//
 
 void	InGameController::LoadImages(SDLHandler &SDLHandler)
 {
@@ -38,4 +46,14 @@ void	InGameController::LoadImages(SDLHandler &SDLHandler)
 void	InGameController::DisplayImages(SDLHandler &SDLHandler)
 {
 	(void)SDLHandler;
+	GobanImg->FadeIn();
+
+}
+
+void InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
+{
+	GobanImg->SetImgPos(655, 400);
+	GobanImg->SetImgSize(600, 125);
+	GobanImg->SetAlpha(255);
+	GobanImg->PutImage(SDLHandler);
 }
