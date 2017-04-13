@@ -17,19 +17,27 @@ class GobanController
 		GameImage					*BlackStoneImg;
 		GameImage					*WhiteStoneImg;
 		GameImage					*SuggestStoneImg;
+		GameImage					*NoStoneImg;
 		SDL_Texture					*BlackStoneTexture;
 		SDL_Texture					*WhiteStoneTexture;
 		SDL_Texture					*SuggestStoneTexture;
+		SDL_Texture					*NoStoneTexture;
 
-		// class methods.
+		// class init methods.
 		void			InitBoard(SDLHandler &SDLHandler);
 		void			LoadImages(SDLHandler &SDLHandler);
 		void			PlaceImagesOnStart(SDLHandler &SDLHandler);
-		void			UpdateDisplay(t_GameDatas &Game, SDLHandler &SDLHandler);
 		void			LoadStones(SDLHandler &SDLHandler);
 		void			PlaceStones(SDLHandler &SDLHandler);
-		void			HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
-							SDLHandler &SDLHandler);
+		// class event methods.
+		void			HandleEvents(t_GameDatas &GameDatas,
+										SDL_Event &event,
+										SDLHandler &SDLHandler);
+		// class display methods
+		void			UpdateDisplay(t_GameDatas &Game,
+										SDLHandler &SDLHandler);
+		void			SetPointDisplay(int x, int y, t_Color color,
+										SDLHandler &SDLHandler);
 
 	private:
 		int				_pointZeroX;
@@ -37,6 +45,8 @@ class GobanController
 		int				_stoneXStep;
 		int				_stoneYStep;
 		int				_max_stones;
+
+		int				_index_tmp;
 };
 
 #endif
