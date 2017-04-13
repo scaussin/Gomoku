@@ -63,6 +63,11 @@ void	MainController::MainLoop()
 				MainMenu.HandleEvents(GameDatas, SDLHandler.event,
 										SDLHandler);
 			}
+			else if (CurrentScene == IN_GAME)
+			{
+				InGame.HandleEvents(GameDatas, SDLHandler.event,
+										SDLHandler);
+			}
 		}
 
 		// --------------------------------------------	//

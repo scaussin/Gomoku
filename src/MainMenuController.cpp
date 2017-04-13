@@ -13,6 +13,12 @@ MainMenuController::~MainMenuController()
 
 }
 
+
+// ------------------------------------------------------------	//
+//																//
+//	Init methods for the main menu scene						//
+//																//
+// ------------------------------------------------------------	//
 /*
 **	Before we actually see the main menu, we load and stock
 **	the images we will need.
@@ -101,35 +107,11 @@ void	MainMenuController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	credits->PutImage(SDLHandler);
 }
 
-/*
-**	For each hoverable button, will check if the mouse is on it.
-**	If it is, displace the hover cursor and make it appear.
-*/
-
-void	MainMenuController::CheckHover(SDLHandler &SDLHandler)
-{
-	SDL_GetMouseState(&MouseX, &MouseY);
-	if (btn_play_ia->IsColliding(MouseX, MouseY))
-	{
-		on_hover->SetImgPos(750, 402);
-		on_hover->SetAlpha(255);
-	}
-	else if (btn_play_p2->IsColliding(MouseX, MouseY))
-	{
-		on_hover->SetImgPos(700, 512);
-		on_hover->SetAlpha(255);
-	}
-	else if (btn_quit->IsColliding(MouseX, MouseY))
-	{
-		on_hover->SetImgPos(760, 672);
-		on_hover->SetAlpha(255);
-	}
-	else
-	{
-		on_hover->SetAlpha(0);
-	}
-	on_hover->PutImage(SDLHandler);
-}
+// ------------------------------------------------------------	//
+//																//
+//	Methods of the scene's events								//
+//																//
+// ------------------------------------------------------------	//
 
 void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			SDLHandler &SDLHandler)
@@ -164,6 +146,36 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			}
 		}
 	}
+}
+
+/*
+**	For each hoverable button, will check if the mouse is on it.
+**	If it is, displace the hover cursor and make it appear.
+*/
+
+void	MainMenuController::CheckHover(SDLHandler &SDLHandler)
+{
+	SDL_GetMouseState(&MouseX, &MouseY);
+	if (btn_play_ia->IsColliding(MouseX, MouseY))
+	{
+		on_hover->SetImgPos(750, 402);
+		on_hover->SetAlpha(255);
+	}
+	else if (btn_play_p2->IsColliding(MouseX, MouseY))
+	{
+		on_hover->SetImgPos(700, 512);
+		on_hover->SetAlpha(255);
+	}
+	else if (btn_quit->IsColliding(MouseX, MouseY))
+	{
+		on_hover->SetImgPos(760, 672);
+		on_hover->SetAlpha(255);
+	}
+	else
+	{
+		on_hover->SetAlpha(0);
+	}
+	on_hover->PutImage(SDLHandler);
 }
 
 void	MainMenuController::TransitionOut(SDLHandler &SDLHandler)

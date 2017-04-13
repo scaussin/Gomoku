@@ -31,6 +31,12 @@ void	GobanController::InitBoard(SDLHandler &SDLHandler)
 void	GobanController::LoadImages(SDLHandler &SDLHandler)
 {
 	GobanImg = new GameImage(SDLHandler, "./ressources/img/in_game/goban.bmp");
+	BlackStoneImg = new GameImage(SDLHandler, "./ressources/img/in_game/go_stone_black.bmp");
+	WhiteStoneImg = new GameImage(SDLHandler, "./ressources/img/in_game/go_stone_white.bmp");
+	SuggestStoneImg = new GameImage(SDLHandler, "./ressources/img/in_game/go_stone_suggest.bmp");
+	WhiteStoneTexture = WhiteStoneImg->GetTexture();
+	BlackStoneTexture = BlackStoneImg->GetTexture();
+	SuggestStoneTexture = SuggestStoneImg->GetTexture();
 }
 
 void	GobanController::PlaceImagesOnStart(SDLHandler &SDLHandler)
@@ -88,7 +94,41 @@ void	GobanController::PlaceStones(SDLHandler	&SDLHandler)
 //																//
 // ------------------------------------------------------------	//
 
-// TODO: event methods. clicks and stuffs.
+void	GobanController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
+							SDLHandler &SDLHandler)
+{
+	(void)SDLHandler;
+	(void)GameDatas;
+	int it_index;
+
+	if (event.type == SDL_MOUSEBUTTONDOWN)
+	{
+
+			for (std::vector<GameImage *>::iterator	it = StonesImgList.begin();
+				it != StonesImgList.end(); it++)
+			{
+				if ((*it)->IsColliding(event.button.x, event.button.y))
+				{
+					it_index = it - StonesImgList.begin();
+					std::cout << "Clicked on stone nb " << it_index << std::endl
+								<< "x = " << it_index % 19 << std::endl
+								<< "y = " << it_index / 19 << std::endl;
+					if (event.button.button == SDL_BUTTON_LEFT)
+					{
+						(*it)->SetTexture(BlackStoneTexture);
+					}
+					else if (event.button.button == SDL_BUTTON_RIGHT)
+					{
+						(*it)->SetTexture(WhiteStoneTexture);
+					}
+					else if (event.button.button == SDL_BUTTON_MIDDLE)
+					{
+						(*it)->SetTexture(SuggestStoneTexture);
+					}
+				}
+			}
+	}
+}
 
 // ------------------------------------------------------------	//
 //																//

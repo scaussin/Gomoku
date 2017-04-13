@@ -28,6 +28,8 @@ class InGameController
 		void		LoadImages(SDLHandler &SDLHandler);
 		void		PlaceImagesOnStart(SDLHandler &SDLHandler);
 		void		DisplayImages(SDLHandler &SDLHandler);
+		void		HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
+						SDLHandler &SDLHandler);
 };
 
 #endif

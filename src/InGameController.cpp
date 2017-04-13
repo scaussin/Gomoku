@@ -57,27 +57,14 @@ void	InGameController::LoadImages(SDLHandler &SDLHandler)
 	InGameBgImg = new GameImage(SDLHandler, "./ressources/img/in_game/in_game_bg.bmp");
 	InGameTitleImg = new GameImage(SDLHandler, "./ressources/img/in_game/in_game_title.bmp");
 	GameModeCaseImg = new GameImage(SDLHandler, "./ressources/img/in_game/info_back.bmp");
-	GameModeText = new GameText(SDLHandler, "Playing game...", 200);
+	GameModeText = new GameText(SDLHandler, "Playing game...", 1024);
 }
 
-void	InGameController::DisplayImages(SDLHandler &SDLHandler)
-{
-	InGameBgImg->FadeIn();
-	InGameBgImg->PutImage(SDLHandler);
-	InGameTitleImg->FadeIn();
-	InGameTitleImg->PutImage(SDLHandler);
-	GameModeCaseImg->FadeIn();
-	GameModeCaseImg->PutImage(SDLHandler);
-	GameModeText->FadeIn();
-	GameModeText->PutText(SDLHandler);
-}
-
-void InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
+void	InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 {
 	InGameBgImg->SetImgPos(0, 0);
 	InGameBgImg->SetImgSize(1920, 1080);
 	InGameBgImg->SetAlpha(0);
-
 
 	InGameTitleImg->SetImgPos(0, 0);
 	InGameTitleImg->SetImgSize(418, 85);
@@ -93,4 +80,32 @@ void InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	GameModeText->SetTextSize(300, 60);
 	GameModeText->SetAlpha(255);
 	GameModeText->PutText(SDLHandler);
+}
+
+/*
+**	This method will display the images at each loop turn.
+*/
+
+void	InGameController::DisplayImages(SDLHandler &SDLHandler)
+{
+	InGameBgImg->FadeIn();
+	InGameBgImg->PutImage(SDLHandler);
+	InGameTitleImg->FadeIn();
+	InGameTitleImg->PutImage(SDLHandler);
+	GameModeCaseImg->FadeIn();
+	GameModeCaseImg->PutImage(SDLHandler);
+	GameModeText->FadeIn();
+	GameModeText->PutText(SDLHandler);
+}
+
+// ------------------------------------------------------------	//
+//																//
+//	Methods of the scene's events								//
+//																//
+// ------------------------------------------------------------	//
+
+void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
+			SDLHandler &SDLHandler)
+{
+	Goban.HandleEvents(GameDatas, event, SDLHandler);
 }

@@ -14,8 +14,12 @@ class GobanController
 		GameImage					*GobanImg;
 		std::vector<GameImage *>	StonesImgList;
 
+		GameImage					*BlackStoneImg;
+		GameImage					*WhiteStoneImg;
+		GameImage					*SuggestStoneImg;
 		SDL_Texture					*BlackStoneTexture;
 		SDL_Texture					*WhiteStoneTexture;
+		SDL_Texture					*SuggestStoneTexture;
 
 		// class methods.
 		void			InitBoard(SDLHandler &SDLHandler);
@@ -24,6 +28,8 @@ class GobanController
 		void			UpdateDisplay(t_GameDatas &Game, SDLHandler &SDLHandler);
 		void			LoadStones(SDLHandler &SDLHandler);
 		void			PlaceStones(SDLHandler &SDLHandler);
+		void			HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
+							SDLHandler &SDLHandler);
 
 	private:
 		int				_pointZeroX;
