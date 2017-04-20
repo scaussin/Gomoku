@@ -111,7 +111,14 @@ int		GobanController::HandleClickEvents(t_GameDatas &GameDatas, SDL_Event &event
 			it_index = it - StonesImgList.begin();
 			move.x = it_index % 19;
 			move.y = it_index / 19;
-			return (1);
+			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+				return (1);
+			}
+			else if (event.button.button == SDL_BUTTON_RIGHT)
+			{
+				return (2);
+			}
 
 			// to put any color.
 			// it_index = it - StonesImgList.begin();

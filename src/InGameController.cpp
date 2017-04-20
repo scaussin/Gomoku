@@ -108,6 +108,13 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 		if (Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 1)
 		{
 			// user clicked on a valid point of the board.
+			GameDatas.ActivePlayer = BLACK;
+			Game.Play(GameDatas, Goban, SDLHandler, move);
+		}
+		// Temp debug : WHITE pose stone.
+		else if (Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 2)
+		{
+			GameDatas.ActivePlayer = WHITE;
 			Game.Play(GameDatas, Goban, SDLHandler, move);
 		}
 	}

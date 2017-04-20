@@ -109,6 +109,7 @@ class				MainController;
 class				GameRules;
 class				IA;
 class				GameController;
+class				BoardTools;
 class				Tools;
 
 # include "GameImage.hpp"
@@ -121,6 +122,7 @@ class				Tools;
 # include "GameController.hpp"
 # include "InGameController.hpp"
 # include "MainController.hpp"
+# include "BoardTools.hpp"
 # include "Tools.hpp"
 
 #endif

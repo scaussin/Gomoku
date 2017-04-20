@@ -16,6 +16,7 @@ SRC =  ./src/MainController.cpp \
 ./src/GobanController.cpp \
 ./src/GameRules.cpp \
 ./src/IA.cpp \
+./src/BoardTools.cpp \
 ./src/Tools.cpp \
 ./src/main.cpp
 
