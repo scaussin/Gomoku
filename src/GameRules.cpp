@@ -14,6 +14,12 @@ bool	GameRules::IsMoveAuthorized(t_GameDatas &GameDatas, t_vec2 move)
 {
 	(void)GameDatas;
 	(void)move;
+
+	if (GameDatas.Board[move.y][move.x] == NONE)
+		return (true);
+	else
+		return false;
+
 	return (true);
 }
 

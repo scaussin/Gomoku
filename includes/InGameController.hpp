@@ -11,8 +11,8 @@ class InGameController
 	
 		// class controllers
 		GobanController		Goban; // control interactions between go board and players
-		IA					IA;
-		GameRules			GameRules;
+
+		GameController		Game;
 
 		// class variables
 		bool				ImagesLoaded;

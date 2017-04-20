@@ -103,43 +103,12 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 {
 	t_vec2		move;
 
-	if (event.type == SDL_MOUSEBUTTONDOWN)
+	if (event.type == SDL_MOUSEBUTTONUP)
 	{
 		if (Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 1)
 		{
-			if (GameDatas.ActivePlayer == BLACK)
-			{
-				std::cout << "Black tries to play move in " << move.x
-				<< "x " << move.y << "y" << std::endl;
-				// Is move authorized ??
-				if (GameRules.IsMoveAuthorized(GameDatas, move))
-				{
-					// If yes, apply captures and update board 
-					GameRules.CheckCaptures(GameDatas, move);
-					Goban.SetPointDisplay(move.x, move.y, BLACK, SDLHandler);
-					Goban.UpdateBoard(GameDatas, SDLHandler);
-				}
-				if (GameDatas.SelectedGameMode == VS_IA)
-				{
-					t_vec2 IaMove;
-					// Start timer.
-					IaMove = IA.DecideMove(GameDatas);
-					//IaMove = IA.DecideRandomMove();
-					// End timer.
-					//GameRules.IsMoveAuthorized(IaMove);
-					GameRules.CheckCaptures(GameDatas, IaMove);
-					Goban.UpdateBoard(GameDatas, SDLHandler);
-				}
-				else if (GameDatas.SelectedGameMode == VS_P2)
-				{
-					t_vec2 IaMoveSuggestion;
-
-					IaMoveSuggestion = IA.DecideMove(GameDatas);
-					Goban.SetPointDisplay(IaMoveSuggestion.x, IaMoveSuggestion.y, SUGGESTION, SDLHandler);
-					//GameDatas.ActivePlayer = WHITE;
-				}
-				GameRules.CheckVictory(GameDatas);
-			}
+			// user clicked on a valid point of the board.
+			Game.Play(GameDatas, Goban, SDLHandler, move);
 		}
 	}
 }

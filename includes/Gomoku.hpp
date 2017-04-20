@@ -108,6 +108,7 @@ class				GobanController;
 class				MainController;
 class				GameRules;
 class				IA;
+class				GameController;
 class				Tools;
 
 # include "GameImage.hpp"
@@ -117,6 +118,7 @@ class				Tools;
 # include "GobanController.hpp"
 # include "GameRules.hpp"
 # include "IA.hpp"
+# include "GameController.hpp"
 # include "InGameController.hpp"
 # include "MainController.hpp"
 # include "Tools.hpp"

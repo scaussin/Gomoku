@@ -103,34 +103,33 @@ int		GobanController::HandleClickEvents(t_GameDatas &GameDatas, SDL_Event &event
 	(void)GameDatas;
 	int		it_index;
 
-	if (event.type == SDL_MOUSEBUTTONDOWN)
+	for (std::vector<GameImage *>::iterator	it = StonesImgList.begin();
+		it != StonesImgList.end(); it++)
 	{
-		for (std::vector<GameImage *>::iterator	it = StonesImgList.begin();
-			it != StonesImgList.end(); it++)
+		if ((*it)->IsColliding(event.button.x, event.button.y))
 		{
-			if ((*it)->IsColliding(event.button.x, event.button.y))
-			{
-				it_index = it - StonesImgList.begin();
-				move.x = it_index % 19;
-				move.y = it_index / 19;
-				return (1);
-				// it_index = it - StonesImgList.begin();
-				// std::cout << "Clicked on valid stone nb " << it_index << std::endl
-				// 			<< "x = " << it_index % 19 << std::endl
-				// 			<< "y = " << it_index / 19 << std::endl;
-				// if (event.button.button == SDL_BUTTON_LEFT)
-				// {
-				// 	(*it)->SetTexture(BlackStoneTexture);
-				// }
-				// else if (event.button.button == SDL_BUTTON_RIGHT)
-				// {
-				// 	(*it)->SetTexture(WhiteStoneTexture);
-				// }
-				// else if (event.button.button == SDL_BUTTON_MIDDLE)
-				// {
-				// 	(*it)->SetTexture(SuggestStoneTexture);
-				// }
-			}
+			it_index = it - StonesImgList.begin();
+			move.x = it_index % 19;
+			move.y = it_index / 19;
+			return (1);
+
+			// to put any color.
+			// it_index = it - StonesImgList.begin();
+			// std::cout << "Clicked on valid stone nb " << it_index << std::endl
+			// 			<< "x = " << it_index % 19 << std::endl
+			// 			<< "y = " << it_index / 19 << std::endl;
+			// if (event.button.button == SDL_BUTTON_LEFT)
+			// {
+			// 	(*it)->SetTexture(BlackStoneTexture);
+			// }
+			// else if (event.button.button == SDL_BUTTON_RIGHT)
+			// {
+			// 	(*it)->SetTexture(WhiteStoneTexture);
+			// }
+			// else if (event.button.button == SDL_BUTTON_MIDDLE)
+			// {
+			// 	(*it)->SetTexture(SuggestStoneTexture);
+			// }
 		}
 	}
 	return (0);
