@@ -96,8 +96,8 @@ void	GobanController::PlaceStones(SDLHandler	&SDLHandler)
 //																//
 // ------------------------------------------------------------	//
 
-void	GobanController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
-							SDLHandler &SDLHandler)
+int		GobanController::HandleClickEvents(t_GameDatas &GameDatas, SDL_Event &event,
+							SDLHandler &SDLHandler, t_vec2 &move)
 {
 	(void)SDLHandler;
 	(void)GameDatas;
@@ -111,24 +111,29 @@ void	GobanController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			if ((*it)->IsColliding(event.button.x, event.button.y))
 			{
 				it_index = it - StonesImgList.begin();
-				std::cout << "Clicked on stone nb " << it_index << std::endl
-							<< "x = " << it_index % 19 << std::endl
-							<< "y = " << it_index / 19 << std::endl;
-				if (event.button.button == SDL_BUTTON_LEFT)
-				{
-					(*it)->SetTexture(BlackStoneTexture);
-				}
-				else if (event.button.button == SDL_BUTTON_RIGHT)
-				{
-					(*it)->SetTexture(WhiteStoneTexture);
-				}
-				else if (event.button.button == SDL_BUTTON_MIDDLE)
-				{
-					(*it)->SetTexture(SuggestStoneTexture);
-				}
+				move.x = it_index % 19;
+				move.y = it_index / 19;
+				return (1);
+				// it_index = it - StonesImgList.begin();
+				// std::cout << "Clicked on valid stone nb " << it_index << std::endl
+				// 			<< "x = " << it_index % 19 << std::endl
+				// 			<< "y = " << it_index / 19 << std::endl;
+				// if (event.button.button == SDL_BUTTON_LEFT)
+				// {
+				// 	(*it)->SetTexture(BlackStoneTexture);
+				// }
+				// else if (event.button.button == SDL_BUTTON_RIGHT)
+				// {
+				// 	(*it)->SetTexture(WhiteStoneTexture);
+				// }
+				// else if (event.button.button == SDL_BUTTON_MIDDLE)
+				// {
+				// 	(*it)->SetTexture(SuggestStoneTexture);
+				// }
 			}
 		}
 	}
+	return (0);
 }
 
 // ------------------------------------------------------------	//
@@ -139,7 +144,7 @@ void	GobanController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 
 // note that this also decides the z index of the images
 // -> the last img put on will be the most close to the camera.
-void	GobanController::UpdateDisplay(t_GameDatas &Game, SDLHandler &SDLHandler)
+void	GobanController::PutDisplay(t_GameDatas &Game, SDLHandler &SDLHandler)
 {
 	int i;
 
@@ -153,6 +158,13 @@ void	GobanController::UpdateDisplay(t_GameDatas &Game, SDLHandler &SDLHandler)
 		StonesImgList[i]->PutImage(SDLHandler);
 		i++;
 	}
+}
+
+// This will update the board display from the modifications made in game.
+void	GobanController::UpdateBoard(t_GameDatas &Game, SDLHandler &SDLHandler)
+{
+	(void)Game;
+	(void)SDLHandler;
 }
 
 /*

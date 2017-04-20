@@ -13,6 +13,8 @@ SRC =  ./src/MainController.cpp \
 ./src/MainMenuController.cpp \
 ./src/InGameController.cpp \
 ./src/GobanController.cpp \
+./src/GameRules.cpp \
+./src/IA.cpp \
 ./src/Tools.cpp \
 ./src/main.cpp
 

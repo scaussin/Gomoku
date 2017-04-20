@@ -23,6 +23,7 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 										SDLHandler &SDLHandler)
 {
 	(void)Game;
+	Game.ActivePlayer = BLACK;
 	// initializing visuals
 	if (!ImagesLoaded)
 	{
@@ -32,17 +33,10 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 		ImagesLoaded = true;
 	}
 	DisplayImages(SDLHandler);
-	Goban.UpdateDisplay(Game, SDLHandler);
+	Goban.PutDisplay(Game, SDLHandler);
 
 
-	// Game turn stages:
-	// attendre player move//
-	// move authorized ??
-	// update board
-	// check captures
-	// p2 plays. Start IA timer.
-	// update board.
-	// check captures.
+	
 }
 
 // ------------------------------------------------------------	//
@@ -105,7 +99,47 @@ void	InGameController::DisplayImages(SDLHandler &SDLHandler)
 // ------------------------------------------------------------	//
 
 void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
-			SDLHandler &SDLHandler)
+										SDLHandler &SDLHandler)
 {
-	Goban.HandleEvents(GameDatas, event, SDLHandler);
+	t_vec2		move;
+
+	if (event.type == SDL_MOUSEBUTTONDOWN)
+	{
+		if (Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 1)
+		{
+			if (GameDatas.ActivePlayer == BLACK)
+			{
+				std::cout << "Black tries to play move in " << move.x
+				<< "x " << move.y << "y" << std::endl;
+				// Is move authorized ??
+				if (GameRules.IsMoveAuthorized(GameDatas, move))
+				{
+					// If yes, apply captures and update board 
+					GameRules.CheckCaptures(GameDatas, move);
+					Goban.SetPointDisplay(move.x, move.y, BLACK, SDLHandler);
+					Goban.UpdateBoard(GameDatas, SDLHandler);
+				}
+				if (GameDatas.SelectedGameMode == VS_IA)
+				{
+					t_vec2 IaMove;
+					// Start timer.
+					IaMove = IA.DecideMove(GameDatas);
+					//IaMove = IA.DecideRandomMove();
+					// End timer.
+					//GameRules.IsMoveAuthorized(IaMove);
+					GameRules.CheckCaptures(GameDatas, IaMove);
+					Goban.UpdateBoard(GameDatas, SDLHandler);
+				}
+				else if (GameDatas.SelectedGameMode == VS_P2)
+				{
+					t_vec2 IaMoveSuggestion;
+
+					IaMoveSuggestion = IA.DecideMove(GameDatas);
+					Goban.SetPointDisplay(IaMoveSuggestion.x, IaMoveSuggestion.y, SUGGESTION, SDLHandler);
+					//GameDatas.ActivePlayer = WHITE;
+				}
+				GameRules.CheckVictory(GameDatas);
+			}
+		}
+	}
 }

@@ -72,6 +72,12 @@ typedef enum		e_Color
 	SUGGESTION
 }					t_Color;
 
+typedef struct		s_vec2
+{
+	int				x;
+	int				y;
+}					t_vec2;
+
 /*
 **	Gomoku structures
 */
@@ -81,8 +87,8 @@ typedef	struct		s_GameDatas
 	t_GameScene		SelectedScene;
 	t_GameMode		SelectedGameMode;
 
-	// 				board.
-
+	char			Board[19][19];
+	//					  y   x
 	t_Color			ActivePlayer;
 	int				TurnNumber;
 
@@ -100,6 +106,8 @@ class				MainMenuController;
 class				InGameController;
 class				GobanController;
 class				MainController;
+class				GameRules;
+class				IA;
 class				Tools;
 
 # include "GameImage.hpp"
@@ -107,6 +115,8 @@ class				Tools;
 # include "SDLHandler.hpp"
 # include "MainMenuController.hpp"
 # include "GobanController.hpp"
+# include "GameRules.hpp"
+# include "IA.hpp"
 # include "InGameController.hpp"
 # include "MainController.hpp"
 # include "Tools.hpp"

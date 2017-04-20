@@ -30,12 +30,13 @@ class GobanController
 		void			LoadStones(SDLHandler &SDLHandler);
 		void			PlaceStones(SDLHandler &SDLHandler);
 		// class event methods.
-		void			HandleEvents(t_GameDatas &GameDatas,
+		int				HandleClickEvents(t_GameDatas &GameDatas,
 										SDL_Event &event,
-										SDLHandler &SDLHandler);
+										SDLHandler &SDLHandler, t_vec2 &move);
 		// class display methods
-		void			UpdateDisplay(t_GameDatas &Game,
+		void			PutDisplay(t_GameDatas &Game,
 										SDLHandler &SDLHandler);
+		void			UpdateBoard(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
 		void			SetPointDisplay(int x, int y, t_Color color,
 										SDLHandler &SDLHandler);
 
