@@ -15,10 +15,21 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 {
 	//if (GameDatas.ActivePlayer == BLACK)
 	{
-		std::cout << "user tries to play move in " << move.x
+		// debug playing printing;
+		if (GameDatas.ActivePlayer == BLACK)
+			std::cout << std::endl << "BLACK";
+		else
+			std::cout << std::endl << "WHITE";
+		std::cout << " tries to play move in " << move.x
 		<< "x " << move.y << "y" << std::endl;
 		if (GameRules.IsMoveAuthorized(GameDatas.Board, GameDatas.ActivePlayer, move))
 		{
+			std::cout << KGRN "AUTHORIZED move for ";
+			if (GameDatas.ActivePlayer == BLACK)
+				std::cout << "BLACK" KRESET << std::endl;
+			else
+				std::cout << "WHITE" KRESET << std::endl;
+
 			UpdatePointValue(GameDatas, GameDatas.ActivePlayer, move);
 			Goban.SetPointDisplay(move.x, move.y, GameDatas.ActivePlayer, SDLHandler);
 			GameRules.CheckCaptures(GameDatas.Board, move);
@@ -26,7 +37,12 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		}
 		else
 		{
-			std::cout << "Unauthorized move" << std::endl;
+			// more debug playing print
+			std::cout << KMAG "UNAUTHORIZED move for ";
+			if (GameDatas.ActivePlayer == BLACK)
+				std::cout << "BLACK" KRESET << std::endl;
+			else
+				std::cout << "WHITE" KRESET << std::endl;
 		}
 		if (GameDatas.SelectedGameMode == VS_IA)
 		{

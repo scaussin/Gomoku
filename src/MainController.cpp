@@ -1,6 +1,6 @@
 #include "../includes/Gomoku.hpp"
 
-MainController::MainController() : CurrentScene(MAIN_MENU)
+MainController::MainController() : CurrentScene(IN_GAME)
 {
 
 }
