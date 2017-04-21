@@ -72,5 +72,5 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 */
 void	GameController::UpdatePointValue(t_GameDatas &GameDatas, t_Color color, t_vec2 move)
 {
-	GameDatas.Board[move.y][move.x] = color;
+	GameDatas.Board.Map[move.y][move.x] = color;
 }

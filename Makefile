@@ -7,6 +7,7 @@
 NAME = Gomoku
 
 SRC =  ./src/MainController.cpp \
+./src/Board.cpp \
 ./src/GameImage.cpp \
 ./src/GameText.cpp \
 ./src/SDLHandler.cpp \

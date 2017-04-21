@@ -82,13 +82,16 @@ typedef struct		s_vec2
 **	Gomoku structures
 */
 
+class				Board;
+# include "Board.hpp"
+
 typedef	struct		s_GameDatas
 {
 	t_GameScene		SelectedScene;
 	t_GameMode		SelectedGameMode;
 
-	char			Board[19][19];
-	//					  y   x
+	Board			Board;
+
 	t_Color			ActivePlayer;
 	int				TurnNumber;
 
@@ -111,6 +114,7 @@ class				IA;
 class				GameController;
 class				BoardTools;
 class				Tools;
+
 
 # include "GameImage.hpp"
 # include "GameText.hpp"
