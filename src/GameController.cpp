@@ -13,7 +13,7 @@ GameController::~GameController()
 void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 							SDLHandler &SDLHandler, t_vec2 move)
 {
-	//if (GameDatas.ActivePlayer == BLACK)
+	//if (GameDatas.ActivePlayer == BLACK) // debug mode for now.
 	{
 		// debug playing printing;
 		if (GameDatas.ActivePlayer == BLACK)
@@ -44,14 +44,13 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			else
 				std::cout << "WHITE" KRESET << std::endl;
 		}
+		// handle IA or player just after the user clicked on a stone.
 		if (GameDatas.SelectedGameMode == VS_IA)
 		{
 			t_vec2	IaMove;
 			// Start timer.
 			IaMove = IA.DecideMove(GameDatas);
-			//IaMove = IA.DecideRandomMove();
 			// End timer.
-			//GameRules.IsMoveAuthorized(IaMove);
 			GameRules.CheckCaptures(GameDatas.Board, IaMove);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}
@@ -68,7 +67,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 }
 
 /*
-**	Update point value on the Game's Board of char[][]
+**	Update point value on the Game's Board.
 */
 void	GameController::UpdatePointValue(t_GameDatas &GameDatas, t_Color color, t_vec2 move)
 {
