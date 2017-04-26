@@ -99,6 +99,9 @@ bool	GameRules::HasDoubleThree(Board &Board, t_Color color, t_vec2 move)
 	(void)Board;
 	(void)color;
 	(void)move;
+
+	
+
 	return (false);
 }
 

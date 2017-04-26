@@ -12,3 +12,8 @@ bool		Tools::RectCollision(int x, int y, SDL_Rect rect)
 		return (true);
 	return (false);
 }
+
+int			Tools::Clamp(int n, int lower, int upper)
+{
+	return std::max(lower, std::min(n, upper));
+}

@@ -127,6 +127,7 @@ class				GobanController;
 class				MainController;
 class				GameRules;
 class				IA;
+class				Heuristic;
 class				GameController;
 class				BoardTools;
 class				Tools;
@@ -139,6 +140,7 @@ class				Tools;
 # include "GobanController.hpp"
 # include "GameRules.hpp"
 # include "IA.hpp"
+# include "Heuristic.hpp"
 # include "GameController.hpp"
 # include "InGameController.hpp"
 # include "MainController.hpp"

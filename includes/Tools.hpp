@@ -5,7 +5,9 @@
 
 class Tools
 {
-	static bool		RectCollision(int x, int y, SDL_Rect Rect);
+	public:
+		static bool		RectCollision(int x, int y, SDL_Rect Rect);
+		static int		Clamp(int n, int lower, int upper);
 };
 
 #endif
