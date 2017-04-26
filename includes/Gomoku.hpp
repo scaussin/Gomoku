@@ -38,6 +38,9 @@
 # define KWHT  "\x1B[37m"
 # define KRESET "\x1B[0m"
 
+using namespace std;
+
+
 /*
 **	SDL engine defines
 */
