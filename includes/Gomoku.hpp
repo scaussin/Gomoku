@@ -38,6 +38,9 @@
 # define KWHT  "\x1B[37m"
 # define KRESET "\x1B[0m"
 
+using namespace std;
+
+
 /*
 **	SDL engine defines
 */
@@ -71,6 +74,19 @@ typedef enum		e_Color
 	WHITE,
 	SUGGESTION
 }					t_Color;
+
+typedef enum		e_move
+{
+	CURRENT,
+	LEFT_UP,
+	UP,
+	RIGHT_UP,
+	LEFT,
+	RIGHT,
+	LEFT_DOWN,
+	DOWN,
+	RIGHT_DOWN,
+}					t_move;
 
 typedef struct		s_vec2
 {

@@ -1,6 +1,8 @@
 #ifndef BOARD_HPP
 # define BOARD_HPP
 
+#include "Gomoku.hpp"
+
 class Board
 {
 	public:
@@ -14,6 +16,10 @@ class Board
 		// methods
 		// copy overload
 		Board			&operator=(const Board& other);
+		char			getPoint(t_vec2 at);
+		char			getPoint(int y, int x);
+		bool			setPoint(t_vec2 at, t_Color color);
+		bool 			setPoint(int y, int x, t_Color color);
 };
 
 #endif

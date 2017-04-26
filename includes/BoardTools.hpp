@@ -1,6 +1,8 @@
 #ifndef BOARDTOOLS_HPP
 # define BOARDTOOLS_HPP
 
+#include "Gomoku.hpp"
+
 class BoardTools
 {
 	public:

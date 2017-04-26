@@ -32,7 +32,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 
 			UpdatePointValue(GameDatas, GameDatas.ActivePlayer, move);
 			Goban.SetPointDisplay(move.x, move.y, GameDatas.ActivePlayer, SDLHandler);
-			GameRules.CheckCaptures(GameDatas.Board, move);
+			GameRules::doCaptures(GameDatas.Board, GameDatas.ActivePlayer, move);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}
 		else
@@ -52,7 +52,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			//IaMove = IA.DecideRandomMove();
 			// End timer.
 			//GameRules.IsMoveAuthorized(IaMove);
-			GameRules.CheckCaptures(GameDatas.Board, IaMove);
+			GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}
 		else if (GameDatas.SelectedGameMode == VS_P2)
