@@ -78,6 +78,20 @@ typedef struct		s_vec2
 	int				y;
 }					t_vec2;
 
+typedef enum		e_dir
+{
+	CURRENT,
+	TOP_LEFT,
+	TOP,
+	TOP_RIGHT,
+	RIGHT,
+	BOTTOM_RIGHT,
+	BOTTOM,
+	BOTTOM_LEFT,
+	LEFT,
+
+}					t_dir;
+
 /*
 **	Gomoku structures
 */

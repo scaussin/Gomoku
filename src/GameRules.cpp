@@ -10,13 +10,13 @@ GameRules::~GameRules()
 
 }
 
-bool	GameRules::IsMoveAuthorized(Board &Board, t_Color color, t_vec2 move)
+bool	GameRules::IsMoveAuthorized(Board &board, t_Color color, t_vec2 move)
 {
 	(void)move;
 
-	if (Board.Map[move.y][move.x] == NONE)
+	if (board.Map[move.y][move.x] == NONE)
 	{
-		if (HasDoubleThree(Board, color, move) == 1)
+		if (hasDoubleThree(board, color, move) == 1)
 		{
 			return (false);
 		}
@@ -27,20 +27,41 @@ bool	GameRules::IsMoveAuthorized(Board &Board, t_Color color, t_vec2 move)
 	return (true);
 }
 
-void	GameRules::CheckCaptures(Board &Board, t_vec2 move)
+void	GameRules::CheckCaptures(Board &board, t_vec2 move)
 {
 	(void)move;
-	(void)Board;
+	(void)board;
 }
 
-bool	GameRules::HasDoubleThree(Board &Board, t_Color color, t_vec2 move)
+/*
+**	See GameRules_FreeThrees.cpp for the rest of the methods.
+*/
+
+bool	GameRules::hasDoubleThree(Board &board, t_Color color, t_vec2 move)
 {
-	(void)Board;
+	(void)board;
 	(void)color;
 	(void)move;
 
-	
+	int				dir;
+	int				nb_free_3;
+	std::string		doublon_mask;
 
+	dir = 1;
+	nb_free_3 = 0;
+	while (dir != 9)
+	{
+		if (color == BLACK)
+		{
+			nb_free_3 += checkDoubleThreeBlackPatterns(board, move, (t_dir)dir);
+		}
+		else
+		{
+			nb_free_3 += checkDoubleThreeWhitePatterns(board, move, (t_dir)dir);
+		}
+		dir++;
+	}
+	std::cout << "Found " << nb_free_3 << " free three(s)." << std::endl;
 	return (false);
 }
 

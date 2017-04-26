@@ -13,7 +13,148 @@ bool		Tools::RectCollision(int x, int y, SDL_Rect rect)
 	return (false);
 }
 
+/*
+**	to clamp, you give a value, a min and a max.
+**	the value n will never be greater or smaller
+**	than those max and min.
+*/
+
 int			Tools::Clamp(int n, int lower, int upper)
 {
 	return std::max(lower, std::min(n, upper));
+}
+
+/*
+**	This method will look x points from the given point
+**	in the given direction and return the points' values.
+**	It will return back a string with the values in it.
+**	It will give back x characters.
+**
+**	For example : "00121"
+**	0 being the value for the NONE color, 1 being BLACK,
+**	and 2 being WHITE.
+*/
+
+std::string		Tools::GetPointsLine(Board &board, t_vec2 point, t_dir dir, int nb_points)
+{
+	int				mod_x;
+	int				mod_y;
+	int				x_watch;
+	int				y_watch;
+
+	std::string		ret;
+
+	ret = "";
+	// we set the modifiers to move on our line.
+	SetMoveModifiers(mod_x, mod_y, dir);
+	// we look into the asked number of point to make our line
+	for (int i = 0; i != nb_points; i++)
+	{
+		y_watch = point.y + mod_y * i;
+		x_watch = point.x + mod_x * i;
+		// we dont want to look out of the board.
+		if (y_watch >= 0 && y_watch < 19
+			&& x_watch >= 0 && x_watch < 19)
+		{
+			ret.append(std::to_string(board.Map[y_watch][x_watch]));
+		}
+	}
+	return (ret);
+}
+
+t_Color		Tools::GetNextPoint(Board &board, t_vec2 point, t_dir dir)
+{
+	int				mod_x;
+	int				mod_y;
+	int				x_watch;
+	int				y_watch;
+
+	SetMoveModifiers(mod_x, mod_y, dir);
+	y_watch = point.y + mod_y;
+	x_watch = point.x + mod_x;
+	if (y_watch >= 0 && y_watch < 19
+		&& x_watch >= 0 && x_watch < 19)
+	{
+		return ((t_Color)board.Map[y_watch][x_watch]);
+	}
+	return ((t_Color)-1);
+}
+
+/*
+**	We take two ints, and we set them according to the direction.
+**	With these ints, we can move in a given direction as many time
+**	as we wish.
+*/
+
+void		Tools::SetMoveModifiers(int &mod_x, int &mod_y, t_dir dir)
+{
+	if (dir == CURRENT)
+	{
+		mod_x = 0;
+		mod_y = 0;
+	}
+	else if (dir == TOP_LEFT)
+	{
+		mod_x = -1;
+		mod_y = 1;
+	}
+	else if (dir == TOP)
+	{
+		mod_x = 0;
+		mod_y = 1;
+	}
+	else if (dir == TOP_RIGHT)
+	{
+		mod_x = 1;
+		mod_y = 1;
+	}
+	else if (dir == RIGHT)
+	{
+		mod_x = 1;
+		mod_y = 0;
+	}
+	else if (dir == BOTTOM_RIGHT)
+	{
+		mod_x = 1;
+		mod_y = -1;
+	}
+	else if (dir == BOTTOM)
+	{
+		mod_x = 0;
+		mod_y = -1;
+	}
+	else if (dir == BOTTOM_LEFT)
+	{
+		mod_x = -1;
+		mod_y = -1;
+	}
+	else if (dir == LEFT)
+	{
+		mod_x = -1;
+		mod_y = 0;
+	}
+}
+
+t_dir	Tools::GetOppositeDir(t_dir dir)
+{
+	if (dir == CURRENT)
+		return (CURRENT);
+	else if (dir == TOP_LEFT)
+		return (BOTTOM_RIGHT);
+	else if (dir == TOP)
+		return (BOTTOM);
+	else if (dir == TOP_RIGHT)
+		return (BOTTOM_LEFT);
+	else if (dir == RIGHT)
+		return (LEFT);
+	else if (dir == BOTTOM_RIGHT)
+		return (TOP_LEFT);
+	else if (dir == BOTTOM)
+		return (TOP);
+	else if (dir == BOTTOM_LEFT)
+		return (TOP_RIGHT);
+	else if (dir == LEFT)
+		return (RIGHT);
+	else
+		return (CURRENT);
 }
