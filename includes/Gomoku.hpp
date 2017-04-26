@@ -75,24 +75,25 @@ typedef enum		e_Color
 	SUGGESTION
 }					t_Color;
 
-typedef enum		e_move
-{
-	CURRENT,
-	LEFT_UP,
-	UP,
-	RIGHT_UP,
-	LEFT,
-	RIGHT,
-	LEFT_DOWN,
-	DOWN,
-	RIGHT_DOWN,
-}					t_move;
-
 typedef struct		s_vec2
 {
 	int				x;
 	int				y;
 }					t_vec2;
+
+typedef enum		e_dir
+{
+	CURRENT,
+	TOP_LEFT,
+	TOP,
+	TOP_RIGHT,
+	RIGHT,
+	BOTTOM_RIGHT,
+	BOTTOM,
+	BOTTOM_LEFT,
+	LEFT,
+
+}					t_dir;
 
 /*
 **	Gomoku structures

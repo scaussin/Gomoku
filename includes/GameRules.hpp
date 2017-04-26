@@ -9,13 +9,16 @@ class GameRules
 		GameRules();
 		~GameRules();
 
-		static bool			IsMoveAuthorized(Board &Board, t_Color color, t_vec2 move);
+		static bool			IsMoveAuthorized(Board &board, t_Color color, t_vec2 move);
 		static void			doCaptures(Board &board, t_Color color, t_vec2 move);
+
 		void				CheckVictory(t_GameDatas &GameDatas);
 
 	private:
-		static bool			HasDoubleThree(Board &Board, t_Color color, t_vec2 move);
-		
+		static bool			hasDoubleThree(Board &board, t_Color color, t_vec2 move);
+		static int			checkDoubleThreeBlackPatterns(Board &board, t_vec2 move, t_dir dir);
+		static int			checkDoubleThreeWhitePatterns(Board &board, t_vec2 move, t_dir dir);
+
 };
 
 
