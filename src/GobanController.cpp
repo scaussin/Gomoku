@@ -171,6 +171,14 @@ void	GobanController::UpdateBoard(t_GameDatas &Game, SDLHandler &SDLHandler)
 {
 	(void)Game;
 	(void)SDLHandler;
+	
+	for (int i = 0; i < 19; i++)
+	{
+		for (int j = 0; j < 19 ; j++)
+		{
+			SetPointDisplay(i, j, (t_Color)Game.Board.getPoint(j, i), SDLHandler);
+		}
+	}
 }
 
 /*
