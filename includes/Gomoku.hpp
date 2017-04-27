@@ -96,6 +96,21 @@ typedef enum		e_dir
 }					t_dir;
 
 /*
+**	Heuristic defines
+*/
+
+// simple search values
+# define STRAIGHT_TWO 4
+# define TWO 2
+
+// threat value defines
+
+# define THREE 10
+# define BROKEN_THREE 15
+# define FOUR 20
+# define STRAIGHT_FOUR 30
+
+/*
 **	Gomoku structures
 */
 

@@ -20,6 +20,8 @@ SRC =  ./src/MainController.cpp \
 ./src/GameRules_Captures.cpp \
 ./src/IA.cpp \
 ./src/Heuristic.cpp \
+./src/Heuristic_ThreatSpaceSearch.cpp \
+./src/Heuristic_SimpleSearch.cpp \
 ./src/BoardTools.cpp \
 ./src/Tools.cpp \
 ./src/main.cpp

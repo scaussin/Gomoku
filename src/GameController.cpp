@@ -17,11 +17,11 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	{
 		// debug playing printing;
 		if (GameDatas.ActivePlayer == BLACK)
-			std::cout << std::endl << "BLACK";
+			std::cout << std::endl << KYEL "BLACK" KRESET;
 		else
-			std::cout << std::endl << "WHITE";
-		std::cout << " tries to play move in " << move.x
-		<< "x " << move.y << "y" << std::endl;
+			std::cout << std::endl << KYEL "WHITE" KRESET;
+		std::cout << " tries to play move in " << KYEL << move.x
+		<< "x " << move.y << "y" KRESET << std::endl;
 		if (GameRules.IsMoveAuthorized(GameDatas.Board, GameDatas.ActivePlayer, move))
 		{
 			std::cout << KGRN "AUTHORIZED move for ";
@@ -34,6 +34,10 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			Goban.SetPointDisplay(move.x, move.y, GameDatas.ActivePlayer, SDLHandler);
 			GameRules::doCaptures(GameDatas.Board, GameDatas.ActivePlayer, move);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
+			std::cout << KYEL "Evaluating current board" KRESET << std::endl
+				<< "Patterns found during evaluation: " << std::endl;
+			int boardVal = Heuristic::EvaluateBoard(GameDatas.Board, GameDatas.ActivePlayer);
+			std::cout << "Current board value: " << boardVal << std::endl;
 		}
 		else
 		{

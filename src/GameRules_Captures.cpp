@@ -1,5 +1,10 @@
 #include "../includes/Gomoku.hpp"
 
+/*
+**	Check is the move is making a capture. If yes, it applies the capture
+**	to the board.
+*/
+
 void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 {
 	t_Color enemy;
@@ -83,6 +88,10 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 	}
 }
 
+/*
+**	Return true if the given move is making a capture.
+*/
+
 bool		GameRules::checkCaptures(Board &board, t_Color color, t_vec2 move)
 {
 	t_Color enemy;
@@ -145,6 +154,46 @@ bool		GameRules::checkCaptures(Board &board, t_Color color, t_vec2 move)
 	if (board.getPoint(move.y,  move.x - 1) == enemy
 		&& board.getPoint(move.y,  move.x - 2) == enemy
 		&& board.getPoint(move.y,  move.x - 3) == color)
+	{
+		return (true);
+	}
+	return (false);
+}
+
+/*
+**	UNUSED -> seems like a subject's error. the rules says we can do that.
+**	Return true if the given move is into a capture,
+**	checked for a given direction, with pattern checks.
+*/
+
+bool			GameRules::checkBlackMovingIntoCapture(Board &board,
+						t_vec2 move, t_dir dir,
+						std::string &line, std::string &backLine)
+{
+	if (strncmp(line.c_str(), "012", 3) == 0
+		&& strncmp(backLine.c_str(), "02", 2) == 0)
+	{
+		return (true);
+	}
+	else if (strncmp(line.c_str(), "02", 2) == 0
+		&& strncmp(backLine.c_str(), "012", 3) == 0)
+	{
+		return (true);
+	}
+	return (false);
+}
+
+bool			GameRules::checkWhiteMovingIntoCapture(Board &board,
+						t_vec2 move, t_dir dir,
+						std::string &line, std::string &backLine)
+{
+	if (strncmp(line.c_str(), "021", 3) == 0
+		&& strncmp(backLine.c_str(), "01", 2) == 0)
+	{
+		return (true);
+	}
+	else if (strncmp(line.c_str(), "01", 2) == 0
+		&& strncmp(backLine.c_str(), "021", 3) == 0)
 	{
 		return (true);
 	}

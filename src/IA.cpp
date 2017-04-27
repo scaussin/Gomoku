@@ -23,7 +23,7 @@ t_vec2		IA::DecideMove(t_GameDatas &GameDatas)
 
 	decidedMove.x = 0;
 	decidedMove.y = 0;
-	// GeneratePossibleBoards(GameDatas, GameDatas.Board);
+	//GeneratePossibleBoards(GameDatas, GameDatas.Board);
 	// StateExpanding.clear();
 	return (decidedMove);
 }

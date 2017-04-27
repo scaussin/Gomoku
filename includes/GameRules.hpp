@@ -17,10 +17,22 @@ class GameRules
 
 	private:
 		static bool			checkCaptures(Board &board, t_Color color, t_vec2 move);
-		static bool			hasDoubleThree(Board &board, t_Color color, t_vec2 move);
-		static int			checkDoubleThreeBlackPatterns(Board &board, t_vec2 move, t_dir dir);
-		static int			checkDoubleThreeWhitePatterns(Board &board, t_vec2 move, t_dir dir);
+		
+		static bool			checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move);
 
+		static int			checkDoubleThreeBlackPatterns(Board &board,
+								t_vec2 move, t_dir dir,
+								std::string &line, std::string &backLine);
+		static int			checkDoubleThreeWhitePatterns(Board &board,
+								t_vec2 move, t_dir dir,
+								std::string &line, std::string &backLine);
+
+		static bool			checkBlackMovingIntoCapture(Board &board,
+								t_vec2 move, t_dir dir,
+								std::string &line, std::string &backLine);
+		static bool			checkWhiteMovingIntoCapture(Board &board,
+								t_vec2 move, t_dir dir,
+								std::string &line, std::string &backLine);
 };
 
 
