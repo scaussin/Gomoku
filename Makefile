@@ -17,6 +17,7 @@ SRC =  ./src/MainController.cpp \
 ./src/GobanController.cpp \
 ./src/GameRules.cpp \
 ./src/GameRules_FreeThrees.cpp \
+./src/GameRules_Captures.cpp \
 ./src/IA.cpp \
 ./src/Heuristic.cpp \
 ./src/BoardTools.cpp \
