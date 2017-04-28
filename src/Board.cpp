@@ -2,7 +2,18 @@
 
 Board::Board()
 {
+	lastMove.y = -1;
+	lastMove.x = -1;
+	parent = NULL;
+	isVictory = false;
+}
 
+Board::Board(Board &rhs, Board *parent, t_vec2 move, t_Color player)
+{
+	*this = rhs;
+	this->parent = parent;
+	this->lastMove = move;
+	setPoint(move, player);
 }
 
 Board::~Board()
@@ -12,43 +23,54 @@ Board::~Board()
 
 Board			&Board::operator=(const Board& other)
 {
-	int x;
 	for (int y = 0; y != 19; y++)
 	{
-		for (x = 0; x < 19; ++x)
+		memcpy(&this->map[y], other.map[y], 19);
+		/*for (int x = 0; x < 19; ++x)
 		{
-			this->Map[y][x] = other.Map[y][x];
-		}
+			this->map[y][x] = other.map[y][x];
+		}*/
 	}
 	return (*this);
 }
 
 char	Board::getPoint(t_vec2 at)
 {
-	if (at.y < 0 || at.y > 19 || at.x < 0 | at.x > 19)
+	if (at.y < 0 || at.y > 18 || at.x < 0 | at.x > 18)
+	{
+		PERROR("t_vec2 out of range");
 		return (-1);
-	return (Map[at.y][at.x]);
+	}
+	return (map[at.y][at.x]);
 }
 
 char	Board::getPoint(int y, int x)
 {
-	if (y < 0 || y > 19 || x < 0 | x > 19)
+	if (y < 0 || y > 18 || x < 0 | x > 18)
+	{
+		PERROR("t_vec2 out of range");
 		return (-1);
-	return (Map[y][x]);
+	}
+	return (map[y][x]);
 }
 
 bool	Board::setPoint(t_vec2 at, t_Color color)
 {
-	if (at.y < 0 || at.y > 19 || at.x < 0 | at.x > 19)
+	if (at.y < 0 || at.y > 18 || at.x < 0 | at.x > 18)
+	{
+		PERROR("t_vec2 out of range");
 		return (false);
-	Map[at.y][at.x] = color;
+	}
+	map[at.y][at.x] = color;
 	return (true);
 }
 
 bool 	Board::setPoint(int y, int x, t_Color color)
 {
-	if (y < 0 || y > 19 || x < 0 | x > 19)
+	if (y < 0 || y > 18 || x < 0 | x > 18)
+	{
+		PERROR("t_vec2 out of range");
 		return (false);
-	Map[y][x] = color;
+	}
 	return (true);
 }

@@ -2,22 +2,22 @@
 
 t_Color		BoardTools::GetPointValue(Board &board, t_vec2 coord)
 {
-	return ((t_Color)(board.Map[coord.y][coord.x]));
+	return ((t_Color)(board.map[coord.y][coord.x]));
 }
 
 t_Color		BoardTools::GetPointValue(Board &board, int x, int y)
 {
-	return ((t_Color)(board.Map[y][x]));
+	return ((t_Color)(board.map[y][x]));
 }
 
 void		BoardTools::SetPointValue(Board &board, t_vec2 coord, t_Color newVal)
 {
-	board.Map[coord.y][coord.x] = newVal;
+	board.map[coord.y][coord.x] = newVal;
 }
 
 void		BoardTools::SetPointValue(Board &board, int x, int y, t_Color newVal)
 {
-	board.Map[y][x] = newVal;
+	board.map[y][x] = newVal;
 }
 
 /*
@@ -45,7 +45,7 @@ void		BoardTools::DisplayBoardChars(Board &board)
 	{
 		for (x = 0; x < 19; x++)
 		{
-			value = (t_Color)board.Map[y][x];
+			value = (t_Color)board.map[y][x];
 			if (value == NONE)
 				printf(".");
 			else if (value == BLACK)
@@ -70,7 +70,7 @@ bool		BoardTools::IsIdentical(const Board &board_a, const Board &board_b)
 	{
 		for(x = 0; x < 19; x++)
 		{
-			if (board_a.Map[y][x] != board_b.Map[y][x])
+			if (board_a.map[y][x] != board_b.map[y][x])
 				return (false);
 		}
 	}
@@ -81,7 +81,7 @@ bool		BoardTools::IsIdentical(const Board &board_a, const Board &board_b)
 **	Is that board in that list of board?
 */
 
-bool	BoardTools::IsInList(const Board &board, std::vector<Board> &boardList)
+bool	BoardTools::IsInList(const Board &board, std::vector<Board*> &boardList)
 {
 	int i = 0;
 	int size;
@@ -89,7 +89,7 @@ bool	BoardTools::IsInList(const Board &board, std::vector<Board> &boardList)
 	size = boardList.size();
 	while (i != size)
 	{
-		if (IsIdentical(board, boardList[i]))
+		if (IsIdentical(board, *boardList[i]))
 			return (true);
 		i++;
 	}

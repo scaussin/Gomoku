@@ -9,13 +9,16 @@ class IA
 		IA();
 		~IA();
 
-		std::vector<Board>	StateExpanding;
+		//std::vector<Board>	stateExpanding;
 
-		t_vec2		DecideMove(t_GameDatas &GameDatas);
+		t_vec2			decideMove(t_GameDatas &gameDatas);
 
-		void		GeneratePossibleBoards(t_GameDatas &GameDatas, Board &curBoard);
-		void		GenerateBoardsForPoint(Board &curBoard, t_vec2 point,
-											std::vector<Board> &boardList);
+		void			generatePossibleBoards(Board *board, t_Color player,
+							t_Color decideMoveFor);
+		void			generateBoardsFromPoint(Board *curBoard, t_vec2 point,
+							vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor);
+		int				alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player,
+							t_Color decideMoveFor);
 };
 
 #endif

@@ -39,6 +39,7 @@
 # define KRESET "\x1B[0m"
 
 using namespace std;
+# define PERROR(msg) (Tools::printError(__FILE__, __LINE__, __func__, msg))
 
 
 /*
@@ -50,6 +51,13 @@ using namespace std;
 # define SCREEN_RATIO_X 16
 # define SCREEN_RATIO_Y 9
 # define SCREEN_RATIO 1.7
+
+/*
+**	Alpaha-Bata defines
+*/
+# define IA_DEEP 3
+# define ALPHA -10000
+# define BETA 10000
 
 /*
 **	Game defines

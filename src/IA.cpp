@@ -16,78 +16,113 @@ IA::~IA()
 //																	  //
 // ------------------------------------------------------------------ //
 
-t_vec2		IA::DecideMove(t_GameDatas &GameDatas)
+t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 {
-	(void)GameDatas;
 	t_vec2 decidedMove;
+	srand (time(NULL));
 
 	decidedMove.x = 0;
 	decidedMove.y = 0;
-	// GeneratePossibleBoards(GameDatas, GameDatas.Board);
-	// StateExpanding.clear();
+
+	alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, gameDatas.ActivePlayer, gameDatas.ActivePlayer);
+	// for (int i = 0; i < IA_DEEP ; i++)
+	// {
+	// 	generatePossibleBoards(gameDatas.Board, gameDatas.ActivePlayer);
+	// }
+	//GeneratePossibleBoards(GameDatas, GameDatas.Board);
+	//StateExpanding.clear();
 	return (decidedMove);
 }
 
-void	IA::GeneratePossibleBoards(t_GameDatas &GameDatas, Board &curBoard)
+int		IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player, t_Color decideMoveFor)
 {
-	(void)GameDatas;
-	(void)curBoard;
+	int val;
+	int best;
 
-	t_vec2		move_tmp;
-	int			x = 0;
-	int			y = 0;
-	for (; y < 19; y++)
+	if (deep == 0 || board->isVictory)
 	{
-		for (x = 0; x < 19; x++)
+		return (board->heuristic);
+	}
+	else
+	{
+		best = ALPHA;
+		generatePossibleBoards(board, player, decideMoveFor);
+		for (auto it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
-			if (curBoard.Map[y][x] == BLACK || curBoard.Map[y][x] == WHITE)
+			val = -alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
+			if (val > best)
+			{
+				best = val;
+				if (best > alpha)
+				{
+					alpha = best;
+					if (alpha >= beta)
+						return (best);
+				}
+			}
+		}
+		return (best);
+	}
+}
+
+void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMoveFor)
+{
+	t_vec2			move_tmp;
+
+	for (int y = 0; y < 19; y++)
+	{
+		for (int x = 0; x < 19; x++)
+		{
+			if (board->map[y][x] == WHITE || board->map[y][x] == BLACK)
 			{
 				move_tmp.x = x;
 				move_tmp.y = y;
-				GenerateBoardsForPoint(curBoard, move_tmp, StateExpanding);
+				generateBoardsFromPoint(board, move_tmp, board->next, player, decideMoveFor);
 			}
 		}
 	}
-	std::cout << "nb of possible boards for current board: " << StateExpanding.size() << std::endl;
+	//std::cout << "nb of possible boards for current board: " << board.next.size() << std::endl;
 }
 
 /*
-**	Generate all the boards for the given point into the given boardList, from the curBoard.
+**	Generate all the boards for the given point into the given possibleBoards, from the curBoard.
 **	We know the board's point is either BLACK or WHITE.
 **	We check the adjacent points, and create boards for them.
 */
 
-void	IA::GenerateBoardsForPoint(Board &curBoard, t_vec2 point, std::vector<Board> &boardList)
+void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor)
 {
 	int		i = 8;
-	Board	newBoard_cpy;
-	t_vec2	search_point;
+	Board*	newBoard;
+	t_vec2	nextMove;
 
-	search_point.x = point.x - 1;
-	search_point.y = point.y + 1;
+	nextMove.x = point.x - 1;
+	nextMove.y = point.y + 1;
 	while (i != -1)
 	{
-		if (BoardTools::IsPointIn(search_point)
-			&& curBoard.Map[search_point.y][search_point.x] == NONE)
+		if (BoardTools::IsPointIn(nextMove)
+			&& curBoard->map[nextMove.y][nextMove.x] == NONE)
 		{
-			if (GameRules::IsMoveAuthorized(curBoard, WHITE, search_point))
+			if (GameRules::isMoveAuthorized(*curBoard, player, nextMove))
 			{
-				newBoard_cpy = curBoard;
-				BoardTools::SetPointValue(newBoard_cpy, search_point.x, search_point.y, WHITE);
+				newBoard = new Board(*curBoard, curBoard, nextMove, player);
+				GameRules::doCaptures(*newBoard, player, nextMove);
+				newBoard->heuristic = rand() % 10 + 1;
+				newBoard->heuristic = Heuristic::EvaluateBoard(*newBoard, decideMoveFor) - Heuristic::EvaluateBoard(*newBoard, Tools::inverseColorPlayer(decideMoveFor));
 				// we only add it if it is not already in our list.
-				if (BoardTools::IsInList(newBoard_cpy, boardList) == false)
+				if (BoardTools::IsInList(*newBoard, possibleBoards) == false)
 				{
 					// BoardTools::DisplayBoardChars(newBoard_cpy);
 					// printf("\n");
-					boardList.push_back(newBoard_cpy);
+					possibleBoards.push_back(newBoard);
 				}
 			}
 		}
-		search_point.x += 1;
+		nextMove.x += 1;
 		if (i % 3 == 0)
 		{
-			search_point.x -= 3;
-			search_point.y -= 1;
+			nextMove.x -= 3;
+			nextMove.y -= 1;
 		}
 		i--;
 	}

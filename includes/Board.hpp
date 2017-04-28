@@ -8,10 +8,16 @@ class Board
 	public:
 		Board();
 		~Board();
+		Board(Board& rhs, Board *parent, t_vec2 move, t_Color player);
 
 		// attributes
-		char			Map[19][19];
-		int				HeuristicValue;
+		char			map[19][19];
+		int				heuristic;
+		Board*			parent;
+		vector<Board*>	next;
+		t_vec2			lastMove;
+		t_Color			player;
+		bool			isVictory;
 
 		// methods
 		// copy overload

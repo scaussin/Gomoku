@@ -9,11 +9,11 @@ class GameRules
 		GameRules();
 		~GameRules();
 
-		static bool			IsMoveAuthorized(Board &board, t_Color color, t_vec2 move);
+		static bool			isMoveAuthorized(Board &board, t_Color color, t_vec2 move);
 		static void			doCaptures(Board &board, t_Color color, t_vec2 move);
 
 
-		void				CheckVictory(t_GameDatas &GameDatas);
+		void				checkVictory(t_GameDatas &GameDatas);
 
 	private:
 		static bool			checkCaptures(Board &board, t_Color color, t_vec2 move);

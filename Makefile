@@ -26,7 +26,7 @@ SRC =  ./src/MainController.cpp \
 
 OBJ = $(SRC:.cpp=.o)
 
-CC = clang++ -g -Wall -Werror -Wextra -Wno-unused-parameter
+CC = clang++ -g -Wall -Werror -Wextra -Wno-unused-parameter -std=c++11
 
 SDL =  -framework Cocoa -framework SDL2 -F./Frameworks -framework SDL2_ttf
 

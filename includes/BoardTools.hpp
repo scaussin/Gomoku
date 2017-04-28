@@ -16,7 +16,7 @@ class BoardTools
 		static void			DisplayBoardChars(Board &board);
 
 		static bool			IsIdentical(const Board &board_a, const Board &board_b);
-		static bool			IsInList(const Board &board, std::vector<Board> &boardList);
+		static bool			IsInList(const Board &board, std::vector<Board*> &boardList);
 		
 };
 

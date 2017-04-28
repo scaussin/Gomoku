@@ -56,7 +56,7 @@ std::string		Tools::GetPointsLine(Board &board, t_vec2 point, t_dir dir, int nb_
 		if (y_watch >= 0 && y_watch < 19
 			&& x_watch >= 0 && x_watch < 19)
 		{
-			ret.append(std::to_string(board.Map[y_watch][x_watch]));
+			ret.append(std::to_string(board.map[y_watch][x_watch]));
 		}
 	}
 	return (ret);
@@ -75,7 +75,7 @@ t_Color		Tools::GetNextPoint(Board &board, t_vec2 point, t_dir dir)
 	if (y_watch >= 0 && y_watch < 19
 		&& x_watch >= 0 && x_watch < 19)
 	{
-		return ((t_Color)board.Map[y_watch][x_watch]);
+		return ((t_Color)board.map[y_watch][x_watch]);
 	}
 	return ((t_Color)-1);
 }
@@ -133,6 +133,21 @@ void		Tools::SetMoveModifiers(int &mod_x, int &mod_y, t_dir dir)
 		mod_x = -1;
 		mod_y = 0;
 	}
+}
+
+void	Tools::printError(string file, int line, string function, string msg)
+{
+	printf ("[ERROR]\n%s:%d (%s) -> %s\n", file.c_str(), line, function.c_str(), msg.c_str());
+}
+
+t_Color	Tools::inverseColorPlayer(t_Color player)
+{
+	if (player == BLACK)
+		return (WHITE);
+	else if (player == WHITE)
+		return (BLACK);
+	PERROR("not expected t_Color");
+	return (NONE);
 }
 
 t_dir	Tools::GetOppositeDir(t_dir dir)

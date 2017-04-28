@@ -2,12 +2,7 @@
 
 void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 {
-	t_Color enemy;
-
-	if (color == BLACK)
-		enemy = WHITE;
-	else
-		enemy = BLACK;
+	t_Color enemy = Tools::inverseColorPlayer(color);
 	
 	//top left
 	if (board.getPoint(move.y + 1,  move.x - 1) == enemy

@@ -22,7 +22,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			std::cout << std::endl << "WHITE";
 		std::cout << " tries to play move in " << move.x
 		<< "x " << move.y << "y" << std::endl;
-		if (GameRules.IsMoveAuthorized(GameDatas.Board, GameDatas.ActivePlayer, move))
+		if (GameRules.isMoveAuthorized(GameDatas.Board, GameDatas.ActivePlayer, move))
 		{
 			std::cout << KGRN "AUTHORIZED move for ";
 			if (GameDatas.ActivePlayer == BLACK)
@@ -49,9 +49,9 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		{
 			t_vec2	IaMove;
 			// Start timer.
-			IaMove = IA.DecideMove(GameDatas);
+			IaMove = IA.decideMove(GameDatas);
 			// End timer.
-			//GameRules.IsMoveAuthorized(IaMove);
+			//GameRules.isMoveAuthorized(IaMove);
 			GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}
@@ -59,11 +59,11 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		{
 			t_vec2	IaMoveSuggestion;
 
-			IaMoveSuggestion = IA.DecideMove(GameDatas);
+			IaMoveSuggestion = IA.decideMove(GameDatas);
 			Goban.SetPointDisplay(IaMoveSuggestion.x, IaMoveSuggestion.y, SUGGESTION, SDLHandler);
 			//GameDatas.ActivePlayer = WHITE;
 		}
-		GameRules.CheckVictory(GameDatas);
+		GameRules.checkVictory(GameDatas);
 	}
 }
 
@@ -72,5 +72,5 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 */
 void	GameController::UpdatePointValue(t_GameDatas &GameDatas, t_Color color, t_vec2 move)
 {
-	GameDatas.Board.Map[move.y][move.x] = color;
+	GameDatas.Board.map[move.y][move.x] = color;
 }

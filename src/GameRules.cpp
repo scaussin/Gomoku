@@ -10,11 +10,11 @@ GameRules::~GameRules()
 
 }
 
-bool	GameRules::IsMoveAuthorized(Board &board, t_Color color, t_vec2 move)
+bool	GameRules::isMoveAuthorized(Board &board, t_Color color, t_vec2 move)
 {
 	(void)move;
 
-	if (board.Map[move.y][move.x] == NONE || board.Map[move.y][move.x] == SUGGESTION)
+	if (board.map[move.y][move.x] == NONE || board.map[move.y][move.x] == SUGGESTION)
 	{
 		if (hasDoubleThree(board, color, move) == 1
 			&& checkCaptures(board, color, move) == false)
@@ -28,7 +28,7 @@ bool	GameRules::IsMoveAuthorized(Board &board, t_Color color, t_vec2 move)
 	return (true);
 }
 
-void	GameRules::CheckVictory(t_GameDatas &GameDatas)
+void	GameRules::checkVictory(t_GameDatas &gameDatas)
 {
-	(void)GameDatas;
+	(void)gameDatas;
 }

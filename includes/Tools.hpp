@@ -12,6 +12,8 @@ class Tools
 		static void				SetMoveModifiers(int &mod_x, int &mod_y, t_dir dir);
 		static t_Color			GetNextPoint(Board &board, t_vec2 point, t_dir dir);
 		static t_dir			GetOppositeDir(t_dir dir);
+		static t_Color			inverseColorPlayer(t_Color player);
+		static void				printError(string file, int line, string sfunction, string msg);
 };
 
 #endif
