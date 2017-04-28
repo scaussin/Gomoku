@@ -19,7 +19,12 @@ class Heuristic
 		static int		victorySearchPatternsWhite(Board &board,
 							t_vec2 point, t_dir dir,
 							std::string &line, std::string &backLine);
-
+		static bool		isBlackStoneCapturable(Board &board,
+							t_vec2 stone, t_dir dir,
+							std::string &line, std::string &backLine);
+		static bool		isWhiteStoneCapturable(Board &board,
+							t_vec2 stone, t_dir dir,
+							std::string &line, std::string &backLine);
 
 		// SIMPLE SEARCH: form that give less points, but can tip the balance.
 		static int		simpleSearchPatterns(Board &board,
@@ -32,7 +37,7 @@ class Heuristic
 							t_vec2 point, t_dir dir,
 							std::string &line, std::string &backLine);
 
-		// THREAT SPACE SEARCH : forms that are going toward victory.
+		// THREAT SPACE SEARCH: forms that are going toward victory.
 		static int		threatSpaceSearchPatterns(Board &board,
 							t_vec2 point, t_Color playerColor, t_dir dir,
 							std::string &line, std::string &backLine);

@@ -38,7 +38,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			GameRules::doCaptures(GameDatas.Board, GameDatas.ActivePlayer, move);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 			std::cout << KYEL "Evaluating current board" KRESET << std::endl
-				<< "Patterns found during evaluation: " << std::endl;
+				<< "Important patterns found during evaluation: " << std::endl;
 			int boardVal = Heuristic::EvaluateBoard(GameDatas.Board, GameDatas.ActivePlayer);
 			std::cout << "Current board value: " << boardVal << std::endl;
 			GameDatas.TurnNumber += 1;

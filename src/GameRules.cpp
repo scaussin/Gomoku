@@ -68,7 +68,7 @@ bool	GameRules::checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move)
 		}
 		dir++;
 	}
-	std::cout << "Found " << KYEL << nb_free_3 << KRESET << " free three(s)." << std::endl;
+	std::cout << "Created " << KYEL << nb_free_3 << KRESET << " free three(s) with this move." << std::endl;
 	if (nb_free_3 >= 2)
 	{
 		return (true);

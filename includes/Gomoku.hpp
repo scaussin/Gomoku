@@ -106,7 +106,8 @@ typedef struct		s_VictorySequence
 */
 
 // victory search values
-# define VICTORY_BASIC_FORM 100
+# define VICTORY 100
+# define VICTORY_CAPTURABLE 50
 
 // simple search values
 # define FREE_ONE 2
@@ -140,6 +141,8 @@ typedef	struct		s_GameDatas
 
 	int				BlackCaptures;
 	int				WhiteCaptures;
+
+	int				IA_Depth;
 }					t_GameDatas;
 
 

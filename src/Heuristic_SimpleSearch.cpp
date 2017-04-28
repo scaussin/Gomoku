@@ -25,24 +25,24 @@ int		Heuristic::simpleSearchPatternsBlack(Board &board,
 	{
 		if (strncmp(line.c_str(), "010", 3) == 0)
 		{
-			std::cout << KMAG "- FREE ONE" KRESET << std::endl;
+			// std::cout << "- FREE ONE" << std::endl;
 			ret += FREE_ONE;
 		}
 		else if (strncmp(line.c_str(), "210", 3) == 0
 			|| strncmp(line.c_str(), "012", 3) == 0)
 		{
-			std::cout << KMAG "- ONE" KRESET << std::endl;
+			// std::cout << "- ONE" << std::endl;
 			ret += ONE;
 		}
 		if (strncmp(line.c_str(), "0110", 4) == 0)
 		{
-			std::cout << KMAG "- STRAIGHT TWO" KRESET << std::endl;
+			std::cout << "- STRAIGHT TWO" << std::endl;
 			ret += STRAIGHT_TWO;
 		}
 		else if (strncmp(line.c_str(), "2110", 4) == 0
 			|| strncmp(line.c_str(), "0112", 4) == 0)
 		{
-			std::cout << KMAG "- TWO" KRESET << std::endl;
+			std::cout << "- TWO" << std::endl;
 			ret += TWO;
 		}
 	}
@@ -58,24 +58,24 @@ int		Heuristic::simpleSearchPatternsWhite(Board &board,
 	{
 		if (strncmp(line.c_str(), "020", 3) == 0)
 		{
-			std::cout << KMAG "- FREE ONE" KRESET << std::endl;
+			std::cout << "- FREE ONE" << std::endl;
 			ret += FREE_ONE;
 		}
 		else if (strncmp(line.c_str(), "120", 3) == 0
 			|| strncmp(line.c_str(), "021", 3) == 0)
 		{
-			std::cout << KMAG "- ONE" KRESET << std::endl;
+			std::cout << "- ONE" << std::endl;
 			ret += ONE;
 		}
 		if (strncmp(line.c_str(), "0220", 4) == 0)
 		{
-			std::cout << KMAG "- STRAIGHT TWO" KRESET << std::endl;
+			std::cout << "- STRAIGHT TWO" << std::endl;
 			ret += STRAIGHT_TWO;
 		}
 		else if (strncmp(line.c_str(), "1220", 4) == 0
 			|| strncmp(line.c_str(), "0221", 4) == 0)
 		{
-			std::cout << KMAG "- TWO" KRESET << std::endl;
+			std::cout << "- TWO" << std::endl;
 			ret += TWO;
 		}
 	}

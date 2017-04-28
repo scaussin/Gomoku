@@ -37,7 +37,6 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 				backLine = Tools::GetPointsLine(board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7);
 				// Here we add our different heuristic search patterns to the board's value.
 
-				// TODO: victory search pattern -> +100;
 				boardValue += victorySearchPatterns(board,
 								curPoint, playerColor, (t_dir)dir,
 								line, backLine);
@@ -49,7 +48,7 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 				boardValue += threatSpaceSearchPatterns(board,
 								curPoint, playerColor, (t_dir)dir,
 								line, backLine);
-
+				
 				// TODO: capturable stones search patterns.
 			}
 		}
