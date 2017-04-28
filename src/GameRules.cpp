@@ -75,8 +75,3 @@ bool	GameRules::checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move)
 	}
 	return (false);
 }
-
-void	GameRules::CheckVictory(t_GameDatas &GameDatas)
-{
-	(void)GameDatas;
-}

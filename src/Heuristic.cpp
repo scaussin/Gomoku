@@ -9,25 +9,17 @@
 
 int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 {
-	int		boardValue;
+	// the return value.
+	int		boardValue = 0;
 
 	// board run through variables.
 	int			dir;
 	int			x;
 	int			y;
 	t_vec2		curPoint;
-	t_Color		enemyColor;
 
 	std::string	line;
 	std::string	backLine;
-
-	// set enemy color
-	if (playerColor == BLACK)
-		enemyColor = WHITE;
-	else
-		enemyColor = BLACK;
-
-	boardValue = 0;
 
 	// Here, we will run through each point, and for each point, we will
 	// look into every direction.
@@ -46,6 +38,9 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 				// Here we add our different heuristic search patterns to the board's value.
 
 				// TODO: victory search pattern -> +100;
+				boardValue += victorySearchPatterns(board,
+								curPoint, playerColor, (t_dir)dir,
+								line, backLine);
 
 				boardValue += simpleSearchPatterns(board,
 								curPoint, playerColor, (t_dir)dir,

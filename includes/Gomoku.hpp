@@ -95,18 +95,29 @@ typedef enum		e_dir
 
 }					t_dir;
 
+typedef struct		s_VictorySequence
+{
+	t_Color					Color;
+	std::vector<t_vec2> 	Stones;
+}					t_VictorySequence;
+
 /*
 **	Heuristic defines
 */
 
+// victory search values
+# define VICTORY_BASIC_FORM 100
+
 // simple search values
-# define STRAIGHT_TWO 4
-# define TWO 2
+# define FREE_ONE 2
+# define ONE 1
+# define STRAIGHT_TWO 8
+# define TWO 4
 
 // threat value defines
 
-# define THREE 10
-# define BROKEN_THREE 15
+# define THREE 12
+# define BROKEN_THREE 16
 # define FOUR 20
 # define STRAIGHT_FOUR 30
 

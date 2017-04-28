@@ -199,3 +199,41 @@ bool			GameRules::checkWhiteMovingIntoCapture(Board &board,
 	}
 	return (false);
 }
+
+/*
+**	Could the given stone be captured in one move ?
+*/
+
+bool			GameRules::IsBlackStoneCapturable(Board &board,
+						t_vec2 stone, t_dir dir,
+						std::string &line, std::string &backLine)
+{
+	if (strncmp(line.c_str(), "112", 3) == 0
+		&& strncmp(backLine.c_str(), "10", 2) == 0)
+	{
+		return (true);
+	}
+	else if (strncmp(line.c_str(), "110", 3) == 0
+		&& strncmp(backLine.c_str(), "12", 2) == 0)
+	{
+		return (true);
+	}
+	return (false);
+}
+
+bool			GameRules::IsWhiteStoneCapturable(Board &board,
+						t_vec2 stone, t_dir dir,
+						std::string &line, std::string &backLine)
+{
+	if (strncmp(line.c_str(), "221", 3) == 0
+		&& strncmp(backLine.c_str(), "20", 2) == 0)
+	{
+		return (true);
+	}
+	else if (strncmp(line.c_str(), "220", 3) == 0
+		&& strncmp(backLine.c_str(), "21", 2) == 0)
+	{
+		return (true);
+	}
+	return (false);
+}
