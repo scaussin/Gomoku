@@ -13,6 +13,11 @@ class Board
 		char			Map[19][19];
 		int				HeuristicValue;
 
+		bool			isVictory;
+
+		int				BlackCaptures;
+		int				WhiteCaptures;
+
 		// methods
 		// copy overload
 		Board			&operator=(const Board& other);

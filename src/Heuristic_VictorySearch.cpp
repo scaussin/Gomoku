@@ -51,6 +51,7 @@ int		Heuristic::victorySearchPatternsBlack(Board &board,
 		}
 		std::cout << KGRN "- VICTORY BLACK FORM" KRESET << std::endl;
 		ret += VICTORY;
+		board.isVictory = true;
 	}
 	return (ret);
 }
@@ -89,6 +90,7 @@ int		Heuristic::victorySearchPatternsWhite(Board &board,
 		}
 		std::cout << KGRN "- VICTORY WHITE FORM" KRESET << std::endl;
 		ret += VICTORY;
+		board.isVictory = true;
 	}
 	return (ret);
 }
