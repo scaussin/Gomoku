@@ -137,7 +137,7 @@ void		Tools::SetMoveModifiers(int &mod_x, int &mod_y, t_dir dir)
 
 void	Tools::printError(string file, int line, string function, string msg)
 {
-	printf ("[ERROR]\n%s:%d (%s) -> %s\n", file.c_str(), line, function.c_str(), msg.c_str());
+	printf ("[ERROR]\n\t%s:%d (%s) -> %s\n", file.c_str(), line, function.c_str(), msg.c_str());
 }
 
 t_Color	Tools::inverseColorPlayer(t_Color player)

@@ -31,7 +31,7 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 		if ((*it)->heuristic == heuristic)
 			return ((*it)->lastMove);
 	}
-	PERROR("move not find in child");
+	PERROR("move not found in child");
 	return (decidedMove);
 }
 
@@ -41,9 +41,7 @@ int		IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player, 
 	int best;
 
 	if (deep == 0 || board->isVictory)
-	{
 		return (board->heuristic);
-	}
 	else
 	{
 		best = ALPHA;
@@ -108,8 +106,8 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 			{
 				newBoard = new Board(*curBoard, curBoard, nextMove, player);
 				GameRules::doCaptures(*newBoard, player, nextMove);
-				newBoard->heuristic = rand() % 10 + 1;
-				newBoard->heuristic = Heuristic::EvaluateBoard(*newBoard, decideMoveFor) - Heuristic::EvaluateBoard(*newBoard, Tools::inverseColorPlayer(decideMoveFor));
+				newBoard->heuristic = Heuristic::EvaluateBoard(*newBoard, decideMoveFor)
+					- Heuristic::EvaluateBoard(*newBoard, Tools::inverseColorPlayer(decideMoveFor));
 				// we only add it if it is not already in our list.
 				if (BoardTools::IsInList(*newBoard, possibleBoards) == false)
 				{

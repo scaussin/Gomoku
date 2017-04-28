@@ -19,6 +19,9 @@ class Board
 		t_Color			player;
 		bool			isVictory;
 
+		int				BlackCaptures;
+		int				WhiteCaptures;
+
 		// methods
 		// copy overload
 		Board			&operator=(const Board& other);

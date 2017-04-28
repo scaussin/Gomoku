@@ -15,13 +15,16 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 {
 	//if (GameDatas.ActivePlayer == BLACK) // debug mode for now.
 	{
+		std::cout << std::endl << KBLU "------ " KYEL <<  " Move "
+			<< GameDatas.TurnNumber << KBLU " ------" KRESET
+			<< std::endl;
 		// debug playing printing;
 		if (GameDatas.ActivePlayer == BLACK)
-			std::cout << std::endl << "BLACK";
+			std::cout << std::endl << KYEL "BLACK" KRESET;
 		else
-			std::cout << std::endl << "WHITE";
-		std::cout << " tries to play move in " << move.x
-		<< "x " << move.y << "y" << std::endl;
+			std::cout << std::endl << KYEL "WHITE" KRESET;
+		std::cout << " tries to play move in " << KYEL << move.x
+		<< "x " << move.y << "y" KRESET << std::endl;
 		if (GameRules.isMoveAuthorized(GameDatas.Board, GameDatas.ActivePlayer, move))
 		{
 			std::cout << KGRN "AUTHORIZED move for ";
@@ -34,6 +37,11 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			Goban.SetPointDisplay(move.x, move.y, GameDatas.ActivePlayer, SDLHandler);
 			GameRules::doCaptures(GameDatas.Board, GameDatas.ActivePlayer, move);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
+			// std::cout << KYEL "Evaluating current board" KRESET << std::endl
+			// 	<< "Important patterns found during evaluation: " << std::endl;
+			int boardVal = Heuristic::EvaluateBoard(GameDatas.Board, GameDatas.ActivePlayer);
+			std::cout << "Current board value: " << boardVal << std::endl;
+			GameDatas.TurnNumber += 1;
 		}
 		else
 		{
@@ -63,7 +71,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			Goban.SetPointDisplay(IaMoveSuggestion.x, IaMoveSuggestion.y, SUGGESTION, SDLHandler);
 			//GameDatas.ActivePlayer = WHITE;
 		}
-		GameRules.checkVictory(GameDatas);
+		GameRules::CheckVictory(GameDatas);
 	}
 }
 

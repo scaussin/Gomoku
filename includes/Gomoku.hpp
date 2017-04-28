@@ -55,7 +55,7 @@ using namespace std;
 /*
 **	Alpaha-Bata defines
 */
-# define IA_DEEP 3
+# define IA_DEEP 2
 # define ALPHA -10000
 # define BETA 10000
 
@@ -103,6 +103,33 @@ typedef enum		e_dir
 
 }					t_dir;
 
+typedef struct		s_VictorySequence
+{
+	t_Color					Color;
+	std::vector<t_vec2> 	Stones;
+}					t_VictorySequence;
+
+/*
+**	Heuristic defines
+*/
+
+// victory search values
+# define VICTORY 100
+# define VICTORY_CAPTURABLE 50
+
+// simple search values
+# define FREE_ONE 2
+# define ONE 1
+# define STRAIGHT_TWO 8
+# define TWO 4
+
+// threat value defines
+
+# define THREE 12
+# define BROKEN_THREE 16
+# define FOUR 20
+# define STRAIGHT_FOUR 30
+
 /*
 **	Gomoku structures
 */
@@ -122,6 +149,8 @@ typedef	struct		s_GameDatas
 
 	int				BlackCaptures;
 	int				WhiteCaptures;
+
+	int				IA_Depth;
 }					t_GameDatas;
 
 

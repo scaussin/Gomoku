@@ -7,32 +7,51 @@
 //															//
 // --------------------------------------------------------	//
 
-int		Heuristic::EvaluateBoard(Board &board, t_Color player)
+int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 {
-	int		boardValue;
+	// the return value.
+	int		boardValue = 0;
 
-	boardValue = 0;
-	boardValue += Heuristic::Simple(board, player);
+	// board run through variables.
+	int			dir;
+	int			x;
+	int			y;
+	t_vec2		curPoint;
 
-	return (boardValue);
-}
+	std::string	line;
+	std::string	backLine;
 
-/*
-**	A simple heuristic to start our IA.
-*/
+	// Here, we will run through each point, and for each point, we will
+	// look into every direction.
+	for (y = 0; y < 19; y++)
+	{
+		for (x = 0; x < 19; x++)
+		{
+			curPoint.x = x;
+			curPoint.y = y;
+			// we seek patterns on lines in every directions
+			for (dir = 1; dir != 5; dir++)
+			{
+				// from the curPoint, we get the 7 values on the line, and the 7 values on the behind.
+				line = Tools::GetPointsLine(board, curPoint, (t_dir)dir, 7);
+				backLine = Tools::GetPointsLine(board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7);
+				// Here we add our different heuristic search patterns to the board's value.
 
-int		Heuristic::Simple(Board &board, t_Color player)
-{
-	int			boardValue;
-	t_Color		enemyColor;
+				boardValue += victorySearchPatterns(board,
+								curPoint, playerColor, (t_dir)dir,
+								line, backLine);
 
-	(void)board;
-	// set enemy color, the stones we will first look at.
-	if (player == BLACK)
-		enemyColor = WHITE;
-	else
-		enemyColor = BLACK;
-
-	boardValue = 0;
+				boardValue += simpleSearchPatterns(board,
+								curPoint, playerColor, (t_dir)dir,
+								line, backLine);
+				
+				boardValue += threatSpaceSearchPatterns(board,
+								curPoint, playerColor, (t_dir)dir,
+								line, backLine);
+				
+				// TODO: capturable stones search patterns.
+			}
+		}
+	}
 	return (boardValue);
 }
