@@ -24,13 +24,14 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	decidedMove.x = 0;
 	decidedMove.y = 0;
 
-	alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, gameDatas.ActivePlayer, gameDatas.ActivePlayer);
-	// for (int i = 0; i < IA_DEEP ; i++)
-	// {
-	// 	generatePossibleBoards(gameDatas.Board, gameDatas.ActivePlayer);
-	// }
-	//GeneratePossibleBoards(GameDatas, GameDatas.Board);
-	//StateExpanding.clear();
+	int heuristic = alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, gameDatas.ActivePlayer, gameDatas.ActivePlayer);
+	
+	for (auto it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
+	{
+		if ((*it)->heuristic == heuristic)
+			return ((*it)->lastMove);
+	}
+	PERROR("move not find in child");
 	return (decidedMove);
 }
 
