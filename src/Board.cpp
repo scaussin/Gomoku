@@ -18,7 +18,11 @@ Board::Board(Board &rhs, Board *parent, t_vec2 move, t_Color player)
 
 Board::~Board()
 {
-
+	for (auto it = next.begin() ; it != next.end() ; ++it)
+	{
+		delete *it;
+	}
+	next.clear();
 }
 
 Board			&Board::operator=(const Board& other)

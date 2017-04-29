@@ -60,6 +60,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			IaMove = IA.decideMove(GameDatas);
 			// End timer.
 			//GameRules.isMoveAuthorized(IaMove);
+			GameDatas.Board.setPoint(IaMove, WHITE);
 			GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}

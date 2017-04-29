@@ -55,7 +55,7 @@ using namespace std;
 /*
 **	Alpaha-Bata defines
 */
-# define IA_DEEP 2
+# define IA_DEEP 1
 # define ALPHA -10000
 # define BETA 10000
 

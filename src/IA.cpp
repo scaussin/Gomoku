@@ -24,14 +24,17 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	decidedMove.x = 0;
 	decidedMove.y = 0;
 
-	int heuristic = alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, gameDatas.ActivePlayer, gameDatas.ActivePlayer);
-	
+	int heuristic = alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, WHITE, WHITE);
+	cout << "child: " << BoardTools::countChild(&gameDatas.Board) <<" | heuristic: " << heuristic << endl;
 	for (auto it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
 	{
 		if ((*it)->heuristic == heuristic)
-			return ((*it)->lastMove);
+			decidedMove = (*it)->lastMove;
+		delete *it;
 	}
-	PERROR("move not found in child");
+	gameDatas.Board.next.clear();
+	cout << "child: " << BoardTools::countChild(&gameDatas.Board) << endl;
+	//PERROR("move not found in child");
 	return (decidedMove);
 }
 

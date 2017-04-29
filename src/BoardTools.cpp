@@ -95,3 +95,14 @@ bool	BoardTools::IsInList(const Board &board, std::vector<Board*> &boardList)
 	}
 	return (false);
 }
+
+int		BoardTools::countChild(Board *board)
+{
+	int i = 0;
+
+	for (auto it = board->next.begin() ; it != board->next.end() ; ++it)
+	{
+		i += BoardTools::countChild(*it);
+	}
+	return (i + 1);
+}
