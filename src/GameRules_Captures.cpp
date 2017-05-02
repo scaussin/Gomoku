@@ -14,73 +14,77 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y + 2,  move.x - 2) == enemy
 		&& board.getPoint(move.y + 3,  move.x - 3) == color)
 	{
-		board.setPoint(move.y + 1,  move.x - 1, NONE);
-		board.setPoint(move.y + 2,  move.x - 2, NONE);
-		cout << "capture top left" << endl;
+		applyCapture(board, color, move.x - 1, move.y + 1, move.x - 2, move.y + 2);
+		cout << "- Capture top left" << endl;
 	}
 	//top
 	if (board.getPoint(move.y + 1,  move.x) == enemy
 		&& board.getPoint(move.y + 2,  move.x) == enemy
 		&& board.getPoint(move.y + 3,  move.x) == color)
 	{
-		board.setPoint(move.y + 1,  move.x, NONE);
-		board.setPoint(move.y + 2,  move.x, NONE);
-		cout << "capture top" << endl;
+		applyCapture(board, color, move.x, move.y + 1, move.x, move.y + 2);
+		cout << "- Capture top" << endl;
 	}
 	//top right
 	if (board.getPoint(move.y + 1,  move.x + 1) == enemy
 		&& board.getPoint(move.y + 2,  move.x + 2) == enemy
 		&& board.getPoint(move.y + 3,  move.x + 3) == color)
 	{
-		board.setPoint(move.y + 1,  move.x + 1, NONE);
-		board.setPoint(move.y + 2,  move.x + 2, NONE);
-		cout << "capture top right" << endl;
+		applyCapture(board, color, move.x + 1, move.y + 1, move.x + 2, move.y + 2);
+		cout << "- Capture top right" << endl;
 	}
 	// right
 	if (board.getPoint(move.y,  move.x + 1) == enemy
 		&& board.getPoint(move.y,  move.x + 2) == enemy
 		&& board.getPoint(move.y,  move.x + 3) == color)
 	{
-		board.setPoint(move.y,  move.x + 1, NONE);
-		board.setPoint(move.y,  move.x + 2, NONE);
-		cout << "capture right" << endl;
+		applyCapture(board, color, move.x + 1, move.y, move.x + 2, move.y);
+		cout << "- Capture right" << endl;
 	}
 	//bottom right
 	if (board.getPoint(move.y - 1,  move.x + 1) == enemy
 		&& board.getPoint(move.y - 2,  move.x + 2) == enemy
 		&& board.getPoint(move.y - 3,  move.x + 3) == color)
 	{
-		board.setPoint(move.y - 1,  move.x + 1, NONE);
-		board.setPoint(move.y - 2,  move.x + 2, NONE);
-		cout << "capture bottom right" << endl;
+		applyCapture(board, color, move.x + 1, move.y - 1, move.x + 2, move.y - 2);
+		cout << "- Capture bottom right" << endl;
 	}
 	//bottom
 	if (board.getPoint(move.y - 1,  move.x) == enemy
 		&& board.getPoint(move.y - 2,  move.x) == enemy
 		&& board.getPoint(move.y - 3,  move.x) == color)
 	{
-		board.setPoint(move.y - 1,  move.x, NONE);
-		board.setPoint(move.y - 2,  move.x, NONE);
-		cout << "capture bottom" << endl;
+		applyCapture(board, color, move.x, move.y - 1, move.x, move.y - 2);
+		cout << "- Capture bottom" << endl;
 	}
 	//bottom left
 	if (board.getPoint(move.y - 1,  move.x - 1) == enemy
 		&& board.getPoint(move.y - 2,  move.x - 2) == enemy
 		&& board.getPoint(move.y - 3,  move.x - 3) == color)
 	{
-		board.setPoint(move.y - 1,  move.x - 1, NONE);
-		board.setPoint(move.y - 2,  move.x - 2, NONE);
-		cout << "capture bottom left" << endl;
+		applyCapture(board, color, move.x - 1, move.y - 1, move.x - 2, move.y - 2);
+		cout << "- Capture bottom left" << endl;
 	}
 	//left
 	if (board.getPoint(move.y,  move.x - 1) == enemy
 		&& board.getPoint(move.y,  move.x - 2) == enemy
 		&& board.getPoint(move.y,  move.x - 3) == color)
 	{
-		board.setPoint(move.y,  move.x - 1, NONE);
-		board.setPoint(move.y,  move.x - 2, NONE);
-		cout << "capture left" << endl;
+		applyCapture(board, color, move.x - 1, move.y, move.x - 2, move.y);
+		cout << "- Capture left" << endl;
 	}
+}
+
+
+void		GameRules::applyCapture(Board &board, t_Color color,
+				int stone1_x, int stone1_y, int stone2_x, int stone2_y)
+{
+	board.setPoint(stone1_y,  stone1_x, NONE);
+	board.setPoint(stone2_y,  stone2_x, NONE);
+	if (color == BLACK)
+		board.BlackCaptures += 2;
+	else
+		board.WhiteCaptures += 2;
 }
 
 /*
@@ -163,15 +167,15 @@ bool		GameRules::checkCaptures(Board &board, t_Color color, t_vec2 move)
 
 bool			GameRules::checkBlackMovingIntoCapture(Board &board,
 						t_vec2 move, t_dir dir,
-						std::string &line, std::string &backLine)
+						char *line, char *backLine)
 {
-	if (strncmp(line.c_str(), "012", 3) == 0
-		&& strncmp(backLine.c_str(), "02", 2) == 0)
+	if (strncmp(line, "012", 3) == 0
+		&& strncmp(backLine, "02", 2) == 0)
 	{
 		return (true);
 	}
-	else if (strncmp(line.c_str(), "02", 2) == 0
-		&& strncmp(backLine.c_str(), "012", 3) == 0)
+	else if (strncmp(line, "02", 2) == 0
+		&& strncmp(backLine, "012", 3) == 0)
 	{
 		return (true);
 	}
@@ -180,15 +184,15 @@ bool			GameRules::checkBlackMovingIntoCapture(Board &board,
 
 bool			GameRules::checkWhiteMovingIntoCapture(Board &board,
 						t_vec2 move, t_dir dir,
-						std::string &line, std::string &backLine)
+						char *line, char *backLine)
 {
-	if (strncmp(line.c_str(), "021", 3) == 0
-		&& strncmp(backLine.c_str(), "01", 2) == 0)
+	if (strncmp(line, "021", 3) == 0
+		&& strncmp(backLine, "01", 2) == 0)
 	{
 		return (true);
 	}
-	else if (strncmp(line.c_str(), "01", 2) == 0
-		&& strncmp(backLine.c_str(), "021", 3) == 0)
+	else if (strncmp(line, "01", 2) == 0
+		&& strncmp(backLine, "021", 3) == 0)
 	{
 		return (true);
 	}
@@ -201,15 +205,15 @@ bool			GameRules::checkWhiteMovingIntoCapture(Board &board,
 
 bool			GameRules::IsBlackStoneCapturable(Board &board,
 						t_vec2 stone, t_dir dir,
-						std::string &line, std::string &backLine)
+						char *line, char *backLine)
 {
-	if (strncmp(line.c_str(), "112", 3) == 0
-		&& strncmp(backLine.c_str(), "10", 2) == 0)
+	if (strncmp(line, "112", 3) == 0
+		&& strncmp(backLine, "10", 2) == 0)
 	{
 		return (true);
 	}
-	else if (strncmp(line.c_str(), "110", 3) == 0
-		&& strncmp(backLine.c_str(), "12", 2) == 0)
+	else if (strncmp(line, "110", 3) == 0
+		&& strncmp(backLine, "12", 2) == 0)
 	{
 		return (true);
 	}
@@ -218,15 +222,15 @@ bool			GameRules::IsBlackStoneCapturable(Board &board,
 
 bool			GameRules::IsWhiteStoneCapturable(Board &board,
 						t_vec2 stone, t_dir dir,
-						std::string &line, std::string &backLine)
+						char *line, char *backLine)
 {
-	if (strncmp(line.c_str(), "221", 3) == 0
-		&& strncmp(backLine.c_str(), "20", 2) == 0)
+	if (strncmp(line, "221", 3) == 0
+		&& strncmp(backLine, "20", 2) == 0)
 	{
 		return (true);
 	}
-	else if (strncmp(line.c_str(), "220", 3) == 0
-		&& strncmp(backLine.c_str(), "21", 2) == 0)
+	else if (strncmp(line, "220", 3) == 0
+		&& strncmp(backLine, "21", 2) == 0)
 	{
 		return (true);
 	}

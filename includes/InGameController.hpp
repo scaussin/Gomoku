@@ -14,6 +14,8 @@ class InGameController
 
 		GameController		Game;
 
+		GameUI				UI;
+
 		// class variables
 		bool				ImagesLoaded;
 		bool				ImagesDisplayed;

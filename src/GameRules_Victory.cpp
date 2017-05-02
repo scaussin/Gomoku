@@ -11,7 +11,7 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 	int									x;
 	int									y;
 	t_vec2								curPoint;
-	std::string							line;
+	char								line[5];
 
 	std::vector<t_VictorySequence>		VictorySequences;
 
@@ -39,7 +39,7 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 				for (dir = 1; dir != 5; dir++)
 				{
 					// for each direction on the current point, we extract a string.
-					line = Tools::GetPointsLine(board, curPoint, (t_dir)dir, 5);
+					Tools::GetPatternPointsLine(line, board, curPoint, (t_dir)dir, 5, BLACK);
 					// check for all victory patterns and fill the VictorySequence vector.
 					checkVictoryPatterns(board, curPoint, (t_dir)dir, line, VictorySequences);
 				}
@@ -68,7 +68,7 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 
 void	GameRules::checkVictoryPatterns(Board &board,
 								t_vec2 curPoint, t_dir dir,
-								std::string &line,
+								char *line,
 								std::vector<t_VictorySequence> &victorySequences)
 {
 	t_VictorySequence		victoryLine;
@@ -77,7 +77,7 @@ void	GameRules::checkVictoryPatterns(Board &board,
 	int						mod_y;
 
 	Tools::SetMoveModifiers(mod_x, mod_y, dir);
-	if (strncmp(line.c_str(), "11111", 5) == 0)
+	if (strncmp(line, "11111", 5) == 0)
 	{
 		victoryLine.Color = BLACK;
 		// add the five stones in the struct victory sequence.
@@ -89,7 +89,7 @@ void	GameRules::checkVictoryPatterns(Board &board,
 		}
 		victorySequences.push_back(victoryLine);
 	}
-	if (strncmp(line.c_str(), "22222", 5) == 0)
+	if (strncmp(line, "22222", 5) == 0)
 	{
 		victoryLine.Color = WHITE;
 		for (int i = 0; i != 5; i++)
@@ -114,8 +114,8 @@ t_Color		GameRules::areVictorySequencesValid(Board &board,
 {
 	std::vector<t_VictorySequence>::iterator	curSequence;
 
-	std::string					line;
-	std::string					backLine;
+	static char					line[3];
+	static char					backLine[3];
 	int							dir;
 	t_vec2						curPoint;
 
@@ -143,8 +143,8 @@ t_Color		GameRules::areVictorySequencesValid(Board &board,
 			// for each direction on the current stone from the current sequence.
 			for (dir = 1; dir != 9; dir++)
 			{
-				line = Tools::GetPointsLine(board, curPoint, (t_dir)dir, 3);
-				backLine = Tools::GetPointsLine(board, curPoint, Tools::GetOppositeDir((t_dir)dir), 3);
+				Tools::GetPatternPointsLine(line, board, curPoint, (t_dir)dir, 3, BLACK);
+				Tools::GetPatternPointsLine(backLine, board, curPoint, Tools::GetOppositeDir((t_dir)dir), 3, BLACK);
 				//std::cout << "line = " << line << std::endl;
 				if ((*curSequence).Color == BLACK)
 				{
@@ -157,7 +157,7 @@ t_Color		GameRules::areVictorySequencesValid(Board &board,
 				}
 				else
 				{
-					if (IsWhiteStoneCapturable(board, curPoint, (t_dir)dir, line, backLine) == true)
+					if (IsBlackStoneCapturable(board, curPoint, (t_dir)dir, line, backLine) == true)
 					{
 						stoneCapturableFound = true;
 						std::cout << KMAG "- Capturable stone in WHITE sequence!" KRESET << std::endl;

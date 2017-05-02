@@ -157,6 +157,7 @@ typedef	struct		s_GameDatas
 // class forward declarations.
 
 class				GameImage;
+class				GameUI;
 class				GameText;
 class				SDLHandler;
 class				MainMenuController;
@@ -172,6 +173,7 @@ class				Tools;
 
 
 # include "GameImage.hpp"
+# include "GameUI.hpp"
 # include "GameText.hpp"
 # include "SDLHandler.hpp"
 # include "MainMenuController.hpp"

@@ -27,13 +27,21 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 	// initializing visuals
 	if (!ImagesLoaded)
 	{
+		// Load images into memory
 		LoadImages(SDLHandler);
+		UI.LoadUI(SDLHandler);
+
+		// place images on start;
 		PlaceImagesOnStart(SDLHandler);
+		UI.PlaceImagesOnStart(SDLHandler);
 		Goban.InitBoard(SDLHandler);
+
 		ImagesLoaded = true;
 	}
 	DisplayImages(SDLHandler);
 	Goban.PutDisplay(Game, SDLHandler);
+	UI.UpdateUI(Game, SDLHandler);
+	UI.DisplayUI(Game, SDLHandler);
 
 
 	
@@ -90,6 +98,7 @@ void	InGameController::DisplayImages(SDLHandler &SDLHandler)
 	GameModeCaseImg->PutImage(SDLHandler);
 	GameModeText->FadeIn();
 	GameModeText->PutText(SDLHandler);
+	
 }
 
 // ------------------------------------------------------------	//

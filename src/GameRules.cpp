@@ -17,7 +17,7 @@ bool	GameRules::isMoveAuthorized(Board &board, t_Color color, t_vec2 move)
 	if (board.map[move.y][move.x] == NONE || board.map[move.y][move.x] == SUGGESTION)
 	{
 		if (checkForbiddenPatterns(board, color, move) == true
-			&& checkCaptures(board, color, move) == false)
+			&& checkCaptures(board, color, move) == false) // a capture can create a double free three.
 		{
 			return (false);
 		}
@@ -32,8 +32,8 @@ bool	GameRules::checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move)
 {
 	int				dir;
 	int				nb_free_3;
-	std::string		line;
-	std::string		backLine;
+	static char		line[5];
+	static char		backLine[5];
 
 	dir = 1;
 	nb_free_3 = 0;
@@ -41,31 +41,11 @@ bool	GameRules::checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move)
 	while (dir != 9)
 	{
 		// for each direction, we extract a string.
-		line = Tools::GetPointsLine(board, move, (t_dir)dir, 5);
-		backLine = Tools::GetPointsLine(board, move, Tools::GetOppositeDir((t_dir)dir), 5);
+		Tools::GetPatternPointsLine(line, board, move, (t_dir)dir, 5, color);
+		Tools::GetPatternPointsLine(backLine, board, move, Tools::GetOppositeDir((t_dir)dir), 5, color);
 		// patterns are different for each color.
-		if (color == BLACK)
-		{
-			// If uncommented, cannot move into capture.
-			// if (checkBlackMovingIntoCapture(board, move, (t_dir)dir, line, backLine) == true)
-			// {
-			// 	std::cout << KMAG "Black tried to move into capture" KRESET << std::endl;
-			// 	return (true);
-			// }
-			nb_free_3 += checkDoubleThreeBlackPatterns(board,
-							move, (t_dir)dir, line, backLine);
-		}
-		else
-		{
-			// If uncommented, cannot move into capture.
-			// if (checkWhiteMovingIntoCapture(board, move, (t_dir)dir, line, backLine) == true)
-			// {
-			// 	std::cout << KMAG "White tried to move into capture" KRESET << std::endl;
-			// 	return (true);
-			// }
-			nb_free_3 += checkDoubleThreeWhitePatterns(board,
-							move, (t_dir)dir, line, backLine);
-		}
+		nb_free_3 += checkDoubleThreePatterns(board,
+						move, (t_dir)dir, line, backLine);
 		dir++;
 	}
 	// std::cout << "Created " << KYEL << nb_free_3 << KRESET << " free three(s) with this move." << std::endl;

@@ -35,7 +35,8 @@ int			Tools::Clamp(int n, int lower, int upper)
 **	and 2 being WHITE.
 */
 
-std::string		Tools::GetPointsLine(Board &board, t_vec2 point, t_dir dir, int nb_points)
+std::string		Tools::GetPointsLine(Board &board, t_vec2 point,
+					t_dir dir, int nb_points)
 {
 	int				mod_x;
 	int				mod_y;
@@ -60,6 +61,46 @@ std::string		Tools::GetPointsLine(Board &board, t_vec2 point, t_dir dir, int nb_
 		}
 	}
 	return (ret);
+}
+
+void		Tools::GetPatternPointsLine(char *line, Board &board, t_vec2 point,
+				t_dir dir, int nb_points, t_Color color)
+{
+	int				mod_x;
+	int				mod_y;
+	int				x_watch;
+	int				y_watch;
+
+
+	// we set the modifiers to move on our line.
+	SetMoveModifiers(mod_x, mod_y, dir);
+	// we look into the asked number of point to make our line
+	for (int i = 0; i != nb_points; i++)
+	{
+		y_watch = point.y + mod_y * i;
+		x_watch = point.x + mod_x * i;
+		// we dont want to look out of the board.
+		if (y_watch >= 0 && y_watch < 19
+			&& x_watch >= 0 && x_watch < 19)
+		{
+			if (board.map[y_watch][x_watch] == 1) // black
+			{
+				if (color == BLACK)
+					line[i] = '1';
+				else
+					line[i] = '2';
+			}
+			else if (board.map[y_watch][x_watch] == 2) // white
+			{
+				if (color == BLACK)
+					line[i] = '2';
+				else
+					line[i] = '1';
+			}
+			else 
+				line[i] = '0';
+		}
+	}
 }
 
 t_Color		Tools::GetNextPoint(Board &board, t_vec2 point, t_dir dir)

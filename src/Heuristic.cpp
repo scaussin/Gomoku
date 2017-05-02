@@ -18,8 +18,8 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 	int			y;
 	t_vec2		curPoint;
 
-	std::string	line;
-	std::string	backLine;
+	static char line[7];
+	static char backLine[7];
 
 	// Here, we will run through each point, and for each point, we will
 	// look into every direction.
@@ -33,8 +33,8 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 			for (dir = 1; dir != 5; dir++)
 			{
 				// from the curPoint, we get the 7 values on the line, and the 7 values on the behind.
-				line = Tools::GetPointsLine(board, curPoint, (t_dir)dir, 7);
-				backLine = Tools::GetPointsLine(board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7);
+				Tools::GetPatternPointsLine(&(line[0]), board, curPoint, (t_dir)dir, 7, playerColor);
+				Tools::GetPatternPointsLine(&(line[0]), board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7, playerColor);
 				// Here we add our different heuristic search patterns to the board's value.
 
 				boardValue += victorySearchPatterns(board,

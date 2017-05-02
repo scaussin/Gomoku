@@ -16,6 +16,7 @@ SRC =  ./src/MainController.cpp \
 ./src/GameController.cpp \
 ./src/GobanController.cpp \
 ./src/GameRules.cpp \
+./src/GameUI.cpp \
 ./src/GameRules_FreeThrees.cpp \
 ./src/GameRules_Captures.cpp \
 ./src/GameRules_Victory.cpp \

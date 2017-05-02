@@ -36,6 +36,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			UpdatePointValue(GameDatas, GameDatas.ActivePlayer, move);
 			Goban.SetPointDisplay(move.x, move.y, GameDatas.ActivePlayer, SDLHandler);
 			GameRules::doCaptures(GameDatas.Board, GameDatas.ActivePlayer, move);
+
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 			// std::cout << KYEL "Evaluating current board" KRESET << std::endl
 			// 	<< "Important patterns found during evaluation: " << std::endl;
@@ -60,16 +61,16 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			IaMove = IA.decideMove(GameDatas);
 			// End timer.
 			//GameRules.isMoveAuthorized(IaMove);
-			GameDatas.Board.setPoint(IaMove, WHITE);
-			GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
+			GameDatas.Board.setPoint(IaMove, SUGGESTION);
+			//GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}
 		else if (GameDatas.SelectedGameMode == VS_P2)
 		{
-			t_vec2	IaMoveSuggestion;
+			// t_vec2	IaMoveSuggestion;
 
-			IaMoveSuggestion = IA.decideMove(GameDatas);
-			Goban.SetPointDisplay(IaMoveSuggestion.x, IaMoveSuggestion.y, SUGGESTION, SDLHandler);
+			// IaMoveSuggestion = IA.decideMove(GameDatas);
+			// Goban.SetPointDisplay(IaMoveSuggestion.x, IaMoveSuggestion.y, SUGGESTION, SDLHandler);
 			//GameDatas.ActivePlayer = WHITE;
 		}
 		GameRules::CheckVictory(GameDatas);
