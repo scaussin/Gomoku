@@ -1,36 +1,28 @@
 #include "../includes/Gomoku.hpp"
 
 int		Heuristic::victorySearchPatterns(Board &board,
-	t_vec2 point, t_Color playerColor, t_dir dir,
-	char *line, char *backLine)
+									t_vec2 point, t_Color playerColor, t_dir dir,
+									char *line, char *backLine)
 {
-	int				ret = 0;
-
-	ret += victorySearchPatternsCmp(board, point, dir, line, backLine);
-	return (ret);
-}
-
-int		Heuristic::victorySearchPatternsCmp(Board &board,
-	t_vec2 point, t_dir dir, char *line, char *backLine)
-{
-	int				ret = 0;
+	int						ret = 0;
 
 	// search capture forms variables.
-	t_vec2			curPoint;
-	int				inner_dir;
-	int				mod_x;
-	int				mod_y;
-	static char		inner_line[3];
-	static char		inner_backline[3];
+	static t_vec2			curPoint;
+	static int				inner_dir;
+	static int				mod_x;
+	static int				mod_y;
+	static int				i;
+	static char				inner_line[3];
+	static char				inner_backline[3];
 
 	if (strncmp(line, "11111", 5) == 0)
 	{
 		Tools::SetMoveModifiers(mod_x, mod_y, (t_dir)dir);
-		for (int i = 0; i < 5; i++)
+		for (i = 0; i < 5; ++i)
 		{
 			curPoint.x = point.x + mod_x * i;
 			curPoint.y = point.y + mod_y * i;
-			for (inner_dir = 1; inner_dir != 5; inner_dir++)
+			for (inner_dir = 1; inner_dir != 5; ++inner_dir)
 			{
 				Tools::GetPatternPointsLine(inner_line, board, curPoint, (t_dir)inner_dir, 3, BLACK);
 				Tools::GetPatternPointsLine(inner_backline, board, curPoint, Tools::GetOppositeDir((t_dir)inner_dir), 3, BLACK);
@@ -48,7 +40,6 @@ int		Heuristic::victorySearchPatternsCmp(Board &board,
 	}
 	return (ret);
 }
-
 
 bool	Heuristic::isBlackStoneCapturable(Board &board,
 						t_vec2 stone, t_dir dir,

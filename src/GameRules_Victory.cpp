@@ -19,11 +19,11 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 
 	Board &board = GameDatas.Board;
 
-	if (GameDatas.BlackCaptures == 10)
+	if (GameDatas.BlackCaptures >= 10)
 	{
 		std::cout << KGRN "BLACK WINS BY CAPTURE" KRESET << std::endl;
 	}
-	else if (GameDatas.WhiteCaptures == 10)
+	else if (GameDatas.WhiteCaptures >= 10)
 	{
 		std::cout << KGRN "WHITE WINS BY CAPTURE" KRESET << std::endl;
 	}
@@ -116,13 +116,13 @@ t_Color		GameRules::areVictorySequencesValid(Board &board,
 
 	static char					line[3];
 	static char					backLine[3];
-	int							dir;
-	t_vec2						curPoint;
+	static int					dir;
+	static t_vec2				curPoint;
 
 	int							blackValidLines = 0;
 	int							whiteValidLines = 0;
 
-	bool						stoneCapturableFound;
+	static bool					stoneCapturableFound;
 
 	// for each victory sequence.
 	for (curSequence = victorySequences.begin();

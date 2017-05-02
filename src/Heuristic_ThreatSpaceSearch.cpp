@@ -5,21 +5,12 @@ int		Heuristic::threatSpaceSearchPatterns(Board &board,
 {
 	int				ret = 0;
 
-	ret += threatSpaceSearchPatternsCmp(board, point, dir, line, backLine);
-	return (ret);
-}
-
-int		Heuristic::threatSpaceSearchPatternsCmp(Board &board,
-	t_vec2 point, t_dir dir, char *line, char *backLine)
-{
-	int				ret = 0;
-
 	if (strncmp(line, "211110", 6) == 0)
 	{
 		// std::cout << KMAG "- FOUR" KRESET << std::endl;
 		ret += FOUR;
 	}
-	if (strncmp(line, "011112", 6) == 0)
+	else if (strncmp(line, "011112", 6) == 0)
 	{
 		// std::cout << KMAG "- FOUR (REVERSED)" KRESET << std::endl;
 		ret += FOUR;

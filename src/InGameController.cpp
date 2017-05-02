@@ -40,7 +40,7 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 	}
 	DisplayImages(SDLHandler);
 	Goban.PutDisplay(Game, SDLHandler);
-	UI.UpdateUI(Game, SDLHandler);
+	UI.UpdateUIValues(Game, SDLHandler);
 	UI.DisplayUI(Game, SDLHandler);
 
 
@@ -59,7 +59,7 @@ void	InGameController::LoadImages(SDLHandler &SDLHandler)
 	InGameBgImg = new GameImage(SDLHandler, "./ressources/img/in_game/in_game_bg.bmp");
 	InGameTitleImg = new GameImage(SDLHandler, "./ressources/img/in_game/in_game_title.bmp");
 	GameModeCaseImg = new GameImage(SDLHandler, "./ressources/img/in_game/info_back.bmp");
-	GameModeText = new GameText(SDLHandler, "Playing game...", 1024);
+	GameModeText = new GameText(SDLHandler, "Playing game...", 64);
 }
 
 void	InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
@@ -79,7 +79,7 @@ void	InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	GameModeCaseImg->PutImage(SDLHandler);
 
 	GameModeText->SetTextPos(40, 130);
-	GameModeText->SetTextSize(300, 60);
+	GameModeText->SetTextSize(280, 60);
 	GameModeText->SetAlpha(255);
 	GameModeText->PutText(SDLHandler);
 }

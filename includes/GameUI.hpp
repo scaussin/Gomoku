@@ -9,14 +9,28 @@ class GameUI
 		GameUI();
 		~GameUI();
 
-		GameImage	*PlayerTurnCaseImg;
-		GameText	*PlayerTurnText;
+		GameImage			*PlayerTurnCaseImg;
+		GameText			*PlayerTurnText;
 
-		void 	LoadUI(SDLHandler &SDLHandler);
-		void	PlaceImagesOnStart(SDLHandler &SDLHandler);
-		
-		void	DisplayUI(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
-		void	UpdateUI(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
+		GameImage			*IATimerCaseImg;
+		GameText			*IATimerText;
+		GameText			*IATimerValueText;
+
+		GameImage			*BlackStoneImg;
+		GameImage			*BlackCapturesCaseImg;
+		GameText			*BlackCapturesText;
+		GameText			*BlackCapturesTextValue;
+
+		GameImage			*WhiteStoneImg;
+		GameImage			*WhiteCapturesCaseImg;
+		GameText			*WhiteCapturesText;
+		GameText			*WhiteCapturesTextValue;
+
+		void				LoadUI(SDLHandler &SDLHandler);
+		void				PlaceImagesOnStart(SDLHandler &SDLHandler);
+
+		void				DisplayUI(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
+		void				UpdateUIValues(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
 };
 
 #endif

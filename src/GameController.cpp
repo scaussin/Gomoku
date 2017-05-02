@@ -58,8 +58,15 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		{
 			t_vec2	IaMove;
 			// Start timer.
+			chrono_start = std::chrono::system_clock::now();
+
 			IaMove = IA.decideMove(GameDatas);
+
 			// End timer.
+			chrono_end = std::chrono::system_clock::now();
+			GameDatas.LastTurnIATime = std::chrono::duration_cast<std::chrono::milliseconds>
+                             (chrono_end-chrono_start).count();
+
 			//GameRules.isMoveAuthorized(IaMove);
 			GameDatas.Board.setPoint(IaMove, SUGGESTION);
 			//GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);

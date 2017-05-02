@@ -7,6 +7,7 @@ class GameText
 		GameText(SDLHandler &SDLHandler, std::string text, int size);
 		~GameText();
 
+		void			SetText(SDLHandler &SDLHandler, std::string text);
 		void			SetTextPos(int x, int y);
 		void			SetTextSize(int width, int height);
 		void			PutText(SDLHandler &SDLHandler);

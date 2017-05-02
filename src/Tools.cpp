@@ -38,10 +38,10 @@ int			Tools::Clamp(int n, int lower, int upper)
 std::string		Tools::GetPointsLine(Board &board, t_vec2 point,
 					t_dir dir, int nb_points)
 {
-	int				mod_x;
-	int				mod_y;
-	int				x_watch;
-	int				y_watch;
+	static int				mod_x;
+	static int				mod_y;
+	static int				x_watch;
+	static int				y_watch;
 
 	std::string		ret;
 
@@ -66,11 +66,10 @@ std::string		Tools::GetPointsLine(Board &board, t_vec2 point,
 void		Tools::GetPatternPointsLine(char *line, Board &board, t_vec2 point,
 				t_dir dir, int nb_points, t_Color color)
 {
-	int				mod_x;
-	int				mod_y;
-	int				x_watch;
-	int				y_watch;
-
+	static int				mod_x;
+	static int				mod_y;
+	static int				x_watch;
+	static int				y_watch;
 
 	// we set the modifiers to move on our line.
 	SetMoveModifiers(mod_x, mod_y, dir);

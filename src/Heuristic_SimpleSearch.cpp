@@ -5,15 +5,6 @@ int		Heuristic::simpleSearchPatterns(Board &board,
 {
 	int				ret = 0;
 
-	ret += simpleSearchPatternsCmp(board, point, dir, line, backLine);
-	return (ret);
-}
-
-int		Heuristic::simpleSearchPatternsCmp(Board &board,
-	t_vec2 point, t_dir dir, char *line, char *backLine)
-{
-	int				ret = 0;
-
 	if (dir < BOTTOM)
 	{
 		if (strncmp(line, "010", 3) == 0)

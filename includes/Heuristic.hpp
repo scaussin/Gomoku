@@ -13,9 +13,6 @@ class Heuristic
 		static int		victorySearchPatterns(Board &board,
 							t_vec2 point, t_Color playerColor, t_dir dir,
 							char *line, char *backLine);
-		static int		victorySearchPatternsCmp(Board &board,
-							t_vec2 point, t_dir dir,
-							char *line, char *backLine);
 		static bool		isBlackStoneCapturable(Board &board,
 							t_vec2 stone, t_dir dir,
 							char *line, char *backLine);
@@ -27,16 +24,15 @@ class Heuristic
 		static int		simpleSearchPatterns(Board &board,
 							t_vec2 point, t_Color playerColor, t_dir dir,
 							char *line, char *backLine);
-		static int		simpleSearchPatternsCmp(Board &board,
-							t_vec2 point, t_dir dir,
-							char *line, char *backLine);
 
 		// THREAT SPACE SEARCH: forms that are going toward victory.
 		static int		threatSpaceSearchPatterns(Board &board,
 							t_vec2 point, t_Color playerColor, t_dir dir,
 							char *line, char *backLine);
-		static int		threatSpaceSearchPatternsCmp(Board &board,
-							t_vec2 point, t_dir dir,
+
+		// CAPTURE SEARCH: forms that make captures. Am I in danger ? can I get a quick victory ?
+		static int		captureSearchPatterns(Board &board,
+							t_vec2 point, t_Color playerColor, t_dir dir,
 							char *line, char *backLine);
 };
 

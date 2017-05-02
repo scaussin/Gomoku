@@ -23,6 +23,7 @@
 # include <random>
 # include <algorithm>
 # include <math.h>
+#include <chrono>
 
 # include "../Frameworks/SDL2.framework/Headers/SDL.h"
 # include "../Frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
@@ -146,6 +147,7 @@ typedef	struct		s_GameDatas
 
 	t_Color			ActivePlayer;
 	int				TurnNumber;
+	int				LastTurnIATime;
 
 	int				BlackCaptures;
 	int				WhiteCaptures;

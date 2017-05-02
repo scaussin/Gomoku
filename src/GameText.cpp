@@ -20,7 +20,7 @@ GameText::GameText(SDLHandler &SDLHandler, std::string text, int size)
 		_fontColor.g = 0;
 		_fontColor.b = 0;
 		_fontColor.a = 255;
-		_textSurface = TTF_RenderText_Solid(_font, text.c_str(), _fontColor);
+		_textSurface = TTF_RenderText_Blended(_font, text.c_str(), _fontColor);
 		_textTexture = SDL_CreateTextureFromSurface(SDLHandler.renderer, _textSurface);
 	}
 }
@@ -57,6 +57,12 @@ GameText::~GameText()
 	if (_textSurface)
 		SDL_FreeSurface(_textSurface);
 	SDL_DestroyTexture(_textTexture);
+}
+
+void		GameText::SetText(SDLHandler &SDLHandler, std::string text)
+{
+	_textSurface = TTF_RenderText_Blended(_font, text.c_str(), _fontColor);
+	_textTexture = SDL_CreateTextureFromSurface(SDLHandler.renderer, _textSurface);
 }
 
 void		GameText::SetTextPos(int x, int y)

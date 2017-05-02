@@ -13,24 +13,24 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 	int		boardValue = 0;
 
 	// board run through variables.
-	int			dir;
-	int			x;
-	int			y;
-	t_vec2		curPoint;
+	static int			dir;
+	static int			x;
+	static int			y;
+	static t_vec2		curPoint;
 
 	static char line[7];
 	static char backLine[7];
 
 	// Here, we will run through each point, and for each point, we will
 	// look into every direction.
-	for (y = 0; y < 19; y++)
+	for (y = 0; y < 19; ++y)
 	{
-		for (x = 0; x < 19; x++)
+		for (x = 0; x < 19; ++x)
 		{
 			curPoint.x = x;
 			curPoint.y = y;
 			// we seek patterns on lines in every directions
-			for (dir = 1; dir != 5; dir++)
+			for (dir = 1; dir != 5; ++dir)
 			{
 				// from the curPoint, we get the 7 values on the line, and the 7 values on the behind.
 				Tools::GetPatternPointsLine(&(line[0]), board, curPoint, (t_dir)dir, 7, playerColor);
@@ -49,7 +49,9 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 								curPoint, playerColor, (t_dir)dir,
 								line, backLine);
 				
-				// TODO: capturable stones search patterns.
+				boardValue += threatSpaceSearchPatterns(board,
+								curPoint, playerColor, (t_dir)dir,
+								line, backLine);
 			}
 		}
 	}

@@ -30,8 +30,9 @@ bool	GameRules::isMoveAuthorized(Board &board, t_Color color, t_vec2 move)
 
 bool	GameRules::checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move)
 {
-	int				dir;
 	int				nb_free_3;
+
+	static int		dir;
 	static char		line[5];
 	static char		backLine[5];
 

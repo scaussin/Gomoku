@@ -12,6 +12,9 @@ class GameController
 		IA					IA;
 		GameRules			GameRules;
 
+		// time for the IA decision.
+		std::chrono::time_point<std::chrono::system_clock>	chrono_start;
+		std::chrono::time_point<std::chrono::system_clock>	chrono_end;
 
 		void	Play(t_GameDatas &GameDatas, GobanController &Goban, SDLHandler &SDLHandler, t_vec2 move);
 
