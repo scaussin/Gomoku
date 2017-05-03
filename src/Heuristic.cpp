@@ -49,7 +49,7 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 								curPoint, playerColor, (t_dir)dir,
 								line, backLine);
 				
-				boardValue += threatSpaceSearchPatterns(board,
+				boardValue += captureSearchPatterns(board,
 								curPoint, playerColor, (t_dir)dir,
 								line, backLine);
 			}

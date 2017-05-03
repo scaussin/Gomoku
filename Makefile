@@ -25,6 +25,7 @@ SRC =  ./src/MainController.cpp \
 ./src/Heuristic_ThreatSpaceSearch.cpp \
 ./src/Heuristic_SimpleSearch.cpp \
 ./src/Heuristic_VictorySearch.cpp \
+./src/Heuristic_CaptureSearch.cpp \
 ./src/BoardTools.cpp \
 ./src/Tools.cpp \
 ./src/main.cpp
