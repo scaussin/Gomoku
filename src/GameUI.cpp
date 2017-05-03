@@ -30,8 +30,13 @@ void		GameUI::LoadUI(SDLHandler &SDLHandler)
 	// White captures display
 	WhiteCapturesCaseImg = new GameImage(SDLHandler, "./ressources/img/in_game/info_back.bmp");
 	WhiteStoneImg = new GameImage(SDLHandler, "./ressources/img/in_game/go_stone_white.bmp");
-	WhiteCapturesText  = new GameText(SDLHandler, "White captures:", 124);
+	WhiteCapturesText = new GameText(SDLHandler, "White captures:", 124);
 	WhiteCapturesTextValue  = new GameText(SDLHandler, "0", 124);
+
+	// victory display
+	VictoryCaseImg = new GameImage(SDLHandler, "./ressources/img/in_game/info_back.bmp");
+	VictoryText = new GameText(SDLHandler, "Victory for XXXXX!", 124);
+	VictorySubText = new GameText(SDLHandler, "Press Enter to reset board", 124);
 }
 
 void		GameUI::PlaceImagesOnStart(SDLHandler &SDLHandler)
@@ -105,6 +110,21 @@ void		GameUI::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	WhiteCapturesTextValue->SetAlpha(0);
 	WhiteCapturesTextValue->PutText(SDLHandler);
 
+	// Victory display
+	VictoryCaseImg->SetImgPos(10, 600);
+	VictoryCaseImg->SetImgSize(406, 142);
+	VictoryCaseImg->SetAlpha(255);
+	VictoryCaseImg->PutImage(SDLHandler);
+
+	VictoryText->SetTextPos(30, 610);
+	VictoryText->SetTextSize(350, 60);
+	VictoryText->SetAlpha(255);
+	VictoryText->PutText(SDLHandler);
+
+	VictorySubText->SetTextPos(35, 665);
+	VictorySubText->SetTextSize(330, 45);
+	VictorySubText->SetAlpha(255);
+	VictorySubText->PutText(SDLHandler);
 }
 
 void		GameUI::UpdateUIValues(t_GameDatas &GameDatas, SDLHandler &SDLHandler)
@@ -162,4 +182,15 @@ void		GameUI::DisplayUI(t_GameDatas &GameDatas, SDLHandler &SDLHandler)
 	if (WhiteCapturesTextValue->GetAlpha() < 255)
 		WhiteCapturesTextValue->FadeIn();
 	WhiteCapturesTextValue->PutText(SDLHandler);
+
+	// Victory display
+	if (VictoryCaseImg->GetAlpha() < 255)
+		VictoryCaseImg->FadeIn();
+	VictoryCaseImg->PutImage(SDLHandler);
+	if (VictoryText->GetAlpha() < 255)
+		VictoryText->FadeIn();
+	VictoryText->PutText(SDLHandler);
+	if (VictorySubText->GetAlpha() < 255)
+		VictorySubText->FadeIn();
+	VictorySubText->PutText(SDLHandler);
 }

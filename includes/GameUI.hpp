@@ -26,6 +26,10 @@ class GameUI
 		GameText			*WhiteCapturesText;
 		GameText			*WhiteCapturesTextValue;
 
+		GameImage			*VictoryCaseImg;
+		GameText			*VictoryText;
+		GameText			*VictorySubText;
+
 		void				LoadUI(SDLHandler &SDLHandler);
 		void				PlaceImagesOnStart(SDLHandler &SDLHandler);
 

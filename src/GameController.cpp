@@ -38,8 +38,6 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			GameRules::doCaptures(GameDatas.Board, GameDatas.ActivePlayer, move);
 
 			Goban.UpdateBoard(GameDatas, SDLHandler);
-			// std::cout << KYEL "Evaluating current board" KRESET << std::endl
-			// 	<< "Important patterns found during evaluation: " << std::endl;
 			int boardVal = Heuristic::EvaluateBoard(GameDatas.Board, GameDatas.ActivePlayer);
 			std::cout << "Current board value: " << boardVal << std::endl;
 			GameDatas.TurnNumber += 1;
@@ -53,34 +51,27 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			else
 				std::cout << "WHITE" KRESET << std::endl;
 		}
-		// handle IA or player just after the user clicked on a stone.
+		// handle IA just after the user clicked on a stone.
+		t_vec2			IaMove;
+		// Start IA decision timer.
+		chrono_start = std::chrono::system_clock::now();
+
+		IaMove = IA.decideMove(GameDatas);
+		
+		// End timer.
+		chrono_end = std::chrono::system_clock::now();
+		GameDatas.LastTurnIATime = std::chrono::duration_cast<std::chrono::milliseconds>
+			(chrono_end-chrono_start).count();
 		if (GameDatas.SelectedGameMode == VS_IA)
 		{
-			t_vec2	IaMove;
-			// Start timer.
-			chrono_start = std::chrono::system_clock::now();
-
-			IaMove = IA.decideMove(GameDatas);
-
-			// End timer.
-			chrono_end = std::chrono::system_clock::now();
-			GameDatas.LastTurnIATime = std::chrono::duration_cast<std::chrono::milliseconds>
-                             (chrono_end-chrono_start).count();
-
 			//GameRules.isMoveAuthorized(IaMove);
-			
-			cout << endl << KYEL "WHITE" KRESET << " move in " << KYEL << IaMove.x << "x " << IaMove.y << "y" KRESET << endl;
 
 			GameDatas.Board.setPoint(IaMove, WHITE);
-			//GameRules::doCaptures(GameDatas.Board, WHITE, IaMove);
-			//GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
+			GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}
 		else if (GameDatas.SelectedGameMode == VS_P2)
 		{
-			// t_vec2	IaMoveSuggestion;
-
-			// IaMoveSuggestion = IA.decideMove(GameDatas);
 			// Goban.SetPointDisplay(IaMoveSuggestion.x, IaMoveSuggestion.y, SUGGESTION, SDLHandler);
 			//GameDatas.ActivePlayer = WHITE;
 		}

@@ -22,10 +22,12 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 	if (GameDatas.BlackCaptures >= 10)
 	{
 		std::cout << KGRN "BLACK WINS BY CAPTURE" KRESET << std::endl;
+		GameDatas.IsGameOver = true;
 	}
 	else if (GameDatas.WhiteCaptures >= 10)
 	{
 		std::cout << KGRN "WHITE WINS BY CAPTURE" KRESET << std::endl;
+		GameDatas.IsGameOver = true;
 	}
 	else
 	{
@@ -54,9 +56,15 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 			if (WinnerColor == NONE)
 				std::cout << KMAG "-> Victory sequence invalid, can be captured." KRESET << std::endl;
 			else if (WinnerColor == BLACK)
+			{
 				std::cout << KGRN "Victory for BLACK" KRESET << std::endl;
+				GameDatas.IsGameOver = true;
+			}
 			else
+			{
 				std::cout << KGRN "Victory for WHITE" KRESET << std::endl;
+				GameDatas.IsGameOver = true;
+			}
 		}
 	}
 }

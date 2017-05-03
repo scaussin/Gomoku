@@ -31,7 +31,9 @@ class GameImage
 
 		SDL_Rect		GetRect();
 		SDL_Texture		*GetTexture();
-		void			SetTexture(SDL_Texture *texture);
+		void			SetTexture(SDL_Texture *surface);
+		SDL_Surface		*GetSurface();
+		void			SetSurface(SDLHandler &SDLHandler, SDL_Surface *surface);
 
 		
 

@@ -61,6 +61,9 @@ GameText::~GameText()
 
 void		GameText::SetText(SDLHandler &SDLHandler, std::string text)
 {
+	if (_textSurface)
+		SDL_FreeSurface(_textSurface);
+	SDL_DestroyTexture(_textTexture);
 	_textSurface = TTF_RenderText_Blended(_font, text.c_str(), _fontColor);
 	_textTexture = SDL_CreateTextureFromSurface(SDLHandler.renderer, _textSurface);
 }

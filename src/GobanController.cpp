@@ -31,14 +31,10 @@ void	GobanController::InitBoard(SDLHandler &SDLHandler)
 void	GobanController::LoadImages(SDLHandler &SDLHandler)
 {
 	GobanImg = new GameImage(SDLHandler, "./ressources/img/in_game/goban.bmp");
-	BlackStoneImg = new GameImage(SDLHandler, "./ressources/img/in_game/go_stone_black.bmp");
-	WhiteStoneImg = new GameImage(SDLHandler, "./ressources/img/in_game/go_stone_white.bmp");
-	SuggestStoneImg = new GameImage(SDLHandler, "./ressources/img/in_game/go_stone_suggest.bmp");
-	NoStoneImg = new GameImage(SDLHandler, "./ressources/img/in_game/go_stone_none.bmp");
-	WhiteStoneTexture = WhiteStoneImg->GetTexture();
-	BlackStoneTexture = BlackStoneImg->GetTexture();
-	SuggestStoneTexture = SuggestStoneImg->GetTexture();
-	NoStoneTexture = NoStoneImg->GetTexture();
+	WhiteStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_white.bmp");
+	BlackStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_black.bmp");
+	SuggestStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_suggest.bmp");
+	NoStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_none.bmp");
 }
 
 void	GobanController::PlaceImagesOnStart(SDLHandler &SDLHandler)
@@ -155,12 +151,14 @@ void	GobanController::PutDisplay(t_GameDatas &Game, SDLHandler &SDLHandler)
 	int i;
 
 	(void)Game;
-	GobanImg->FadeIn();
+	if (GobanImg->GetAlpha() < 255)
+		GobanImg->FadeIn();
 	GobanImg->PutImage(SDLHandler);
 	i = 0;
 	while (i != _max_stones)
 	{
-		StonesImgList[i]->FadeIn();
+		if (StonesImgList[i]->GetAlpha() < 255)
+			StonesImgList[i]->FadeIn();
 		StonesImgList[i]->PutImage(SDLHandler);
 		i++;
 	}
@@ -187,19 +185,19 @@ void	GobanController::UpdateBoard(t_GameDatas &Game, SDLHandler &SDLHandler)
 
 void	GobanController::SetPointDisplay(int x, int y, t_Color color, SDLHandler &SDLHandler)
 {
-	SDL_Texture		*new_texture;
+	SDL_Surface		*new_surface;
 
 	if (color == NONE)
-		new_texture = NoStoneTexture;
+		new_surface = NoStoneSurface;
 	else if (color == BLACK)
-		new_texture = BlackStoneTexture;
+		new_surface = BlackStoneSurface;
 	else if (color == WHITE)
-		new_texture = WhiteStoneTexture;
+		new_surface = WhiteStoneSurface;
 	else if (color == SUGGESTION)
-		new_texture = SuggestStoneTexture;
+		new_surface = SuggestStoneSurface;
 	else
-		new_texture = NoStoneTexture;
+		new_surface = NoStoneSurface;
 	_index_tmp = y * 19 + x;
-	StonesImgList[_index_tmp]->SetTexture(new_texture);
+	StonesImgList[_index_tmp]->SetSurface(SDLHandler, new_surface);
 	StonesImgList[_index_tmp]->PutImage(SDLHandler);
 }
