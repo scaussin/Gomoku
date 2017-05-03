@@ -213,3 +213,14 @@ t_dir	Tools::GetOppositeDir(t_dir dir)
 	else
 		return (CURRENT);
 }
+
+std::string		Tools::printColor(t_Color color)
+{
+	if (color == BLACK)
+		return ("BLACK");
+	else if (color == WHITE)
+		return ("WHITE");
+	else if (color == SUGGESTION)
+		return ("SUGGESTION");
+	return ("NONE");
+}

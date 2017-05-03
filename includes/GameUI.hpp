@@ -35,6 +35,8 @@ class GameUI
 
 		void				DisplayUI(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
 		void				UpdateUIValues(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
+		void				DisplayVictoryCase(SDLHandler &SDLHandler, t_Color Winner);
+		void				HideVictoryCase(SDLHandler &SDLHandler);
 };
 
 #endif

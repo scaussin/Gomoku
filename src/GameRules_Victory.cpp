@@ -23,11 +23,13 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 	{
 		std::cout << KGRN "BLACK WINS BY CAPTURE" KRESET << std::endl;
 		GameDatas.IsGameOver = true;
+		GameDatas.WinnerColor = BLACK;
 	}
 	else if (GameDatas.WhiteCaptures >= 10)
 	{
 		std::cout << KGRN "WHITE WINS BY CAPTURE" KRESET << std::endl;
 		GameDatas.IsGameOver = true;
+		GameDatas.WinnerColor = WHITE;
 	}
 	else
 	{
@@ -52,20 +54,26 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 		{
 			std::cout << KYEL "Victory pattern found:" KRESET << std::endl;
 			// for each line of 5, check if it's win, or capturable.
-			WinnerColor = areVictorySequencesValid(board, VictorySequences);
+			WinnerColor = areVictorySequencesValid(GameDatas, board, VictorySequences);
 			if (WinnerColor == NONE)
 				std::cout << KMAG "-> Victory sequence invalid, can be captured." KRESET << std::endl;
 			else if (WinnerColor == BLACK)
 			{
 				std::cout << KGRN "Victory for BLACK" KRESET << std::endl;
 				GameDatas.IsGameOver = true;
+				GameDatas.WinnerColor = BLACK;
 			}
 			else
 			{
 				std::cout << KGRN "Victory for WHITE" KRESET << std::endl;
 				GameDatas.IsGameOver = true;
+				GameDatas.WinnerColor = WHITE;
 			}
+			return ;
 		}
+		// no victory sequence ongoing, no one is in check state.
+		GameDatas.BlackInCheck = false;
+		GameDatas.WhiteInCheck = false;
 	}
 }
 
@@ -79,10 +87,10 @@ void	GameRules::checkVictoryPatterns(Board &board,
 								char *line,
 								std::vector<t_VictorySequence> &victorySequences)
 {
-	t_VictorySequence		victoryLine;
-	t_vec2					pointToAdd;
-	int						mod_x;
-	int						mod_y;
+	t_VictorySequence				victoryLine;
+	t_vec2							pointToAdd;
+	static int						mod_x;
+	static int						mod_y;
 
 	Tools::SetMoveModifiers(mod_x, mod_y, dir);
 	if (strncmp(line, "11111", 5) == 0)
@@ -117,7 +125,7 @@ void	GameRules::checkVictoryPatterns(Board &board,
 **	color is valid, it's a win.
 */
 
-t_Color		GameRules::areVictorySequencesValid(Board &board,
+t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &board,
 				std::vector<t_VictorySequence> &victorySequences)
 {
 	std::vector<t_VictorySequence>::iterator	curSequence;
@@ -130,7 +138,8 @@ t_Color		GameRules::areVictorySequencesValid(Board &board,
 	int							blackValidLines = 0;
 	int							whiteValidLines = 0;
 
-	static bool					stoneCapturableFound;
+	static bool					blackStoneCapturableFound;
+	static bool					whiteStoneCapturableFound;
 
 	// for each victory sequence.
 	for (curSequence = victorySequences.begin();
@@ -140,7 +149,8 @@ t_Color		GameRules::areVictorySequencesValid(Board &board,
 		// std::cout << KYEL "Victory line = " KRESET << "color "
 		// << (*curSequence).Color <<  std::endl;
 		// for each stone in current sequence.
-		stoneCapturableFound = false;
+		blackStoneCapturableFound = false;
+		whiteStoneCapturableFound = false;
 		for (std::vector<t_vec2>::iterator vec_it = (*curSequence).Stones.begin();
 				vec_it != (*curSequence).Stones.end();
 				vec_it++)
@@ -158,29 +168,40 @@ t_Color		GameRules::areVictorySequencesValid(Board &board,
 				{
 					if (IsBlackStoneCapturable(board, curPoint, (t_dir)dir, line, backLine) == true)
 					{
-						stoneCapturableFound = true;
+						blackStoneCapturableFound = true;
 						std::cout << KMAG "- Capturable stone in BLACK sequence!" KRESET << std::endl;
+						// check if White has missed the chance to capture this sequence.
+						if (GameDatas.WhiteInCheck == true)
+							return (BLACK); // this sequence is capturable but white did NOT capture it last turn -> black wins.
 						break ;
 					}
 				}
 				else
 				{
-					if (IsBlackStoneCapturable(board, curPoint, (t_dir)dir, line, backLine) == true)
+					if (IsWhiteStoneCapturable(board, curPoint, (t_dir)dir, line, backLine) == true)
 					{
-						stoneCapturableFound = true;
+						whiteStoneCapturableFound = true;
 						std::cout << KMAG "- Capturable stone in WHITE sequence!" KRESET << std::endl;
+						if (GameDatas.BlackInCheck == true)
+							return (WHITE); // this sequence is capturable but black did NOT capture it last turn -> white wins.
 						break ;
 					}
 				}
 			}
 		}
-		if (stoneCapturableFound == false) // -> valid line of 5.
+		if (blackStoneCapturableFound == false
+			&& whiteStoneCapturableFound == false) // -> valid line of 5.
 		{
 			if ((*curSequence).Color == BLACK)
 				blackValidLines += 1;
 			else
 				whiteValidLines += 1;
 		}
+		else if (blackStoneCapturableFound == true)
+			GameDatas.BlackInCheck = true;
+		else
+			GameDatas.WhiteInCheck = true;
+
 		// continue checking the other sequences,
 		// because it could be a draw.
 	}

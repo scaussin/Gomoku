@@ -10,6 +10,29 @@ GameController::~GameController()
 
 }
 
+void	GameController::ResetGame(t_GameDatas &GameDatas)
+{
+	GameDatas.TurnNumber = 0;
+	GameDatas.BlackCaptures = 0;
+	GameDatas.Board.BlackCaptures = 0;
+	GameDatas.WhiteCaptures = 0;
+	GameDatas.Board.WhiteCaptures = 0;
+	GameDatas.IsGameOver = false;
+	GameDatas.WinnerColor = NONE;
+
+	GameDatas.BlackInCheck = false;
+	GameDatas.WhiteInCheck = false;
+
+	// clean current board values.
+	for (int y = 0; y < 19; ++y)
+	{
+		for (int x = 0; x < 19; ++x)
+		{
+			GameDatas.Board.setPoint(y, x, NONE);
+		}
+	}
+}
+
 void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 							SDLHandler &SDLHandler, t_vec2 move)
 {
@@ -57,7 +80,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		chrono_start = std::chrono::system_clock::now();
 
 		IaMove = IA.decideMove(GameDatas);
-		
+
 		// End timer.
 		chrono_end = std::chrono::system_clock::now();
 		GameDatas.LastTurnIATime = std::chrono::duration_cast<std::chrono::milliseconds>

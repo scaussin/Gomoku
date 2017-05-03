@@ -16,6 +16,7 @@ class Tools
 		static void				printError(string file, int line, string sfunction, string msg);
 		static void				GetPatternPointsLine(char *line, Board &board, t_vec2 point,
 									t_dir dir, int nb_points, t_Color color);
+		static std::string		printColor(t_Color color);
 };
 
 #endif

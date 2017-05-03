@@ -46,7 +46,8 @@ class GameRules
 		static void			checkVictoryPatterns(Board &board,
 								t_vec2 curPoint, t_dir dir,
 								char *line, std::vector<t_VictorySequence> &victorySequences);
-		static t_Color		areVictorySequencesValid(Board &board,
+		static t_Color		areVictorySequencesValid(t_GameDatas &GameDatas,
+								Board &board,
 								std::vector<t_VictorySequence> &victorySequences);
 };
 

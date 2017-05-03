@@ -43,6 +43,8 @@ using namespace std;
 # define PERROR(msg) (Tools::printError(__FILE__, __LINE__, __func__, msg))
 
 
+# define DEBUG_MODE 1
+
 /*
 **	SDL engine defines
 */
@@ -153,9 +155,13 @@ typedef	struct		s_GameDatas
 	int				BlackCaptures;
 	int				WhiteCaptures;
 
+	bool			WhiteInCheck;
+	bool			BlackInCheck;
+
 	int				IA_Depth;
 
 	bool			IsGameOver;
+	t_Color			WinnerColor;
 }					t_GameDatas;
 
 
