@@ -25,15 +25,18 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	decidedMove.y = 0;
 
 	int heuristic = alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, WHITE, WHITE);
-	cout << "child: " << BoardTools::countChild(&gameDatas.Board) <<" | heuristic: " << heuristic << endl;
+	cout << "child: " << BoardTools::countChild(&gameDatas.Board) << " | heuristic to find: " << heuristic << endl << endl;
 	for (auto it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
 	{
+		cout << "board heuristic: " << (*it)->heuristic << endl;
+		BoardTools::DisplayBoardChars(**it);
 		if ((*it)->heuristic == heuristic)
 			decidedMove = (*it)->lastMove;
 		delete *it;
 	}
 	gameDatas.Board.next.clear();
-	cout << "child: " << BoardTools::countChild(&gameDatas.Board) << endl;
+
+	//cout << "child: " << BoardTools::countChild(&gameDatas.Board) << endl;
 	//PERROR("move not found in child");
 	return (decidedMove);
 }
@@ -44,7 +47,12 @@ int		IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player, 
 	int best;
 
 	if (deep == 0 || board->isVictory)
-		return (board->heuristic);
+	{
+		std::cout << "un petit intitulé ∑"<<board->heuristic << std::endl;
+		if (player == decideMoveFor)
+			return (board->heuristic);
+		return (-board->heuristic);
+	}
 	else
 	{
 		best = ALPHA;
@@ -52,8 +60,10 @@ int		IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player, 
 		for (auto it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
 			val = -alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
+			std::cout << "val" <<val << std::endl;
 			if (val > best)
 			{
+				
 				best = val;
 				if (best > alpha)
 				{

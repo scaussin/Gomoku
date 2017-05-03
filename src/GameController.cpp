@@ -68,7 +68,11 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
                              (chrono_end-chrono_start).count();
 
 			//GameRules.isMoveAuthorized(IaMove);
-			GameDatas.Board.setPoint(IaMove, SUGGESTION);
+			
+			cout << endl << KYEL "WHITE" KRESET << " move in " << KYEL << IaMove.x << "x " << IaMove.y << "y" KRESET << endl;
+
+			GameDatas.Board.setPoint(IaMove, WHITE);
+			//GameRules::doCaptures(GameDatas.Board, WHITE, IaMove);
 			//GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}
