@@ -88,7 +88,8 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		if (GameDatas.SelectedGameMode == VS_IA)
 		{
 			//GameRules.isMoveAuthorized(IaMove);
-			GameDatas.Board.setPoint(IaMove, SUGGESTION);
+
+			GameDatas.Board.setPoint(IaMove, WHITE);
 			GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
 			Goban.UpdateBoard(GameDatas, SDLHandler);
 		}
