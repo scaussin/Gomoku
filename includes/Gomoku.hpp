@@ -81,7 +81,8 @@ typedef enum		e_Color
 	NONE,
 	BLACK,
 	WHITE,
-	SUGGESTION
+	SUGGESTION,
+	WINNING
 }					t_Color;
 
 typedef struct		s_vec2
@@ -153,6 +154,8 @@ typedef	struct		s_GameDatas
 	int				WhiteCaptures;
 
 	int				IA_Depth;
+
+	bool			IsGameOver;
 }					t_GameDatas;
 
 

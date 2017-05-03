@@ -117,3 +117,15 @@ void	GameImage::SetTexture(SDL_Texture *texture)
 {
 	this->_imgTexture = texture;
 }
+
+SDL_Surface	*GameImage::GetSurface()
+{
+	return (this->_imgSurface);
+}
+
+void	GameImage::SetSurface(SDLHandler &SDLHandler, SDL_Surface *surface)
+{
+	this->_imgSurface = surface;
+	SDL_DestroyTexture(_imgTexture);
+	this->_imgTexture = SDL_CreateTextureFromSurface(SDLHandler.renderer, _imgSurface);
+}

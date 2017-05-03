@@ -35,16 +35,11 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 		PlaceImagesOnStart(SDLHandler);
 		UI.PlaceImagesOnStart(SDLHandler);
 		Goban.InitBoard(SDLHandler);
-
 		ImagesLoaded = true;
 	}
 	DisplayImages(SDLHandler);
 	Goban.PutDisplay(Game, SDLHandler);
-	UI.UpdateUIValues(Game, SDLHandler);
 	UI.DisplayUI(Game, SDLHandler);
-
-
-	
 }
 
 // ------------------------------------------------------------	//
@@ -59,6 +54,7 @@ void	InGameController::LoadImages(SDLHandler &SDLHandler)
 	InGameBgImg = new GameImage(SDLHandler, "./ressources/img/in_game/in_game_bg.bmp");
 	InGameTitleImg = new GameImage(SDLHandler, "./ressources/img/in_game/in_game_title.bmp");
 	GameModeCaseImg = new GameImage(SDLHandler, "./ressources/img/in_game/info_back.bmp");
+	// TODO: set game mode text according to game mode.
 	GameModeText = new GameText(SDLHandler, "Playing game...", 64);
 }
 
@@ -85,20 +81,23 @@ void	InGameController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 }
 
 /*
-**	This method will display the images at each loop turn.
+**	This method will display the in game scene images at each loop turn.
 */
 
 void	InGameController::DisplayImages(SDLHandler &SDLHandler)
 {
-	InGameBgImg->FadeIn();
+	if (InGameBgImg->GetAlpha() < 255)
+		InGameBgImg->FadeIn();
 	InGameBgImg->PutImage(SDLHandler);
-	InGameTitleImg->FadeIn();
+	if (InGameTitleImg->GetAlpha() < 255)
+		InGameTitleImg->FadeIn();
 	InGameTitleImg->PutImage(SDLHandler);
-	GameModeCaseImg->FadeIn();
+	if (GameModeCaseImg->GetAlpha() < 255)
+		GameModeCaseImg->FadeIn();
 	GameModeCaseImg->PutImage(SDLHandler);
-	GameModeText->FadeIn();
+	if (GameModeText->GetAlpha() < 255)
+		GameModeText->FadeIn();
 	GameModeText->PutText(SDLHandler);
-	
 }
 
 // ------------------------------------------------------------	//
@@ -119,6 +118,7 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			// user clicked on a valid point of the board.
 			GameDatas.ActivePlayer = BLACK;
 			Game.Play(GameDatas, Goban, SDLHandler, move);
+			UI.UpdateUIValues(GameDatas, SDLHandler);
 		}
 		// Temp debug : WHITE pose stone.
 		else if (Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 2)

@@ -14,14 +14,10 @@ class GobanController
 		GameImage					*GobanImg;
 		std::vector<GameImage *>	StonesImgList;
 
-		GameImage					*BlackStoneImg;
-		GameImage					*WhiteStoneImg;
-		GameImage					*SuggestStoneImg;
-		GameImage					*NoStoneImg;
-		SDL_Texture					*BlackStoneTexture;
-		SDL_Texture					*WhiteStoneTexture;
-		SDL_Texture					*SuggestStoneTexture;
-		SDL_Texture					*NoStoneTexture;
+		SDL_Surface					*BlackStoneSurface;
+		SDL_Surface					*WhiteStoneSurface;
+		SDL_Surface					*SuggestStoneSurface;
+		SDL_Surface					*NoStoneSurface;
 
 		// class init methods.
 		void			InitBoard(SDLHandler &SDLHandler);
