@@ -54,6 +54,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		int boardVal = Heuristic::EvaluateBoard(GameDatas.Board, GameDatas.ActivePlayer);
 		std::cout << "Current board value: " << boardVal << std::endl;
 		GameDatas.TurnNumber += 1;
+		Goban.UpdateBoard(GameDatas, SDLHandler);
 	}
 	else
 	{
@@ -80,7 +81,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	if (GameDatas.SelectedGameMode == VS_IA)
 	{
 		std::cout << std::endl << KBLU "------ " KYEL <<  " Move " << GameDatas.TurnNumber << KBLU " ------" KRESET << std::endl;
-		std::cout << std::endl << KYEL "IA - WHITE" KRESET << " tries to play move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
+		std::cout << std::endl << KYEL "IA - WHITE" KRESET << " plays move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
 		GameDatas.Board.setPoint(IaMove, WHITE);
 		GameRules::doCaptures(GameDatas.Board, WHITE, IaMove);
 		GameDatas.TurnNumber += 1;

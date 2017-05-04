@@ -10,38 +10,31 @@ int		Heuristic::threatSpaceSearchPatterns(Board &board,
 		// std::cout << KMAG "- FOUR" KRESET << std::endl;
 		ret += FOUR;
 	}
-	else if (strncmp(line, "011112", 6) == 0)
-	{
-		// std::cout << KMAG "- FOUR (REVERSED)" KRESET << std::endl;
-		ret += FOUR;
-	}
-	else if (strncmp(line, "011110", 6) == 0)
+	else if (strncmp(line, "11110", 5) == 0 && strncmp(backLine, "10", 2) == 0)
 	{
 		// std::cout << KMAG "- STRAIGHT FOUR" KRESET << std::endl;
 		ret += STRAIGHT_FOUR;
 	}
-	else if (strncmp(line, "0011100", 7) == 0)
+	else if (strncmp(line, "1100", 4) == 0 && strncmp(backLine, "1100", 4) == 0)
 	{
 		// std::cout << KMAG "- THREE (2-2 opened)" KRESET << std::endl;
 		ret += THREE;
 	}
-	else if (strncmp(line, "0011102", 7) == 0
-		|| strncmp(line, "2011100", 7) == 0)
+	else if ((strncmp(line, "1102", 4) == 0 && strncmp(backLine, "1100", 4) == 0)
+		|| (strncmp(line, "1100", 4) == 0 && strncmp(backLine, "1102", 4) == 0))
 	{
 		// std::cout << KMAG "- THREE (1-2 opened)" KRESET << std::endl;
 		ret += THREE;
 	}
-	else if (strncmp(line, "010110", 6) == 0
-		&& strncmp(backLine, "010110", 6) != 0) // two facing broken threes are defendable.
+	else if (strncmp(line, "10110", 5) == 0 && strncmp(backLine, "100", 3) == 0) // two facing broken threes are defendable.
 	{
 		// std::cout << KMAG "- BROKEN THREE" KRESET << std::endl;
-		ret += THREE;
+		ret += BROKEN_THREE;
 	}
-	else if (strncmp(line, "011010", 6) == 0
-		&& strncmp(backLine, "011010", 6) != 0) // idem.
+	else if (strncmp(line, "11010", 5) == 0 && strncmp(backLine, "100", 3) == 0) // idem.
 	{
 		// std::cout << KMAG "- BROKEN THREE (REVERSED)" KRESET << std::endl;
-		ret += THREE;
+		ret += BROKEN_THREE;
 	}
 	return (ret);
 }

@@ -33,49 +33,56 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 			curPoint.x = x;
 			curPoint.y = y;
 			// we seek patterns on lines in every directions
-			for (dir = 1; dir != 5; ++dir)
+
+			if ((t_Color)board.getPoint(curPoint) != NONE && (t_Color)board.getPoint(curPoint) != SUGGESTION)
 			{
-				// from the curPoint, we get the 7 values on the line, and the 7 values on the behind.
-				Tools::GetPatternPointsLine(&(line[0]), board, curPoint, (t_dir)dir, 7, playerColor);
-				Tools::GetPatternPointsLine(&(line[0]), board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7, playerColor);
-				// Here we add our different heuristic search patterns to the board's value.
+				for (dir = 1; dir != 5; ++dir)
+				{
+					// from the curPoint, we get the 7 values on the line, and the 7 values on the behind.
+					Tools::GetPatternPointsLine(&(line[0]), board, curPoint, (t_dir)dir, 7, playerColor);
+					Tools::GetPatternPointsLine(&(backLine[0]), board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7, playerColor);
+					
 
-				boardValue += victorySearchPatterns(board,
-								curPoint, playerColor, (t_dir)dir,
-								line, backLine);
+					// Here we add our different heuristic search patterns to the board's value.
 
-				boardValue += simpleSearchPatterns(board,
-								curPoint, playerColor, (t_dir)dir,
-								line, backLine);
-				
-				boardValue += threatSpaceSearchPatterns(board,
-								curPoint, playerColor, (t_dir)dir,
-								line, backLine);
-				
-				boardValue += captureSearchPatterns(board,
-								curPoint, playerColor, (t_dir)dir,
-								line, backLine);
+					boardValue += victorySearchPatterns(board,
+									curPoint, playerColor, (t_dir)dir,
+									line, backLine);
 
-				// OPPOSITE SIDE
-				Tools::GetPatternPointsLine(&(line[0]), board, curPoint, (t_dir)dir, 7, enemy_color);
-				Tools::GetPatternPointsLine(&(line[0]), board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7, enemy_color);
-				// Here we add our different heuristic search patterns to the board's value.
+					boardValue += simpleSearchPatterns(board,
+									curPoint, playerColor, (t_dir)dir,
+									line, backLine);
+					
+					boardValue += threatSpaceSearchPatterns(board,
+									curPoint, playerColor, (t_dir)dir,
+									line, backLine);
+					
+					boardValue += captureSearchPatterns(board,
+									curPoint, playerColor, (t_dir)dir,
+									line, backLine);
 
-				boardValue -= victorySearchPatterns(board,
-								curPoint, enemy_color, (t_dir)dir,
-								line, backLine);
+					// OPPOSITE SIDE
+					Tools::GetPatternPointsLine(&(line[0]), board, curPoint, (t_dir)dir, 7, enemy_color);
+					Tools::GetPatternPointsLine(&(backLine[0]), board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7, enemy_color);
+					// Here we add our different heuristic search patterns to the board's value.
 
-				boardValue -= simpleSearchPatterns(board,
-								curPoint, enemy_color, (t_dir)dir,
-								line, backLine);
-				
-				boardValue -= threatSpaceSearchPatterns(board,
-								curPoint, enemy_color, (t_dir)dir,
-								line, backLine);
-				
-				boardValue -= captureSearchPatterns(board,
-								curPoint, enemy_color, (t_dir)dir,
-								line, backLine);
+					boardValue -= victorySearchPatterns(board,
+									curPoint, enemy_color, (t_dir)dir,
+									line, backLine);
+
+					boardValue -= simpleSearchPatterns(board,
+									curPoint, enemy_color, (t_dir)dir,
+									line, backLine);
+					
+					boardValue -= threatSpaceSearchPatterns(board,
+									curPoint, enemy_color, (t_dir)dir,
+									line, backLine);
+					
+					boardValue -= captureSearchPatterns(board,
+									curPoint, enemy_color, (t_dir)dir,
+									line, backLine);
+
+				}
 			}
 		}
 	}

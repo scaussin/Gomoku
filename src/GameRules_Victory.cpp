@@ -18,14 +18,14 @@ void	GameRules::CheckVictory(t_GameDatas &GameDatas)
 	t_Color								WinnerColor;
 
 	Board &board = GameDatas.Board;
-
-	if (GameDatas.BlackCaptures >= 10)
+	// Check Victory by capture.
+	if (board.BlackCaptures >= 10)
 	{
 		std::cout << KGRN "BLACK WINS BY CAPTURE" KRESET << std::endl;
 		GameDatas.IsGameOver = true;
 		GameDatas.WinnerColor = BLACK;
 	}
-	else if (GameDatas.WhiteCaptures >= 10)
+	else if (board.WhiteCaptures >= 10)
 	{
 		std::cout << KGRN "WHITE WINS BY CAPTURE" KRESET << std::endl;
 		GameDatas.IsGameOver = true;

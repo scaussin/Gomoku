@@ -7,24 +7,26 @@ int		Heuristic::simpleSearchPatterns(Board &board,
 
 	if (dir < BOTTOM)
 	{
-		if (strncmp(line, "010", 3) == 0)
+		if (strncmp(line, "10", 2) == 0
+			&& strncmp(backLine, "10", 2) == 0)
 		{
 			// std::cout << "- FREE ONE" << std::endl;
 			ret += FREE_ONE;
 		}
-		else if (strncmp(line, "210", 3) == 0
-			|| strncmp(line, "012", 3) == 0)
+		else if ((strncmp(line, "12", 2) == 0 && strncmp(backLine, "10", 2) == 0)
+			|| (strncmp(line, "10", 2) == 0 && strncmp(backLine, "12", 2) == 0))
 		{
 			// std::cout << "- ONE" << std::endl;
 			ret += ONE;
 		}
-		if (strncmp(line, "0110", 4) == 0)
+		if ((strncmp(line, "110", 3) == 0 && strncmp(backLine, "10", 2) == 0)
+			|| (strncmp(line, "10", 2) == 0 && strncmp(backLine, "110", 3) == 0))
 		{
 			// std::cout << "- STRAIGHT TWO" << std::endl;
 			ret += STRAIGHT_TWO;
 		}
 		else if (strncmp(line, "2110", 4) == 0
-			|| strncmp(line, "0112", 4) == 0)
+			|| strncmp(backLine, "2110", 4) == 0)
 		{
 			// std::cout << "- TWO" << std::endl;
 			ret += TWO;
