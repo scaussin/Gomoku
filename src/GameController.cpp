@@ -44,8 +44,8 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	std::cout << std::endl << KYEL << Tools::printColor(GameDatas.ActivePlayer) << KRESET << " tries to play move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
 	if (GameRules.isMoveAuthorized(GameDatas.Board, GameDatas.ActivePlayer, move))
 	{
-		std::cout << KMAG "UNAUTHORIZED move for "
-					<< Tools::printColor(GameDatas.ActivePlayer) << std::endl;
+		std::cout << KGRN "AUTHORIZED move for "
+					<< Tools::printColor(GameDatas.ActivePlayer) << KRESET << std::endl;
 
 		UpdatePointValue(GameDatas, GameDatas.ActivePlayer, move);
 		Goban.SetPointDisplay(move.x, move.y, GameDatas.ActivePlayer, SDLHandler);
@@ -58,7 +58,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	else
 	{
 		std::cout << KMAG "UNAUTHORIZED move for "
-					<< Tools::printColor(GameDatas.ActivePlayer) << std::endl;
+					<< Tools::printColor(GameDatas.ActivePlayer) << KRESET << std::endl;
 		return ;
 	}
 	// --------------------------------------------------------------------	//
@@ -82,7 +82,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		std::cout << std::endl << KBLU "------ " KYEL <<  " Move " << GameDatas.TurnNumber << KBLU " ------" KRESET << std::endl;
 		std::cout << std::endl << KYEL "IA - WHITE" KRESET << " tries to play move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
 		GameDatas.Board.setPoint(IaMove, WHITE);
-		GameRules::doCaptures(GameDatas.Board,GameDatas.ActivePlayer, IaMove);
+		GameRules::doCaptures(GameDatas.Board, WHITE, IaMove);
 		GameDatas.TurnNumber += 1;
 	}
 	else if (GameDatas.SelectedGameMode == VS_P2)

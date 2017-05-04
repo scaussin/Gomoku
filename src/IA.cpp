@@ -26,10 +26,10 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	decidedMove.y = 0;
 
 	finalMove = alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, WHITE, WHITE);
-	BoardTools::printParents(finalMove);
+	// BoardTools::printParents(finalMove);
 	decidedMove = BoardTools::getFistMove(finalMove);
 	//cout << "final move: " << BoardTools::countChild(&gameDatas.Board) << " | heuristic to find: " << heuristic << endl << endl;
-	for (auto it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
+	for (std::vector<Board *>::iterator it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
 	{
 		delete *it;
 	}
@@ -61,7 +61,7 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 		bestBoard->heuristic = ALPHA;
 
 		generatePossibleBoards(board, player, decideMoveFor);
-		for (auto it = board->next.begin() ; it != board->next.end() ; ++it)
+		for (std::vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
 			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
 			valBoard->heuristic = -valBoard->heuristic;
@@ -82,11 +82,13 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 
 void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMoveFor)
 {
-	t_vec2			move_tmp;
+	static t_vec2	move_tmp;
+	static int		x;
+	static int		y;
 
-	for (int y = 0; y < 19; y++)
+	for (y = 0; y < 19; y++)
 	{
-		for (int x = 0; x < 19; x++)
+		for (x = 0; x < 19; x++)
 		{
 			if (board->map[y][x] == WHITE || board->map[y][x] == BLACK)
 			{
@@ -122,8 +124,7 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 			{
 				newBoard = new Board(*curBoard, curBoard, nextMove, player);
 				GameRules::doCaptures(*newBoard, player, nextMove);
-				newBoard->heuristic = Heuristic::EvaluateBoard(*newBoard, decideMoveFor)
-					- Heuristic::EvaluateBoard(*newBoard, Tools::inverseColorPlayer(decideMoveFor));
+				newBoard->heuristic = Heuristic::EvaluateBoard(*newBoard, decideMoveFor);
 				// we only add it if it is not already in our list.
 				if (BoardTools::IsInList(*newBoard, possibleBoards) == false)
 				{

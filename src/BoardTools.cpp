@@ -73,10 +73,10 @@ void		BoardTools::DisplayBoardChars(Board &board)
 
 bool		BoardTools::IsIdentical(const Board &board_a, const Board &board_b)
 {
-	int			x = 0;
-	int			y = 18;
+	static int			x;
+	static int			y;
 
-	for (; y != -1; y--)
+	for (y = 18; y != -1; y--)
 	{
 		for(x = 0; x < 19; x++)
 		{
@@ -91,12 +91,13 @@ bool		BoardTools::IsIdentical(const Board &board_a, const Board &board_b)
 **	Is that board in that list of board?
 */
 
-bool	BoardTools::IsInList(const Board &board, std::vector<Board*> &boardList)
+bool		BoardTools::IsInList(const Board &board, std::vector<Board*> &boardList)
 {
-	int i = 0;
-	int size;
+	static int i = 0;
+	static int size;
 
 	size = boardList.size();
+	i = 0;
 	while (i != size)
 	{
 		if (IsIdentical(board, *boardList[i]))
@@ -108,9 +109,10 @@ bool	BoardTools::IsInList(const Board &board, std::vector<Board*> &boardList)
 
 int		BoardTools::countChild(Board *board)
 {
-	int i = 0;
+	static int i;
 
-	for (auto it = board->next.begin() ; it != board->next.end() ; ++it)
+	i = 0;
+	for (std::vector<Board *>::iterator it = board->next.begin(); it != board->next.end() ; ++it)
 	{
 		i += BoardTools::countChild(*it);
 	}
