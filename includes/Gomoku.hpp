@@ -23,6 +23,8 @@
 # include <random>
 # include <algorithm>
 # include <math.h>
+# include <thread>
+
 #include <chrono>
 
 # include "../Frameworks/SDL2.framework/Headers/SDL.h"
@@ -127,8 +129,8 @@ typedef struct		s_VictorySequence
 */
 
 // victory search values
-# define VICTORY 100
-# define VICTORY_CAPTURABLE 50
+# define SURE_VICTORY 200
+# define VICTORY_CAPTURABLE 100
 
 // simple search values
 # define FREE_ONE 2
@@ -140,8 +142,8 @@ typedef struct		s_VictorySequence
 
 # define THREE 12
 # define BROKEN_THREE 16
-# define FOUR 20
-# define STRAIGHT_FOUR 30
+# define FOUR 60
+# define STRAIGHT_FOUR 80
 
 // capture search defines
 

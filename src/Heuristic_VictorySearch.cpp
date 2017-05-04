@@ -24,8 +24,8 @@ int		Heuristic::victorySearchPatterns(Board &board,
 			curPoint.y = point.y + mod_y * i;
 			for (inner_dir = 1; inner_dir != 5; ++inner_dir)
 			{
-				Tools::GetPatternPointsLine(inner_line, board, curPoint, (t_dir)inner_dir, 3, BLACK);
-				Tools::GetPatternPointsLine(inner_backline, board, curPoint, Tools::GetOppositeDir((t_dir)inner_dir), 3, BLACK);
+				Tools::GetPatternPointsLine(inner_line, board, curPoint, (t_dir)inner_dir, 3, playerColor);
+				Tools::GetPatternPointsLine(inner_backline, board, curPoint, Tools::GetOppositeDir((t_dir)inner_dir), 3, playerColor);
 				if (isBlackStoneCapturable(board, curPoint, (t_dir)inner_dir, inner_line, inner_backline) == true)
 				{
 					// std::cout << KGRN "- VICTORY CAPTURABLE BLACK FORM" KRESET << std::endl;
@@ -35,7 +35,7 @@ int		Heuristic::victorySearchPatterns(Board &board,
 			}
 		}
 		// std::cout << KGRN "- VICTORY BLACK FORM" KRESET << std::endl;
-		ret += VICTORY;
+		ret += SURE_VICTORY;
 		board.isVictory = true;
 	}
 	return (ret);

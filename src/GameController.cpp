@@ -62,6 +62,9 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 					<< Tools::printColor(GameDatas.ActivePlayer) << KRESET << std::endl;
 		return ;
 	}
+	GameRules::CheckVictory(GameDatas);
+	if (GameDatas.IsGameOver)
+		return ;
 	// --------------------------------------------------------------------	//
 	//	Response side -> IA or player2										//
 	//																		//
@@ -91,8 +94,9 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		Goban.SetPointDisplay(IaMove.x, IaMove.y, SUGGESTION, SDLHandler);
 		GameDatas.ActivePlayer = WHITE;
 	}
-	GameRules::CheckVictory(GameDatas);
+	
 	Goban.UpdateBoard(GameDatas, SDLHandler);
+	GameRules::CheckVictory(GameDatas);
 }
 
 /*
