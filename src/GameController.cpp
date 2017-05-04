@@ -1,5 +1,17 @@
 #include "../includes/Gomoku.hpp"
 
+extern double time_decideMove;
+extern double time_AlphaBeta;
+extern double time_generateBoardsFromPoint;
+extern double time_generatePossibleBoards;
+
+extern double time_IsPointIn;
+extern double time_isMoveAuthorized;
+extern double time_newBoard;
+extern double time_doCaptures;
+extern double time_EvaluateBoard;
+
+
 GameController::GameController()
 {
 
@@ -71,6 +83,26 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	chrono_start = std::chrono::system_clock::now();
 
 	IaMove = IA.decideMove(GameDatas); // the selected move is AUTHORIZED && CAPTURE APPLIED.
+	cout << "time_decideMove: " << time_decideMove << endl;
+	cout << "time_AlphaBeta: " << time_AlphaBeta << endl;
+	cout << "time_generatePossibleBoards: " << time_generatePossibleBoards << endl;
+	cout << "time_generateBoardsFromPoint: " << time_generateBoardsFromPoint << endl;
+	time_decideMove = 0;
+	time_AlphaBeta = 0;
+	time_generateBoardsFromPoint = 0;
+	time_generatePossibleBoards = 0;
+
+	cout << endl << "time_IsPointIn: " << time_IsPointIn << endl;
+	cout << "time_isMoveAuthorized: " << time_isMoveAuthorized << endl;
+	cout << "time_newBoard: " << time_newBoard << endl;
+	cout << "time_doCaptures: " << time_doCaptures << endl;
+	cout << "time_EvaluateBoard: " << time_EvaluateBoard << endl;
+
+	time_IsPointIn = 0;
+	time_isMoveAuthorized = 0;
+	time_newBoard = 0;
+	time_doCaptures = 0;
+
 
 	// End timer.
 	chrono_end = std::chrono::system_clock::now();

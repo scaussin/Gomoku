@@ -23,7 +23,8 @@
 # include <random>
 # include <algorithm>
 # include <math.h>
-#include <chrono>
+# include <chrono>
+# include <ctime>
 
 # include "../Frameworks/SDL2.framework/Headers/SDL.h"
 # include "../Frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
@@ -61,6 +62,7 @@ using namespace std;
 # define IA_DEEP 3
 # define ALPHA -10000
 # define BETA 10000
+
 
 /*
 **	print debug defines
