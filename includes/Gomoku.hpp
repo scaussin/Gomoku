@@ -111,6 +111,7 @@ typedef struct		s_VictorySequence
 {
 	t_Color					Color;
 	std::vector<t_vec2> 	Stones;
+	std::vector<t_vec2>		CapturePoints;
 }					t_VictorySequence;
 
 /*

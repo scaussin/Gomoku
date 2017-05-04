@@ -29,7 +29,7 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	for (auto it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
 	{
 		cout << "board heuristic: " << (*it)->heuristic << endl;
-		BoardTools::DisplayBoardChars(**it);
+		// BoardTools::DisplayBoardChars(**it);
 		if ((*it)->heuristic == heuristic)
 			decidedMove = (*it)->lastMove;
 		delete *it;
