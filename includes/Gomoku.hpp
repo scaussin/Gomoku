@@ -145,6 +145,10 @@ typedef struct		s_VictorySequence
 # define FOUR 20
 # define STRAIGHT_FOUR 30
 
+// capture search defines
+
+# define ATTACK_CAPTURE_FORM 8
+
 /*
 **	Gomoku structures
 */
