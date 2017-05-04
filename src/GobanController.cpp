@@ -117,10 +117,6 @@ int		GobanController::HandleClickEvents(t_GameDatas &GameDatas, SDL_Event &event
 			}
 
 			// to put any color.
-			// it_index = it - StonesImgList.begin();
-			// std::cout << "Clicked on valid stone nb " << it_index << std::endl
-			// 			<< "x = " << it_index % 19 << std::endl
-			// 			<< "y = " << it_index / 19 << std::endl;
 			// if (event.button.button == SDL_BUTTON_LEFT)
 			// {
 			// 	(*it)->SetTexture(BlackStoneTexture);
@@ -200,4 +196,16 @@ void	GobanController::SetPointDisplay(int x, int y, t_Color color, SDLHandler &S
 	_index_tmp = y * 19 + x;
 	StonesImgList[_index_tmp]->SetSurface(SDLHandler, new_surface);
 	StonesImgList[_index_tmp]->PutImage(SDLHandler);
+}
+
+// clean the board to full NONE color.
+void	GobanController::ResetBoardVisuals(SDLHandler &SDLHandler)
+{
+	for (int i = 0; i < 19; i++)
+	{
+		for (int j = 0; j < 19 ; j++)
+		{
+			SetPointDisplay(i, j, NONE, SDLHandler);
+		}
+	}
 }

@@ -1,8 +1,7 @@
 #include "../includes/Gomoku.hpp"
 
 InGameController::InGameController() :
-	ImagesLoaded(false),
-	ImagesDisplayed(false)
+	ImagesLoaded(false)
 {
 
 }
@@ -19,12 +18,12 @@ InGameController::~InGameController()
 //																//
 // ------------------------------------------------------------	//
 
-void	InGameController::GameHandle(t_GameDatas &Game,
+void	InGameController::GameHandle(t_GameDatas &GameDatas,
 										SDLHandler &SDLHandler)
 {
-	(void)Game;
-	Game.ActivePlayer = BLACK;
-	// initializing visuals
+	(void)GameDatas;
+	GameDatas.ActivePlayer = BLACK;
+	// initializing visuals and GameDatas
 	if (!ImagesLoaded)
 	{
 		// Load images into memory
@@ -36,10 +35,20 @@ void	InGameController::GameHandle(t_GameDatas &Game,
 		UI.PlaceImagesOnStart(SDLHandler);
 		Goban.InitBoard(SDLHandler);
 		ImagesLoaded = true;
+
+		Game.ResetGame(GameDatas);
 	}
 	DisplayImages(SDLHandler);
-	Goban.PutDisplay(Game, SDLHandler);
-	UI.DisplayUI(Game, SDLHandler);
+	Goban.PutDisplay(GameDatas, SDLHandler);
+	UI.DisplayUI(GameDatas, SDLHandler);
+	if (GameDatas.IsGameOver == true)
+	{
+		UI.DisplayVictoryCase(SDLHandler, GameDatas.WinnerColor);
+	}
+	else
+	{
+		UI.HideVictoryCase(SDLHandler);
+	}
 }
 
 // ------------------------------------------------------------	//
@@ -113,18 +122,34 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 
 	if (event.type == SDL_MOUSEBUTTONUP)
 	{
-		if (Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 1)
+		if (GameDatas.IsGameOver == false
+			&& Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 1) // LEFT CLICK
 		{
 			// user clicked on a valid point of the board.
 			GameDatas.ActivePlayer = BLACK;
 			Game.Play(GameDatas, Goban, SDLHandler, move);
 			UI.UpdateUIValues(GameDatas, SDLHandler);
 		}
-		// Temp debug : WHITE pose stone.
-		else if (Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 2)
+		// Debug mode only: WHITE pose stone.
+		else if (DEBUG_MODE == 1
+			&& GameDatas.IsGameOver == false
+			&& Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 2) // RIGHT CLICK
 		{
 			GameDatas.ActivePlayer = WHITE;
 			Game.Play(GameDatas, Goban, SDLHandler, move);
+		}
+		
+	}
+	// IF GAME OVER, PRESS RETURN TO RESET.
+	if (GameDatas.IsGameOver == true
+		&& event.type == SDL_KEYDOWN)
+	{
+		if (event.key.keysym.sym == SDLK_RETURN)
+		{
+			std::cout << "return pressed on game over, reseting board" << std::endl;
+			Goban.ResetBoardVisuals(SDLHandler);
+			Game.ResetGame(GameDatas);
+			UI.UpdateUIValues(GameDatas, SDLHandler);
 		}
 	}
 }

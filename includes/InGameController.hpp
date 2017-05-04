@@ -18,7 +18,6 @@ class InGameController
 
 		// class variables
 		bool				ImagesLoaded;
-		bool				ImagesDisplayed;
 
 		// images
 		GameImage			*InGameBgImg;

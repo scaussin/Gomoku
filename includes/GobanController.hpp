@@ -35,6 +35,7 @@ class GobanController
 		void			UpdateBoard(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
 		void			SetPointDisplay(int x, int y, t_Color color,
 										SDLHandler &SDLHandler);
+		void			ResetBoardVisuals(SDLHandler &SDLHandler);
 
 	private:
 		int				_pointZeroX;

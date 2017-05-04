@@ -15,7 +15,7 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y + 3,  move.x - 3) == color)
 	{
 		applyCapture(board, color, move.x - 1, move.y + 1, move.x - 2, move.y + 2);
-		cout << "- Capture top left" << endl;
+		// cout << "- Capture top left" << endl;
 	}
 	//top
 	if (board.getPoint(move.y + 1,  move.x) == enemy
@@ -23,7 +23,7 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y + 3,  move.x) == color)
 	{
 		applyCapture(board, color, move.x, move.y + 1, move.x, move.y + 2);
-		cout << "- Capture top" << endl;
+		// cout << "- Capture top" << endl;
 	}
 	//top right
 	if (board.getPoint(move.y + 1,  move.x + 1) == enemy
@@ -31,7 +31,7 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y + 3,  move.x + 3) == color)
 	{
 		applyCapture(board, color, move.x + 1, move.y + 1, move.x + 2, move.y + 2);
-		cout << "- Capture top right" << endl;
+		// cout << "- Capture top right" << endl;
 	}
 	// right
 	if (board.getPoint(move.y,  move.x + 1) == enemy
@@ -39,7 +39,7 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y,  move.x + 3) == color)
 	{
 		applyCapture(board, color, move.x + 1, move.y, move.x + 2, move.y);
-		cout << "- Capture right" << endl;
+		// cout << "- Capture right" << endl;
 	}
 	//bottom right
 	if (board.getPoint(move.y - 1,  move.x + 1) == enemy
@@ -47,7 +47,7 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y - 3,  move.x + 3) == color)
 	{
 		applyCapture(board, color, move.x + 1, move.y - 1, move.x + 2, move.y - 2);
-		cout << "- Capture bottom right" << endl;
+		// cout << "- Capture bottom right" << endl;
 	}
 	//bottom
 	if (board.getPoint(move.y - 1,  move.x) == enemy
@@ -55,7 +55,7 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y - 3,  move.x) == color)
 	{
 		applyCapture(board, color, move.x, move.y - 1, move.x, move.y - 2);
-		cout << "- Capture bottom" << endl;
+		// cout << "- Capture bottom" << endl;
 	}
 	//bottom left
 	if (board.getPoint(move.y - 1,  move.x - 1) == enemy
@@ -63,7 +63,7 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y - 3,  move.x - 3) == color)
 	{
 		applyCapture(board, color, move.x - 1, move.y - 1, move.x - 2, move.y - 2);
-		cout << "- Capture bottom left" << endl;
+		// cout << "- Capture bottom left" << endl;
 	}
 	//left
 	if (board.getPoint(move.y,  move.x - 1) == enemy
@@ -71,7 +71,7 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 		&& board.getPoint(move.y,  move.x - 3) == color)
 	{
 		applyCapture(board, color, move.x - 1, move.y, move.x - 2, move.y);
-		cout << "- Capture left" << endl;
+		// cout << "- Capture left" << endl;
 	}
 }
 

@@ -113,17 +113,17 @@ void		GameUI::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	// Victory display
 	VictoryCaseImg->SetImgPos(10, 600);
 	VictoryCaseImg->SetImgSize(406, 142);
-	VictoryCaseImg->SetAlpha(255);
+	VictoryCaseImg->SetAlpha(0);
 	VictoryCaseImg->PutImage(SDLHandler);
 
 	VictoryText->SetTextPos(30, 610);
 	VictoryText->SetTextSize(350, 60);
-	VictoryText->SetAlpha(255);
+	VictoryText->SetAlpha(0);
 	VictoryText->PutText(SDLHandler);
 
 	VictorySubText->SetTextPos(35, 665);
 	VictorySubText->SetTextSize(330, 45);
-	VictorySubText->SetAlpha(255);
+	VictorySubText->SetAlpha(0);
 	VictorySubText->PutText(SDLHandler);
 }
 
@@ -183,14 +183,48 @@ void		GameUI::DisplayUI(t_GameDatas &GameDatas, SDLHandler &SDLHandler)
 		WhiteCapturesTextValue->FadeIn();
 	WhiteCapturesTextValue->PutText(SDLHandler);
 
+	// // Victory display
+	// if (VictoryCaseImg->GetAlpha() < 255)
+	// 	VictoryCaseImg->FadeIn();
+	// VictoryCaseImg->PutImage(SDLHandler);
+	// if (VictoryText->GetAlpha() < 255)
+	// 	VictoryText->FadeIn();
+	// VictoryText->PutText(SDLHandler);
+	// if (VictorySubText->GetAlpha() < 255)
+	// 	VictorySubText->FadeIn();
+	// VictorySubText->PutText(SDLHandler);
+}
+
+void		GameUI::DisplayVictoryCase(SDLHandler &SDLHandler, t_Color Winner)
+{
 	// Victory display
 	if (VictoryCaseImg->GetAlpha() < 255)
 		VictoryCaseImg->FadeIn();
 	VictoryCaseImg->PutImage(SDLHandler);
+	// set victory text;
+	if (Winner == BLACK)
+		VictoryText->SetText(SDLHandler, "Victory for Black!");
+	else
+		VictoryText->SetText(SDLHandler, "Victory for White!");
+	// display the rest.
 	if (VictoryText->GetAlpha() < 255)
 		VictoryText->FadeIn();
 	VictoryText->PutText(SDLHandler);
 	if (VictorySubText->GetAlpha() < 255)
 		VictorySubText->FadeIn();
+	VictorySubText->PutText(SDLHandler);
+}
+
+void		GameUI::HideVictoryCase(SDLHandler &SDLHandler)
+{
+	// Victory display
+	if (VictoryCaseImg->GetAlpha() > 0)
+		VictoryCaseImg->FadeOut();
+	VictoryCaseImg->PutImage(SDLHandler);
+	if (VictoryText->GetAlpha() > 0)
+		VictoryText->FadeOut();
+	VictoryText->PutText(SDLHandler);
+	if (VictorySubText->GetAlpha() > 0)
+		VictorySubText->FadeOut();
 	VictorySubText->PutText(SDLHandler);
 }
