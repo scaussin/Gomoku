@@ -40,7 +40,7 @@
 # define KRESET "\x1B[0m"
 
 using namespace std;
-# define PERROR(msg) (Tools::printError(__FILE__, __LINE__, __func__, msg))
+# define PERROR(msg, level) (Tools::printError(__FILE__, __LINE__, __func__, msg, level))
 
 
 /*
@@ -56,9 +56,17 @@ using namespace std;
 /*
 **	Alpaha-Bata defines
 */
-# define IA_DEEP 2
+# define IA_DEEP 3
 # define ALPHA -10000
 # define BETA 10000
+
+/*
+**	print debug defines
+*/
+
+# define ERR 0  //Error
+# define WARN 1 //Warning
+# define INFO 2 //Info
 
 /*
 **	Game defines

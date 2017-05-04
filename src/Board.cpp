@@ -38,7 +38,7 @@ char	Board::getPoint(t_vec2 at)
 {
 	if (at.y < 0 || at.y > 19 || at.x < 0 || at.x > 19)
 	{
-		PERROR("t_vec2 out of range");
+		PERROR("t_vec2 out of range", ERR);
 		std::cout << ": " << at.x << "x " << at.y << "y" << std::endl;
 		return (-1);
 	}
@@ -49,7 +49,7 @@ char	Board::getPoint(int y, int x)
 {
 	if (y < 0 || y > 19 || x < 0 || x > 19)
 	{
-		PERROR("t_vec2 out of range");
+		PERROR("t_vec2 out of range", ERR);
 		std::cout << ": " << x << "x " << y << "y" << std::endl;
 		return (-1);
 	}
@@ -60,7 +60,7 @@ bool	Board::setPoint(t_vec2 at, t_Color color)
 {
 	if (at.y < 0 || at.y > 19 || at.x < 0 || at.x > 19)
 	{
-		PERROR("t_vec2 out of range");
+		PERROR("t_vec2 out of range", ERR);
 		std::cout << ": " << at.x << "x " << at.y << "y" << std::endl;
 		return (false);
 	}
@@ -72,7 +72,7 @@ bool 	Board::setPoint(int y, int x, t_Color color)
 {
 	if (y < 0 || y > 19 || x < 0 || x > 19)
 	{
-		PERROR("t_vec2 out of range");
+		PERROR("t_vec2 out of range", ERR);
 		std::cout << ": " << x << "x " << y << "y" << std::endl;
 		return (false);
 	}

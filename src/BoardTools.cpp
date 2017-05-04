@@ -47,13 +47,23 @@ void		BoardTools::DisplayBoardChars(Board &board)
 		{
 			value = (t_Color)board.map[y][x];
 			if (value == NONE)
-				printf(".");
+				cout << "◯ ";
 			else if (value == BLACK)
-				printf("O");
+			{
+				if (board.lastMove.y == y && board.lastMove.x == x)
+					cout << "\e[4m⚫ \e[24m";
+				else
+					cout << "⚫ ";
+			}
 			else if (value == WHITE)
-				printf("X");
+			{
+				if (board.lastMove.y == y && board.lastMove.x == x)
+					cout << "\e[4m⚪ \e[24m";
+				else
+					cout << "⚪ ";
+			}
 		}
-		printf("\n");
+		cout << endl;
 	}
 }
 
@@ -105,4 +115,28 @@ int		BoardTools::countChild(Board *board)
 		i += BoardTools::countChild(*it);
 	}
 	return (i + 1);
+}
+
+void	BoardTools::printParents(Board *board)
+{
+	if (board && board->parent)
+	{
+		BoardTools::printParents(board->parent);
+	}
+	cout << "--------------------" << endl << "heuristic: " << board->heuristic << endl;
+	BoardTools::DisplayBoardChars(*board);
+	cout << endl;
+}
+
+t_vec2	BoardTools::getFistMove(Board *board)
+{
+	if (board && board->parent && board->parent->parent == NULL)
+	{
+		return (board->lastMove);
+	}
+	else if (board && board->parent)
+		return (BoardTools::getFistMove(board->parent));
+	t_vec2 err;
+	PERROR("last move not found", ERR);
+	return (err);
 }

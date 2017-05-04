@@ -17,7 +17,7 @@ class IA
 							t_Color decideMoveFor);
 		void			generateBoardsFromPoint(Board *curBoard, t_vec2 point,
 							vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor);
-		int				alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player,
+		Board			*alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player,
 							t_Color decideMoveFor);
 };
 

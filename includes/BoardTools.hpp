@@ -18,6 +18,8 @@ class BoardTools
 		static bool			IsIdentical(const Board &board_a, const Board &board_b);
 		static bool			IsInList(const Board &board, std::vector<Board*> &boardList);
 		static int			countChild(Board *board);
+		static void			printParents(Board *board);
+		static t_vec2		getFistMove(Board *board);
 };
 
 #endif

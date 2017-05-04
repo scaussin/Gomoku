@@ -175,9 +175,18 @@ void		Tools::SetMoveModifiers(int &mod_x, int &mod_y, t_dir dir)
 	}
 }
 
-void	Tools::printError(string file, int line, string function, string msg)
+void	Tools::printError(string file, int line, string function, string msg, int errorLevel)
 {
-	printf ("[ERROR]\n\t%s:%d (%s) -> %s\n", file.c_str(), line, function.c_str(), msg.c_str());
+	if (errorLevel == ERR)
+	{
+		cout << "\e[41m[ERROR]\e[0m " << file << ":" << line << " in " << function << "()" << endl << "\t" << msg << endl;
+		//exit(1);
+	}
+	else if (errorLevel == WARN)
+		cout << "\e[43m[WARNING]\e[0m " << file << ":" << line << " in " << function << "()" << endl << "\t" << msg << endl;
+	else
+		cout << "\e[44m[INFO]\e[0m " << file << ":" << line << " in " << function << "()" << endl << "\t" << msg << endl;
+	//printf ("[ERROR]\n\t%s:%d (%s) -> %s\n", file.c_str(), line, function.c_str(), msg.c_str());
 }
 
 t_Color	Tools::inverseColorPlayer(t_Color player)
@@ -186,7 +195,7 @@ t_Color	Tools::inverseColorPlayer(t_Color player)
 		return (WHITE);
 	else if (player == WHITE)
 		return (BLACK);
-	PERROR("not expected t_Color");
+	PERROR("not expected t_Color", ERR);
 	return (NONE);
 }
 

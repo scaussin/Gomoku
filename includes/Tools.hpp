@@ -13,7 +13,7 @@ class Tools
 		static t_Color			GetNextPoint(Board &board, t_vec2 point, t_dir dir);
 		static t_dir			GetOppositeDir(t_dir dir);
 		static t_Color			inverseColorPlayer(t_Color player);
-		static void				printError(string file, int line, string sfunction, string msg);
+		static void				printError(string file, int line, string sfunction, string msg, int errorLevel);
 		static void				GetPatternPointsLine(char *line, Board &board, t_vec2 point,
 									t_dir dir, int nb_points, t_Color color);
 };

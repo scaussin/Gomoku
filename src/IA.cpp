@@ -19,19 +19,18 @@ IA::~IA()
 t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 {
 	t_vec2 decidedMove;
+	Board	*finalMove;
 	srand (time(NULL));
 
 	decidedMove.x = 0;
 	decidedMove.y = 0;
 
-	int heuristic = alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, WHITE, WHITE);
-	cout << "child: " << BoardTools::countChild(&gameDatas.Board) << " | heuristic to find: " << heuristic << endl << endl;
+	finalMove = alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, WHITE, WHITE);
+	BoardTools::printParents(finalMove);
+	decidedMove = BoardTools::getFistMove(finalMove);
+	//cout << "final move: " << BoardTools::countChild(&gameDatas.Board) << " | heuristic to find: " << heuristic << endl << endl;
 	for (auto it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
 	{
-		cout << "board heuristic: " << (*it)->heuristic << endl;
-		BoardTools::DisplayBoardChars(**it);
-		if ((*it)->heuristic == heuristic)
-			decidedMove = (*it)->lastMove;
 		delete *it;
 	}
 	gameDatas.Board.next.clear();
@@ -41,39 +40,43 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	return (decidedMove);
 }
 
-int		IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player, t_Color decideMoveFor)
+Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player, t_Color decideMoveFor)
 {
-	int val;
-	int best;
+	Board	*valBoard = NULL;
+	Board	*bestBoard = NULL;
 
 	if (deep == 0 || board->isVictory)
 	{
-		std::cout << "un petit intitulé ∑"<<board->heuristic << std::endl;
 		if (player == decideMoveFor)
-			return (board->heuristic);
-		return (-board->heuristic);
+			return (board);
+		else
+		{
+			board->heuristic = -board->heuristic;
+			return (board);
+		}	
 	}
 	else
 	{
-		best = ALPHA;
+		bestBoard = new Board();
+		bestBoard->heuristic = ALPHA;
+
 		generatePossibleBoards(board, player, decideMoveFor);
 		for (auto it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
-			val = -alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
-			std::cout << "val" <<val << std::endl;
-			if (val > best)
+			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
+			valBoard->heuristic = -valBoard->heuristic;
+			if (valBoard->heuristic > bestBoard->heuristic)
 			{
-				
-				best = val;
-				if (best > alpha)
+				bestBoard = valBoard;
+				if (bestBoard->heuristic > alpha)
 				{
-					alpha = best;
+					alpha = bestBoard->heuristic;
 					if (alpha >= beta)
-						return (best);
+						return (bestBoard);
 				}
 			}
 		}
-		return (best);
+		return (bestBoard);
 	}
 }
 
