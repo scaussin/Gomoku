@@ -47,6 +47,8 @@ using namespace std;
 
 # define DEBUG_MODE 1
 
+# define THREADPOOL_SIZE 4
+
 /*
 **	SDL engine defines
 */
@@ -182,6 +184,8 @@ typedef	struct		s_GameDatas
 
 // class forward declarations.
 
+class				ThreadPool;
+
 class				GameImage;
 class				GameUI;
 class				GameText;
@@ -197,7 +201,7 @@ class				GameController;
 class				BoardTools;
 class				Tools;
 
-
+# include "ThreadPool.hpp"
 # include "GameImage.hpp"
 # include "GameUI.hpp"
 # include "GameText.hpp"

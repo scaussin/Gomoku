@@ -74,8 +74,9 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	// Start IA decision timer.
 	chrono_start = std::chrono::system_clock::now();
 
-	IaMove = IA.decideMove(GameDatas); // the selected move is AUTHORIZED && CAPTURE APPLIED.
-
+	//IaMove = IA.decideMove(GameDatas); // the selected move is AUTHORIZED && CAPTURE APPLIED.
+	IaMove.x = 0;
+	IaMove.y = 0;
 	// End timer.
 	chrono_end = std::chrono::system_clock::now();
 	GameDatas.LastTurnIATime = std::chrono::duration_cast<std::chrono::milliseconds>
