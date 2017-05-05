@@ -36,7 +36,7 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 
 			if ((t_Color)board.getPoint(curPoint) != NONE && (t_Color)board.getPoint(curPoint) != SUGGESTION)
 			{
-				for (dir = 1; dir != 5; ++dir)
+				for (dir = 1; dir != 9; ++dir)
 				{
 					// from the curPoint, we get the 7 values on the line, and the 7 values on the behind.
 					Tools::GetPatternPointsLine(&(line[0]), board, curPoint, (t_dir)dir, 7, playerColor);
@@ -88,3 +88,9 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 	}
 	return (boardValue);
 }
+
+// TODO: multithread / buffer for each dir.
+// int		Heuristic::EvaluateOneDir(Board &board, t_Color playerColor, t_vec2 curPoint, t_dir dir, char *line, char *backLine)
+// {
+
+// }

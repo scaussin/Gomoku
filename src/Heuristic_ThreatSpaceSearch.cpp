@@ -5,7 +5,7 @@ int		Heuristic::threatSpaceSearchPatterns(Board &board,
 {
 	int				ret = 0;
 
-	if (strncmp(line, "211110", 6) == 0)
+	if (strncmp(line, "11110", 6) == 0 && strncmp(backLine, "12", 2) == 0)
 	{
 		// std::cout << KMAG "- FOUR" KRESET << std::endl;
 		ret += FOUR;
