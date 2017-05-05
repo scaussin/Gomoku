@@ -59,7 +59,7 @@ using namespace std;
 /*
 **	Alpaha-Bata defines
 */
-# define IA_DEEP 3
+# define IA_DEEP 4
 # define ALPHA -10000
 # define BETA 10000
 
@@ -129,8 +129,8 @@ typedef struct		s_VictorySequence
 */
 
 // victory search values
-# define VICTORY 100
-# define VICTORY_CAPTURABLE 50
+# define VICTORY 2000
+# define VICTORY_CAPTURABLE 1000
 
 // simple search values
 # define FREE_ONE 2
@@ -143,11 +143,11 @@ typedef struct		s_VictorySequence
 # define THREE 12
 # define BROKEN_THREE 16
 # define FOUR 20
-# define STRAIGHT_FOUR 30
+# define STRAIGHT_FOUR 100
 
 // capture search defines
 
-# define ATTACK_CAPTURE_FORM 8
+# define ATTACK_CAPTURE_FORM 40
 
 /*
 **	Gomoku structures

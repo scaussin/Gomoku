@@ -12,14 +12,14 @@ int		Heuristic::captureSearchPatterns(Board &board,
 	if (strncmp(line, "1220", 4) == 0)
 	{
 		ret += ATTACK_CAPTURE_FORM;
-		if (enemyColor == WHITE)
-		{
-			ret *= (board.WhiteCaptures + 1);
-		}
-		else 
-		{
-			ret *= (board.BlackCaptures + 1);
-		}
+		// if (enemyColor == WHITE)
+		// {
+		// 	ret *= (board.WhiteCaptures + 1);
+		// }
+		// else 
+		// {
+		// 	ret *= (board.BlackCaptures + 1);
+		// }
 	}
 
 	return (ret);
