@@ -35,10 +35,11 @@ Board			&Board::operator=(const Board& other)
 	isVictory = false;
 	heuristic = 0;
 
-	for (int y = 0; y != 19; y++)
+	memcpy(&this->map, other.map, 19*19);
+	/*for (int y = 0; y != 19; y++)
 	{
-		memcpy(&this->map[y], other.map[y], 19);
-	}
+		memcpy(&this->map[y], other.map[y], 19*19);
+	}*/
 	return (*this);
 }
 

@@ -8,6 +8,9 @@ extern double time_EvaluateBoard;
 extern double time_IsInList;
 extern double time_alphaBeta;
 
+extern double time_generatePossibleBoards;
+extern double time_generateBoardsFromPoint;
+
 extern int n_newBoard;
 extern int n_EvaluateBoard;
 
@@ -103,13 +106,17 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		cout << "n_newBoard: " << n_newBoard << endl;
 		cout << "n_EvaluateBoard visited: " << n_EvaluateBoard << endl;
 		cout << "time alphaBeta: " << time_alphaBeta << " ms" << endl;
-		cout << "  time IsPointIn: " << time_IsPointIn<< " ms" << endl;
-		cout << "  time isMoveAuthorized: " << time_isMoveAuthorized<< " ms" << endl;
-		cout << "  time newBoard: " << time_newBoard<< " ms" << endl;
-		cout << "  time doCaptures: " << time_doCaptures<< " ms" << endl;
 		cout << "  time EvaluateBoard: " << time_EvaluateBoard<< " ms" << endl;
-		cout << "  time IsInList: " << time_IsInList << " ms" << endl;
+		cout << "  time generatePossibleBoards: " << time_generatePossibleBoards << " ms" << endl;
+		cout << "    time time_generateBoardsFromPoint: " << time_generateBoardsFromPoint  << " ms" << endl;
+		cout << "      time IsPointIn: " << time_IsPointIn<< " ms" << endl;
+		cout << "      time isMoveAuthorized: " << time_isMoveAuthorized<< " ms" << endl;
+		cout << "      time newBoard: " << time_newBoard<< " ms" << endl;
+		cout << "      time doCaptures: " << time_doCaptures<< " ms" << endl;
+		cout << "      time IsInList: " << time_IsInList << " ms" << endl;
 		time_alphaBeta = 0;
+		time_generatePossibleBoards = 0;
+		time_generateBoardsFromPoint = 0;
 		time_IsInList = 0;
 		time_IsPointIn = 0;
 		time_isMoveAuthorized = 0;

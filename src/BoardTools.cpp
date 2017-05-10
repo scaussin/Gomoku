@@ -76,11 +76,14 @@ bool		BoardTools::IsIdentical(const Board &board_a, const Board &board_b)
 	/*static int			x;
 	static int			y;*/
 
-	for (int y = 0; y < 19; y++)
+	/*for (int y = 0; y < 19; y++)
 	{
 		if (memcmp(&board_a.map[y], &board_b.map[y], 19) != 0)
 			return (false);
-	}
+	}*/
+
+	if (memcmp(&board_a.map, &board_b.map, 19 * 19) != 0)
+			return (false);
 
 	/*for (y = 18; y != -1; y--)
 	{

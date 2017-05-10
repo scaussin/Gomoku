@@ -157,6 +157,7 @@ typedef struct		s_VictorySequence
 class				Board;
 # include "Board.hpp"
 
+
 typedef	struct		s_GameDatas
 {
 	t_GameScene		SelectedScene;
