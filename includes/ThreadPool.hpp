@@ -24,7 +24,7 @@ class	ThreadPool
 		// the tasks to accomplish
 		std::deque<t_HeuristickReadLineTask>	Tasks;
 
-		std::mutex TasksMutex;
+		std::timed_mutex								TasksMutex;
 
 		ThreadPool();
 
@@ -34,7 +34,9 @@ class	ThreadPool
 			Board *board, t_Color *playerColor,
 			t_vec2 *curPoint, int *dir, int *retval);
 
-		void WaitForTasks();
+		bool	WaitForTasks();
+
+		void	ClearTasks();
 
 	private:
 		void Work(); // for the thread workers.

@@ -55,8 +55,10 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 				g_ThreadPool.AddHeuristicReadlineTask(&board, &playerColor, &curPoint, &dir, &(dirBoardValues[6]));
 				g_ThreadPool.AddHeuristicReadlineTask(&board, &playerColor, &curPoint, &dir, &(dirBoardValues[7]));
 
-				g_ThreadPool.WaitForTasks();
-
+				while (g_ThreadPool.WaitForTasks() == false)
+				{
+				}
+				// g_ThreadPool.ClearTasks();
 				// std::thread dir1(EvaluateOneDir, &board, &playerColor, &curPoint, (t_dir)dir, &(dirBoardValues[0]));
 				// std::thread dir2(EvaluateOneDir, &board, &playerColor, &curPoint, (t_dir)dir + 1, &(dirBoardValues[1]));
 				// std::thread dir3(EvaluateOneDir, &board, &playerColor, &curPoint, (t_dir)dir + 2, &(dirBoardValues[2]));

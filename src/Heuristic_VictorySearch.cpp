@@ -4,16 +4,16 @@ int		Heuristic::victorySearchPatterns(Board &board,
 									t_vec2 point, t_Color playerColor, t_dir dir,
 									char *line, char *backLine)
 {
-	int						ret = 0;
+	int					ret = 0;
 
 	// search capture forms variables.
-	static t_vec2			curPoint;
-	static int				inner_dir;
-	static int				mod_x;
-	static int				mod_y;
-	static int				i;
-	static char				inner_line[3];
-	static char				inner_backline[3];
+	t_vec2				curPoint;
+	int					inner_dir;
+	int					mod_x;
+	int					mod_y;
+	int					i;
+	char				inner_line[3];
+	char				inner_backline[3];
 
 	if (strncmp(line, "11111", 5) == 0)
 	{
