@@ -4,7 +4,7 @@
 #													#
 #---------------------------------------------------#
 
-NAME = Gomoku
+NAME = gomoku
 
 SRC =  ./src/MainController.cpp \
 ./src/Board.cpp \
