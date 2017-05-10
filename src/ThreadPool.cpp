@@ -42,6 +42,27 @@ void		ThreadPool::AddHeuristicReadlineTask(Board *board, t_Color *playerColor, t
 	TasksMutex.unlock();
 }
 
+void		ThreadPool::AddHeuristicTask(Board *board, t_Color *playerColor, t_vec2 *curPoint, int *retval)
+{
+	t_HeuristickReadLineTask new_task;
+
+	new_task.IsAssigned = false;
+	new_task.IsDone = false;
+	new_task.board = board;
+	new_task.playerColor = playerColor;
+	new_task.curPoint = curPoint;
+	//new_task.dir = dir;
+	new_task.retval = retval;
+
+	while (!TasksMutex.try_lock())
+	{
+		// need access to add task;
+	}
+	Tasks.push_back(new_task);
+	// std::cout << KYEL "<- task added" KRESET << std::endl;
+	TasksMutex.unlock();
+}
+
 void		ThreadPool::Work()
 {
 	t_HeuristickReadLineTask		*task_to_process = NULL;
@@ -70,11 +91,9 @@ void		ThreadPool::Work()
 		if (task_to_process)
 		{
 			// std::cout << "worker processing task..." << std::endl;
-			// std::cout << "worker work on a task" << std::endl;
-			Heuristic::EvaluateOneDir(task_to_process->board,
-				task_to_process->playerColor, task_to_process->curPoint,
-				task_to_process->dir, task_to_process->retval);
-			while (!TasksMutex.try_lock_for(std::chrono::milliseconds(10)))
+			Heuristic::EvaluateAllDir(task_to_process->board,
+				task_to_process->playerColor, task_to_process->curPoint, task_to_process->retval);
+			while (!TasksMutex.try_lock())
 			{}
 			task_to_process->IsDone = true;
 			TasksMutex.unlock();

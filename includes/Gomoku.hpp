@@ -23,10 +23,10 @@
 # include <random>
 # include <algorithm>
 # include <math.h>
+# include <chrono>
+# include <ctime>
 # include <thread>
 # include <mutex>
-
-#include <chrono>
 
 # include "../Frameworks/SDL2.framework/Headers/SDL.h"
 # include "../Frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
@@ -48,7 +48,7 @@ using namespace std;
 
 # define DEBUG_MODE 1
 
-# define THREADPOOL_SIZE 4
+# define THREADPOOL_SIZE 2
 
 /*
 **	SDL engine defines
@@ -63,9 +63,10 @@ using namespace std;
 /*
 **	Alpaha-Bata defines
 */
-# define IA_DEEP 3
+# define IA_DEEP 4
 # define ALPHA -10000
 # define BETA 10000
+
 
 /*
 **	print debug defines
@@ -132,8 +133,8 @@ typedef struct		s_VictorySequence
 */
 
 // victory search values
-# define SURE_VICTORY 200
-# define VICTORY_CAPTURABLE 100
+# define SURE_VICTORY 2000
+# define VICTORY_CAPTURABLE 1000
 
 // simple search values
 # define FREE_ONE 2
@@ -145,12 +146,12 @@ typedef struct		s_VictorySequence
 
 # define THREE 12
 # define BROKEN_THREE 16
-# define FOUR 60
-# define STRAIGHT_FOUR 80
+# define FOUR 20
+# define STRAIGHT_FOUR 100
 
 // capture search defines
 
-# define ATTACK_CAPTURE_FORM 8
+# define ATTACK_CAPTURE_FORM 40
 
 /*
 **	Gomoku structures
@@ -158,6 +159,7 @@ typedef struct		s_VictorySequence
 
 class				Board;
 # include "Board.hpp"
+
 
 typedef	struct		s_GameDatas
 {

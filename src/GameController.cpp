@@ -1,5 +1,20 @@
 #include "../includes/Gomoku.hpp"
 
+extern double time_IsPointIn;
+extern double time_isMoveAuthorized;
+extern double time_newBoard;
+extern double time_doCaptures;
+extern double time_EvaluateBoard;
+extern double time_IsInList;
+extern double time_alphaBeta;
+
+extern double time_generatePossibleBoards;
+extern double time_generateBoardsFromPoint;
+
+extern int n_newBoard;
+extern int n_EvaluateBoard;
+
+
 GameController::GameController()
 {
 
@@ -75,8 +90,10 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	chrono_start = std::chrono::system_clock::now();
 
 	IaMove = IA.decideMove(GameDatas); // the selected move is AUTHORIZED && CAPTURE APPLIED.
+
 	// IaMove.x = 0;
 	// IaMove.y = 0;
+
 	// End timer.
 	chrono_end = std::chrono::system_clock::now();
 	GameDatas.LastTurnIATime = std::chrono::duration_cast<std::chrono::milliseconds>
@@ -85,7 +102,31 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	if (GameDatas.SelectedGameMode == VS_IA)
 	{
 		std::cout << std::endl << KBLU "------ " KYEL <<  " Move " << GameDatas.TurnNumber << KBLU " ------" KRESET << std::endl;
-		std::cout << std::endl << KYEL "IA - WHITE" KRESET << " plays move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
+		std::cout << std::endl << KYEL "IA - WHITE" KRESET << " plays move in " << KYEL << IaMove.x << "x " << IaMove.y << "y" KRESET << std::endl;
+
+		cout << "n_newBoard: " << n_newBoard << endl;
+		cout << "n_EvaluateBoard visited: " << n_EvaluateBoard << endl;
+		cout << "time alphaBeta: " << time_alphaBeta << " ms" << endl;
+		cout << "  time EvaluateBoard: " << time_EvaluateBoard<< " ms" << endl;
+		cout << "  time generatePossibleBoards: " << time_generatePossibleBoards << " ms" << endl;
+		cout << "    time time_generateBoardsFromPoint: " << time_generateBoardsFromPoint  << " ms" << endl;
+		cout << "      time IsPointIn: " << time_IsPointIn<< " ms" << endl;
+		cout << "      time isMoveAuthorized: " << time_isMoveAuthorized<< " ms" << endl;
+		cout << "      time newBoard: " << time_newBoard<< " ms" << endl;
+		cout << "      time doCaptures: " << time_doCaptures<< " ms" << endl;
+		cout << "      time IsInList: " << time_IsInList << " ms" << endl;
+		time_alphaBeta = 0;
+		time_generatePossibleBoards = 0;
+		time_generateBoardsFromPoint = 0;
+		time_IsInList = 0;
+		time_IsPointIn = 0;
+		time_isMoveAuthorized = 0;
+		time_newBoard = 0;
+		time_doCaptures = 0;
+		time_EvaluateBoard = 0;
+		n_newBoard = 0;
+		n_EvaluateBoard = 0;
+
 		GameDatas.Board.setPoint(IaMove, WHITE);
 		GameRules::doCaptures(GameDatas.Board, WHITE, IaMove);
 		GameDatas.TurnNumber += 1;

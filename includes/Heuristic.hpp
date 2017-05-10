@@ -14,6 +14,9 @@ class Heuristic
 		static void			EvaluateOneDir(Board *board,
 								t_Color *playerColor, t_vec2 *curPoint,
 								int *dir, int *retval);
+		static void			EvaluateAllDir(Board *board,
+								t_Color *playerColor, t_vec2 *curPoint,
+								int *retval);
 
 	private:
 		// static void			EvaluateOneDir(Board *board,

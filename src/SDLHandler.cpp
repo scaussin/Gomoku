@@ -25,10 +25,15 @@ int		SDLHandler::InitWindow()
 
 	/* Création de la fenêtre */
 	pWindow = SDL_CreateWindow("Gomoku",
+				0,
+				0,
+				WINDOW_WIDTH, WINDOW_HEIGHT,
+				SDL_WINDOW_SHOWN);
+				/*pWindow = SDL_CreateWindow("Gomoku",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
 				WINDOW_WIDTH, WINDOW_HEIGHT,
-				SDL_WINDOW_SHOWN);
+				SDL_WINDOW_SHOWN);*/
 	if (!pWindow)
 	{
 		fprintf(stderr,"Window creation ERROR: %s\n",

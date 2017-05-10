@@ -73,17 +73,26 @@ void		BoardTools::DisplayBoardChars(Board &board)
 
 bool		BoardTools::IsIdentical(const Board &board_a, const Board &board_b)
 {
-	static int			x;
-	static int			y;
+	/*static int			x;
+	static int			y;*/
 
-	for (y = 18; y != -1; y--)
+	/*for (int y = 0; y < 19; y++)
+	{
+		if (memcmp(&board_a.map[y], &board_b.map[y], 19) != 0)
+			return (false);
+	}*/
+
+	if (memcmp(&board_a.map, &board_b.map, 19 * 19) != 0)
+			return (false);
+
+	/*for (y = 18; y != -1; y--)
 	{
 		for(x = 0; x < 19; x++)
 		{
 			if (board_a.map[y][x] != board_b.map[y][x])
 				return (false);
 		}
-	}
+	}*/
 	return (true);
 }
 
@@ -125,7 +134,9 @@ void	BoardTools::printParents(Board *board)
 	{
 		BoardTools::printParents(board->parent);
 	}
-	cout << "--------------------" << endl << "heuristic: " << board->heuristic << endl;
+	cout << "--------------------" << 
+	endl << "heuristic: " << board->heuristic << endl;
+	cout << "isVictory: " << (board->isVictory == true ? "TRUE" : "FALSE") << endl;
 	BoardTools::DisplayBoardChars(*board);
 	cout << endl;
 }

@@ -30,9 +30,13 @@ class	ThreadPool
 
 		~ThreadPool();
 
-		void AddHeuristicReadlineTask(
+		void	AddHeuristicReadlineTask(
 			Board *board, t_Color *playerColor,
 			t_vec2 *curPoint, int *dir, int *retval);
+
+		void	AddHeuristicTask(Board *board,
+			t_Color *playerColor, t_vec2 *curPoint,
+			int *retval);
 
 		bool	WaitForTasks();
 

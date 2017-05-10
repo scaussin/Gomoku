@@ -4,7 +4,7 @@
 #													#
 #---------------------------------------------------#
 
-NAME = Gomoku
+NAME = gomoku
 
 SRC =  ./src/MainController.cpp \
 ./src/ThreadPool.cpp \
@@ -33,7 +33,7 @@ SRC =  ./src/MainController.cpp \
 
 OBJ = $(SRC:.cpp=.o)
 
-CC = clang++ -g -Wall -Werror -Wextra -Wno-unused-parameter -std=c++11
+CC = clang++ -O2 -g -Wall -Werror -Wextra -Wno-unused-parameter -std=c++11
 
 SDL =  -framework Cocoa -framework SDL2 -F./Frameworks -framework SDL2_ttf
 
