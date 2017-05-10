@@ -1,14 +1,55 @@
 #include "../includes/Gomoku.hpp"
 
+
+ThreadWorker::ThreadWorker(int index)
+{
+	ThreadIndex = index;
+	IsAsleep = true;
+	TaskToProcess = NULL;
+
+	this->Thread = std::thread(&ThreadWorker::Work, this);
+}
+
+void		ThreadWorker::Work()
+{
+	std::cout << "hello working!" << std::endl;
+	while (1)
+	{
+		if (WorkerMutex.try_lock())
+		{
+			if (IsAsleep == false)
+			{
+				// std::cout << "<- thread #" << ThreadIndex << " working on task" KRESET << std::endl;
+				Heuristic::EvaluateAllDir(TaskToProcess->board,
+					TaskToProcess->playerColor, TaskToProcess->curPoint, TaskToProcess->retval);
+				TaskToProcess = NULL;
+				IsAsleep = true;
+				WorkerMutex.unlock();
+				// std::cout << KGRN "-> thread #" << ThreadIndex << " task done" KRESET << std::endl;
+			}
+			else
+			{
+				WorkerMutex.unlock();
+			}
+		}
+	}
+}
+
 /*
 ** Threadpool INIT.
 */
 
 ThreadPool::ThreadPool()
 {
+	// for (int i = 0; i != THREADPOOL_SIZE; i++)
+	// {
+	// 	Workers.push_back(std::thread(&ThreadPool::Work, this));
+
+	// }
+	CurrentTaskNb = 0;
 	for (int i = 0; i != THREADPOOL_SIZE; i++)
 	{
-		Workers.push_back(std::thread(&ThreadPool::Work, this));
+		ThreadWorkers.push_back(new ThreadWorker(i));
 	}
 	std::cout << "Created ThreadPool" << std::endl;
 }
@@ -20,6 +61,8 @@ ThreadPool::~ThreadPool()
 	// 	Workers[i].join();
 	// }
 }
+
+// TASK ORDONANCER.
 
 void		ThreadPool::AddHeuristicReadlineTask(Board *board, t_Color *playerColor, t_vec2 *curPoint, int *dir, int *retval)
 {
@@ -33,34 +76,63 @@ void		ThreadPool::AddHeuristicReadlineTask(Board *board, t_Color *playerColor, t
 	new_task.dir = dir;
 	new_task.retval = retval;
 
-	while (!TasksMutex.try_lock())
-	{
-		// need access to add task;
-	}
-	Tasks.push_back(new_task);
+
+	// // while (!TasksMutex.try_lock())
+	// // {
+	// // 	// need access to add task;
+	// // }
+	// Tasks.push_back(new_task);
 	// std::cout << KYEL "<- task added" KRESET << std::endl;
-	TasksMutex.unlock();
+	// TasksMutex.unlock();
 }
 
 void		ThreadPool::AddHeuristicTask(Board *board, t_Color *playerColor, t_vec2 *curPoint, int *retval)
 {
-	t_HeuristickReadLineTask new_task;
+	t_HeuristickReadLineTask	*new_task;
+	bool						taskAssigned = false;
+	static int					z = 0;
+	static int					i;
 
-	new_task.IsAssigned = false;
-	new_task.IsDone = false;
-	new_task.board = board;
-	new_task.playerColor = playerColor;
-	new_task.curPoint = curPoint;
+	new_task = new t_HeuristickReadLineTask();
+	new_task->IsAssigned = false;
+	new_task->IsDone = false;
+	new_task->board = board;
+	new_task->playerColor = playerColor;
+	new_task->curPoint = curPoint;
 	//new_task.dir = dir;
-	new_task.retval = retval;
+	new_task->retval = retval;
 
-	while (!TasksMutex.try_lock())
+	// wait for available thread.
+	// std::cout << KYEL "Threadpool assigning task" << std::endl;
+	while (taskAssigned == false)
 	{
-		// need access to add task;
+		for (i = 0; i != THREADPOOL_SIZE; ++i)
+		{
+			if (ThreadWorkers[i]->WorkerMutex.try_lock())
+			{
+				if (ThreadWorkers[i]->IsAsleep == true)
+				{
+					ThreadWorkers[i]->TaskToProcess = new_task;
+					ThreadWorkers[i]->IsAsleep = false; // wake up thread to exec task.
+					taskAssigned = true;
+					// CurrentTaskNb += 1;
+					// std::cout << KYEL "Task #" << z << " assigned to thread #" << i << KRESET << std::endl;
+					ThreadWorkers[i]->WorkerMutex.unlock();
+					z++;
+					break ;
+				}
+				ThreadWorkers[i]->WorkerMutex.unlock();
+			}
+		}
 	}
-	Tasks.push_back(new_task);
-	// std::cout << KYEL "<- task added" KRESET << std::endl;
-	TasksMutex.unlock();
+
+	// while (!TasksMutex.try_lock())
+	// {
+	// 	// need access to add task;
+	// }
+	// Tasks.push_back(new_task);
+	// // std::cout << KYEL "<- task added" KRESET << std::endl;
+	// TasksMutex.unlock();
 }
 
 void		ThreadPool::Work()
@@ -107,32 +179,43 @@ void		ThreadPool::Work()
 // TODO: Not working -> concurrent access crash.
 bool		ThreadPool::WaitForTasks()
 {
-	bool		tasks_done = false;
 	bool		all_done = true;
 
-
-	while (!TasksMutex.try_lock_for(std::chrono::milliseconds(10)))
-	{}
-
-	// std::cout << "checking tasks" << std::endl;
-	for (std::deque<t_HeuristickReadLineTask>::iterator it = Tasks.begin();
-			it != Tasks.end();
-			it++)
+	for (int i = 0; i != THREADPOOL_SIZE; i++)
 	{
-		if ((*it).IsDone == false)
+		if (ThreadWorkers[i]->IsAsleep == false)
 		{
 			all_done = false;
 		}
 	}
-	if (all_done == true)
-	{
-		// std::cout << KYEL "clearing tasks" KRESET << std::endl;
-		tasks_done = true;
-		Tasks.clear();
-		// std::cout << KGRN "tasks done and cleared" KRESET << std::endl;
-	}
-	TasksMutex.unlock();
-	return (tasks_done);
+	return (all_done);
+
+	// bool		tasks_done = false;
+	// bool		all_done = true;
+
+
+	// while (!TasksMutex.try_lock_for(std::chrono::milliseconds(10)))
+	// {}
+
+	// // std::cout << "checking tasks" << std::endl;
+	// for (std::deque<t_HeuristickReadLineTask>::iterator it = Tasks.begin();
+	// 		it != Tasks.end();
+	// 		it++)
+	// {
+	// 	if ((*it).IsDone == false)
+	// 	{
+	// 		all_done = false;
+	// 	}
+	// }
+	// if (all_done == true)
+	// {
+	// 	// std::cout << KYEL "clearing tasks" KRESET << std::endl;
+	// 	tasks_done = true;
+	// 	Tasks.clear();
+	// 	// std::cout << KGRN "tasks done and cleared" KRESET << std::endl;
+	// }
+	// TasksMutex.unlock();
+	// return (tasks_done);
 	// -------> CRASH
 	// for (int i = 0; i != THREADPOOL_SIZE; i++)
 	// {

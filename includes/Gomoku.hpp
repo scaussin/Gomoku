@@ -48,7 +48,7 @@ using namespace std;
 
 # define DEBUG_MODE 1
 
-# define THREADPOOL_SIZE 2
+# define THREADPOOL_SIZE 8
 
 /*
 **	SDL engine defines
@@ -187,6 +187,7 @@ typedef	struct		s_GameDatas
 
 // class forward declarations.
 
+class				ThreadWorker;
 class				ThreadPool;
 
 class				GameImage;

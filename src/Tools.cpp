@@ -99,6 +99,8 @@ void		Tools::GetPatternPointsLine(char *line, Board &board, t_vec2 point,
 			else 
 				line[i] = '0';
 		}
+		else
+			line[i] = 0;
 	}
 }
 

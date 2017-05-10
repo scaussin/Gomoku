@@ -3,6 +3,9 @@
 
 # include "Gomoku.hpp"
 
+
+
+
 typedef struct	s_HeuristickReadLineTask
 {
 	bool			IsAssigned;
@@ -15,9 +18,33 @@ typedef struct	s_HeuristickReadLineTask
 
 }				t_HeuristickReadLineTask;
 
+/*
+**		THREAD WORKER ELEMENT.
+*/
+
+class ThreadWorker
+{
+	public:
+		int								ThreadIndex;
+		bool							IsAsleep;
+		t_HeuristickReadLineTask		*TaskToProcess;
+		std::thread						Thread;
+
+		std::mutex						WorkerMutex;
+
+
+		ThreadWorker(int index);
+		void							Work();
+};
+
+/*
+**		GLOBAL THREAD POOL HANDLING WORKERS.
+*/
+
 class	ThreadPool
 {
 	public:
+		std::vector<ThreadWorker *>				ThreadWorkers;
 		// the threadworkers
 		std::vector<std::thread>				Workers;
 
@@ -25,6 +52,8 @@ class	ThreadPool
 		std::deque<t_HeuristickReadLineTask>	Tasks;
 
 		std::timed_mutex								TasksMutex;
+
+		int										CurrentTaskNb;
 
 		ThreadPool();
 
