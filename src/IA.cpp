@@ -40,9 +40,9 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	decidedMove.x = 0;
 	decidedMove.y = 0;
 
-	/**/double start_alphaBeta = clock();
-	finalMove = alphaBeta(&gameDatas.Board, IA_DEEP, ALPHA, BETA, WHITE, WHITE);
-	/**/time_alphaBeta += (clock() - start_alphaBeta) / double(CLOCKS_PER_SEC) * 1000;
+	// /**/double start_alphaBeta = clock();
+	finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, WHITE, WHITE);
+	// /**/time_alphaBeta += (clock() - start_alphaBeta) / double(CLOCKS_PER_SEC) * 1000;
 
 	BoardTools::printParents(finalMove);
 	decidedMove = BoardTools::getFistMove(finalMove);
@@ -60,11 +60,13 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 	Board	*valBoard = NULL;
 	Board	*bestBoard = NULL;
 
-	/**/int start_EvaluateBoard = clock();
+	// /**/int start_EvaluateBoard = clock();
 	board->heuristic = Heuristic::EvaluateBoard(*board, decideMoveFor);
-	/**/time_EvaluateBoard += (clock() - start_EvaluateBoard) / double(CLOCKS_PER_SEC) * 1000;
-	/**/n_EvaluateBoard++;
+	// std::cout << "heuristic = " << board->heuristic << std::endl;
+	// BoardTools::DisplayBoardChars(*board);
 
+	// /**/time_EvaluateBoard += (clock() - start_EvaluateBoard) / double(CLOCKS_PER_SEC) * 1000;
+	// /**/n_EvaluateBoard++;
 	if (deep == 0 || board->isVictory)
 	{
 		if (player != decideMoveFor)
@@ -78,7 +80,7 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 		generatePossibleBoards(board, player, decideMoveFor);
 		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
-			
+
 			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
 			valBoard->heuristic = -valBoard->heuristic;
 			if (valBoard->heuristic > bestBoard->heuristic)
@@ -98,7 +100,7 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 
 void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMoveFor)
 {
-	/**/int start_generatePossibleBoards = clock();
+	// /**/int start_generatePossibleBoards = clock();
 	static t_vec2	move_tmp;
 	static int		x;
 	static int		y;
@@ -115,7 +117,7 @@ void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMove
 			}
 		}
 	}
-	/**/time_generatePossibleBoards += (clock() - start_generatePossibleBoards) / double(CLOCKS_PER_SEC) * 1000;
+	// /**/time_generatePossibleBoards += (clock() - start_generatePossibleBoards) / double(CLOCKS_PER_SEC) * 1000;
 	//std::cout << "nb of possible boards for current board: " << board.next.size() << std::endl;
 }
 
@@ -127,7 +129,7 @@ void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMove
 
 void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor)
 {
-	/**/int start_generateBoardsFromPoint = clock();
+	// /**/int start_generateBoardsFromPoint = clock();
 	int		i = 8;
 	Board*	newBoard;
 	t_vec2	nextMove;
@@ -139,39 +141,39 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 	nextMove.y = point.y + 1;
 	while (i != -1)
 	{
-		/**/int start_IsPointIn = clock();
+		// /**/int start_IsPointIn = clock();
 		b_isPointIn = BoardTools::IsPointIn(nextMove);
-		/**/time_IsPointIn += (clock() - start_IsPointIn) / double(CLOCKS_PER_SEC) * 1000;
+		// /**/time_IsPointIn += (clock() - start_IsPointIn) / double(CLOCKS_PER_SEC) * 1000;
 
 		if (b_isPointIn && curBoard->map[nextMove.y][nextMove.x] == NONE)
 		{
-			/**/int start_isMoveAuthorized = clock();
+			// /**/int start_isMoveAuthorized = clock();
 			b_isMoveAuthorized = GameRules::isMoveAuthorized(*curBoard, player, nextMove);
-			/**/time_isMoveAuthorized += (clock() - start_isMoveAuthorized) / double(CLOCKS_PER_SEC) * 1000;
+			// /**/time_isMoveAuthorized += (clock() - start_isMoveAuthorized) / double(CLOCKS_PER_SEC) * 1000;
 
 			if (b_isMoveAuthorized)
 			{
-				/**/int start_newBoard = clock();
+				// /**/int start_newBoard = clock();
 				newBoard = new Board(*curBoard, curBoard, nextMove, player);
-				/**/time_newBoard += (clock() - start_newBoard) / double(CLOCKS_PER_SEC) * 1000;
+				// /**/time_newBoard += (clock() - start_newBoard) / double(CLOCKS_PER_SEC) * 1000;
 				
-				/**/int start_IsInList = clock();
+				// /**/int start_IsInList = clock();
 				b_IsInList = BoardTools::IsInList(*newBoard, possibleBoards);
-				/**/time_IsInList += (clock() - start_IsInList) / double(CLOCKS_PER_SEC) * 1000;
+				// /**/time_IsInList += (clock() - start_IsInList) / double(CLOCKS_PER_SEC) * 1000;
 
 				if (b_IsInList == false)
 				{			
-					/**/int start_doCapture = clock();
+					// /**/int start_doCapture = clock();
 					GameRules::doCaptures(*newBoard, player, nextMove);
-					/**/time_doCaptures += (clock() - start_doCapture) / double(CLOCKS_PER_SEC) * 1000;
+					// /**/time_doCaptures += (clock() - start_doCapture) / double(CLOCKS_PER_SEC) * 1000;
 					possibleBoards.push_back(newBoard);
 					n_newBoard++;
 				}
 				else
 				{
-					/**/int start_delBoard = clock();
+					// /**/int start_delBoard = clock();
 					delete newBoard;
-					/**/time_delBoard += (clock() - start_delBoard) / double(CLOCKS_PER_SEC) * 1000;
+					// /**/time_delBoard += (clock() - start_delBoard) / double(CLOCKS_PER_SEC) * 1000;
 				}
 			}
 		}
@@ -183,5 +185,5 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 		}
 		i--;
 	}
-	/**/time_generateBoardsFromPoint += (clock() - start_generateBoardsFromPoint) / double(CLOCKS_PER_SEC) * 1000;
+	// /**/time_generateBoardsFromPoint += (clock() - start_generateBoardsFromPoint) / double(CLOCKS_PER_SEC) * 1000;
 }

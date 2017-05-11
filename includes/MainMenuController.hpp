@@ -21,6 +21,12 @@ class MainMenuController
 		GameImage		*btn_play_p2;
 		GameImage		*btn_quit;
 
+		GameImage		*depth_select_txt;
+		GameText		*depth_value_txt;
+		GameImage		*depth_select_left_arrow;
+		GameImage		*depth_select_right_arrow;
+
+
 		GameImage		*credits;
 
 		GameImage		*on_hover;

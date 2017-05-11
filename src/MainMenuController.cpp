@@ -32,6 +32,10 @@ void	MainMenuController::LoadImages(SDLHandler &SDLHandler)
 	btn_play_ia = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_btn_play_ia.bmp");
 	btn_play_p2 = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_btn_play_p2.bmp");
 	btn_quit = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_btn_quit.bmp");
+	depth_select_txt = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_depth_txt.bmp");
+	depth_value_txt = new GameText(SDLHandler, "3", 64);
+	depth_select_left_arrow = new GameImage(SDLHandler, "./ressources/img/main_menu/arrow_left.bmp");
+	depth_select_right_arrow = new GameImage(SDLHandler, "./ressources/img/main_menu/arrow_right.bmp");
 	credits = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_credit_txt.bmp");
 	on_hover = new GameImage(SDLHandler, "./ressources/img/main_menu/main_menu_hover_selected.bmp");
 }
@@ -63,6 +67,18 @@ void	MainMenuController::DisplayImages(SDLHandler &SDLHandler)
 
 	btn_quit->FadeIn();
 	btn_quit->PutImage(SDLHandler);
+
+	depth_select_txt->FadeIn();
+	depth_select_txt->PutImage(SDLHandler);
+
+	depth_value_txt->FadeIn();
+	depth_value_txt->PutText(SDLHandler);
+
+	depth_select_left_arrow->FadeIn();
+	depth_select_left_arrow->PutImage(SDLHandler);
+
+	depth_select_right_arrow->FadeIn();
+	depth_select_right_arrow->PutImage(SDLHandler);
 
 	credits->FadeIn();
 	credits->PutImage(SDLHandler);
@@ -100,6 +116,26 @@ void	MainMenuController::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	btn_quit->SetImgSize(600, 125);
 	btn_quit->SetAlpha(0);
 	btn_quit->PutImage(SDLHandler);
+
+	depth_select_txt->SetImgPos(1730, 520);
+	depth_select_txt->SetImgSize(148, 47);
+	depth_select_txt->SetAlpha(0);
+	depth_select_txt->PutImage(SDLHandler);
+
+	depth_value_txt->SetTextPos(1795, 600);
+	depth_value_txt->SetTextSize(34, 57);
+	depth_value_txt->SetAlpha(255);
+	depth_value_txt->PutText(SDLHandler);
+
+	depth_select_left_arrow->SetImgPos(1725, 600);
+	depth_select_left_arrow->SetImgSize(33, 66);
+	depth_select_left_arrow->SetAlpha(0);
+	depth_select_left_arrow->PutImage(SDLHandler);
+
+	depth_select_right_arrow->SetImgPos(1860, 600);
+	depth_select_right_arrow->SetImgSize(33, 68);
+	depth_select_right_arrow->SetAlpha(0);
+	depth_select_right_arrow->PutImage(SDLHandler);
 
 	credits->SetImgPos(1640, 840);
 	credits->SetImgSize(250, 182);
@@ -144,6 +180,25 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 				SDL_Quit();
 				exit (0);
 			}
+			else if (depth_select_left_arrow->IsColliding(event.button.x,
+						event.button.y))
+			{
+				// std::cout << "Onclick lower IA DEPTH" << std::endl;
+				if (GameDatas.IA_Depth > 1)
+					GameDatas.IA_Depth -= 1; 
+				depth_value_txt->SetText(SDLHandler, std::to_string(GameDatas.IA_Depth));
+				depth_value_txt->PutText(SDLHandler);
+			}
+			else if (depth_select_right_arrow->IsColliding(event.button.x,
+						event.button.y))
+			{
+				// std::cout << "Onclick up IA DEPTH" << std::endl;
+				if (GameDatas.IA_Depth < 10)
+					GameDatas.IA_Depth += 1;
+				depth_value_txt->SetText(SDLHandler, std::to_string(GameDatas.IA_Depth));
+				depth_value_txt->PutText(SDLHandler);
+			}
+
 		}
 	}
 }

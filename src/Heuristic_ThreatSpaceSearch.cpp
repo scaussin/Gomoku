@@ -5,7 +5,7 @@ int		Heuristic::threatSpaceSearchPatterns(Board &board,
 {
 	int				ret = 0;
 
-	if (strncmp(line, "11110", 6) == 0 && strncmp(backLine, "12", 2) == 0)
+	if (strncmp(line, "11110", 5) == 0 && strncmp(backLine, "12", 2) == 0)
 	{
 		// std::cout << KMAG "- FOUR" KRESET << std::endl;
 		ret += FOUR;
@@ -18,10 +18,11 @@ int		Heuristic::threatSpaceSearchPatterns(Board &board,
 	else if (strncmp(line, "1100", 4) == 0 && strncmp(backLine, "1100", 4) == 0)
 	{
 		// std::cout << KMAG "- THREE (2-2 opened)" KRESET << std::endl;
-		ret += THREE;
+		ret += STRAIGHT_THREE;
 	}
 	else if ((strncmp(line, "1102", 4) == 0 && strncmp(backLine, "1100", 4) == 0)
-		|| (strncmp(line, "1100", 4) == 0 && strncmp(backLine, "1102", 4) == 0))
+		|| (strncmp(line, "1100", 4) == 0 && strncmp(backLine, "1102", 4) == 0)
+		|| (strncmp(line, "1110", 4) == 0 && strncmp(backLine, "12", 2) == 0))
 	{
 		// std::cout << KMAG "- THREE (1-2 opened)" KRESET << std::endl;
 		ret += THREE;
@@ -35,6 +36,10 @@ int		Heuristic::threatSpaceSearchPatterns(Board &board,
 	{
 		// std::cout << KMAG "- BROKEN THREE (REVERSED)" KRESET << std::endl;
 		ret += BROKEN_THREE;
+	}
+	else if (strncmp(line, "111010", 6) == 0 && strncmp(backLine, "10", 2) == 0)
+	{
+		ret += BROKEN_FOUR;
 	}
 	return (ret);
 }

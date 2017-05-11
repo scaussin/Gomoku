@@ -43,7 +43,7 @@ std::string		Tools::GetPointsLine(Board &board, t_vec2 point,
 	static int				x_watch;
 	static int				y_watch;
 
-	std::string		ret;
+	std::string				ret;
 
 	ret = "";
 	// we set the modifiers to move on our line.
@@ -63,18 +63,19 @@ std::string		Tools::GetPointsLine(Board &board, t_vec2 point,
 	return (ret);
 }
 
-void		Tools::GetPatternPointsLine(char *line, Board &board, t_vec2 point,
+void		Tools::GetPatternPointsLine(char *line, Board &board, t_vec2 &point,
 				t_dir dir, int nb_points, t_Color color)
 {
 	static int				mod_x;
 	static int				mod_y;
 	static int				x_watch;
 	static int				y_watch;
+	static int				i;
 
 	// we set the modifiers to move on our line.
 	SetMoveModifiers(mod_x, mod_y, dir);
 	// we look into the asked number of point to make our line
-	for (int i = 0; i != nb_points; i++)
+	for (i = 0; i != nb_points; ++i)
 	{
 		y_watch = point.y + mod_y * i;
 		x_watch = point.x + mod_x * i;
@@ -104,6 +105,99 @@ void		Tools::GetPatternPointsLine(char *line, Board &board, t_vec2 point,
 			line[i] = 0;
 			return ;
 		}
+	}
+}
+
+/*
+**	Get the lines of values in both directions -> only one call.
+*/
+
+void				Tools::GetDualPatternPointsLine(char *line, char *BackLine, Board &board, t_vec2 &point,
+									t_dir dir, int nb_points, t_Color color)
+{
+	static int				mod_x;
+	static int				mod_y;
+	static int				x_watch;
+	static int				y_watch;
+	static int				i;
+
+	// we set the modifiers to move on our line.
+	SetMoveModifiers(mod_x, mod_y, dir);
+	// we look into the asked number of point to make our line
+	for (i = 0; i != nb_points; ++i)
+	{
+		y_watch = point.y + mod_y * i;
+		x_watch = point.x + mod_x * i;
+		// we dont want to look out of the board.
+		if (y_watch >= 0 && y_watch < 19
+			&& x_watch >= 0 && x_watch < 19)
+		{
+			if (board.map[y_watch][x_watch] == 1) // black
+			{
+				if (color == BLACK)
+					line[i] = '1';
+				else
+					line[i] = '2';
+			}
+			else if (board.map[y_watch][x_watch] == 2) // white
+			{
+				if (color == BLACK)
+					line[i] = '2';
+				else
+					line[i] = '1';
+			}
+			else 
+				line[i] = '0';
+		}
+		else
+		{
+			line[i] = 0;
+		}
+		// reverse side.
+		y_watch = point.y - mod_y * i;
+		x_watch = point.x - mod_x * i;
+		if (y_watch >= 0 && y_watch < 19
+			&& x_watch >= 0 && x_watch < 19)
+		{
+			if (board.map[y_watch][x_watch] == 1) // black
+			{
+				if (color == BLACK)
+					BackLine[i] = '1';
+				else
+					BackLine[i] = '2';
+			}
+			else if (board.map[y_watch][x_watch] == 2) // white
+			{
+				if (color == BLACK)
+					BackLine[i] = '2';
+				else
+					BackLine[i] = '1';
+			}
+			else 
+				BackLine[i] = '0';
+		}
+		else
+		{
+			BackLine[i] = 0;
+		}
+	}
+
+}
+
+void		Tools::ReversePatternColors(char *line, char *backLine, int nb_points)
+{
+	static int i = 0;
+
+	for (i = 0; i != nb_points; ++i)
+	{
+		if (line[i] == '1')
+			line[i] = '2';
+		else if (line[i] == '2')
+			line[i] = '1';
+		if (backLine[i] == '1')
+			backLine[i] = '2';
+		else if (backLine[i] == '2')
+			backLine[i] = '1';
 	}
 }
 

@@ -153,3 +153,10 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 		}
 	}
 }
+
+// TODO
+// void	InGameController::TransitionBackToMainMenu(SDLHandler &SDLHandler)
+// {
+
+// }
+
