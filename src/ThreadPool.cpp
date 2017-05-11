@@ -15,24 +15,20 @@ void		ThreadWorker::Work()
 	std::cout << "hello working!" << std::endl;
 	while (1)
 	{
-		if (WorkerMutex.try_lock())
+		WorkerMutex.lock();
+		if (IsAsleep == false)
 		{
-			if (IsAsleep == false)
-			{
-				// std::cout << "<- thread #" << ThreadIndex << " working on task" KRESET << std::endl;
-				Heuristic::EvaluateAllDir(TaskToProcess->board,
-					TaskToProcess->playerColor, TaskToProcess->curPoint, TaskToProcess->retval);
-				TaskToProcess = NULL;
-				IsAsleep = true;
-				WorkerMutex.unlock();
-				// std::cout << KGRN "-> thread #" << ThreadIndex << " task done" KRESET << std::endl;
-			}
-			else
-			{
-				WorkerMutex.unlock();
-			}
+			// std::cout << "<- thread #" << ThreadIndex << " working on task" KRESET << std::endl;
+			Heuristic::EvaluateAllDir(TaskToProcess->get()->board,
+				TaskToProcess->get()->playerColor, TaskToProcess->get()->curPoint, TaskToProcess->get()->retval);
+			IsAsleep = true;
+			TaskToProcess = NULL;
+			break;
+			// std::cout << KGRN "-> thread #" << ThreadIndex << " task done" KRESET << std::endl;
 		}
+		WorkerMutex.unlock();
 	}
+	this->Thread.join();
 }
 
 /*
@@ -62,8 +58,6 @@ ThreadPool::~ThreadPool()
 	// }
 }
 
-// TASK ORDONANCER.
-
 void		ThreadPool::AddHeuristicReadlineTask(Board *board, t_Color *playerColor, t_vec2 *curPoint, int *dir, int *retval)
 {
 	t_HeuristickReadLineTask new_task;
@@ -86,6 +80,7 @@ void		ThreadPool::AddHeuristicReadlineTask(Board *board, t_Color *playerColor, t
 	// TasksMutex.unlock();
 }
 
+// TASK ORDONANCER.
 void		ThreadPool::AddHeuristicTask(Board *board, t_Color *playerColor, t_vec2 *curPoint, int *retval)
 {
 	t_HeuristickReadLineTask	*new_task;
@@ -108,21 +103,25 @@ void		ThreadPool::AddHeuristicTask(Board *board, t_Color *playerColor, t_vec2 *c
 	{
 		for (i = 0; i != THREADPOOL_SIZE; ++i)
 		{
-			if (ThreadWorkers[i]->WorkerMutex.try_lock())
+			ThreadWorkers[i]->WorkerMutex.lock();
+			if (ThreadWorkers[i]->IsAsleep == true)
 			{
-				if (ThreadWorkers[i]->IsAsleep == true)
-				{
-					ThreadWorkers[i]->TaskToProcess = new_task;
-					ThreadWorkers[i]->IsAsleep = false; // wake up thread to exec task.
-					taskAssigned = true;
-					// CurrentTaskNb += 1;
-					// std::cout << KYEL "Task #" << z << " assigned to thread #" << i << KRESET << std::endl;
-					ThreadWorkers[i]->WorkerMutex.unlock();
-					z++;
-					break ;
-				}
+				ThreadWorkers[i]->TaskToProcess = new std::shared_ptr<t_HeuristickReadLineTask> (new_task);
+				// ThreadWorkers[i]->TaskToProcess.IsAssigned = true;
+				// ThreadWorkers[i]->TaskToProcess.IsDone = false;
+				// ThreadWorkers[i]->TaskToProcess.board = board;
+				// ThreadWorkers[i]->TaskToProcess.playerColor = playerColor;
+				// ThreadWorkers[i]->TaskToProcess.curPoint = curPoint;
+				// ThreadWorkers[i]->TaskToProcess.retval = retval;
+				ThreadWorkers[i]->IsAsleep = false; // wake up thread to exec task.
+				taskAssigned = true;
+				// CurrentTaskNb += 1;
+				// std::cout << KYEL "Task #" << z << " assigned to thread #" << i << KRESET << std::endl;
 				ThreadWorkers[i]->WorkerMutex.unlock();
+				z++;
+				break ;
 			}
+			ThreadWorkers[i]->WorkerMutex.unlock();
 		}
 	}
 
@@ -183,10 +182,12 @@ bool		ThreadPool::WaitForTasks()
 
 	for (int i = 0; i != THREADPOOL_SIZE; i++)
 	{
+		ThreadWorkers[i]->WorkerMutex.lock();
 		if (ThreadWorkers[i]->IsAsleep == false)
 		{
 			all_done = false;
 		}
+		ThreadWorkers[i]->WorkerMutex.unlock();
 	}
 	return (all_done);
 

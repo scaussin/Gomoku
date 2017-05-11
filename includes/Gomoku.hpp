@@ -48,7 +48,7 @@ using namespace std;
 
 # define DEBUG_MODE 1
 
-# define THREADPOOL_SIZE 8
+# define THREADPOOL_SIZE 3
 
 /*
 **	SDL engine defines

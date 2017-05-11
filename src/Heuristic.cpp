@@ -7,9 +7,9 @@
 //															//
 // --------------------------------------------------------	//
 
-static ThreadPool	g_ThreadPool;
+// static ThreadPool	g_ThreadPool;
 
-int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
+int		Heuristic::EvaluateBoard(Board &board, t_Color &playerColor)
 {
 	// the return value.
 	int					boardValue = 0;
@@ -22,6 +22,8 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 	static t_vec2		curPoint;
 
 	int 				boardValues[361];
+	std::thread			pointThreads[THREADPOOL_SIZE];
+	int					thread_i;
 
 	// t_Color				enemy_color;
 
@@ -37,6 +39,7 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 	{
 		boardValues[i] = 0;
 	}
+	thread_i = 0;
 	i = 0;
 	for (y = 0; y < 19; ++y)
 	{
@@ -56,8 +59,25 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 				// g_ThreadPool.AddHeuristicReadlineTask(&board, &playerColor, &curPoint, &dir, &(dirBoardValues[5]));
 				// g_ThreadPool.AddHeuristicReadlineTask(&board, &playerColor, &curPoint, &dir, &(dirBoardValues[6]));
 				// g_ThreadPool.AddHeuristicReadlineTask(&board, &playerColor, &curPoint, &dir, &(dirBoardValues[7]));
-				g_ThreadPool.AddHeuristicTask(&board, &playerColor, &curPoint, &(boardValues[i]));
 
+
+				// g_ThreadPool.AddHeuristicTask(&board, &playerColor, &curPoint, &(boardValues[i]));
+
+				pointThreads[thread_i] = std::thread(EvaluateAllDir, &board, &playerColor, &curPoint, &(boardValues[i]));
+				// std::cout << "thread use " << thread_i << std::endl;
+				thread_i++;
+				
+				if (thread_i == THREADPOOL_SIZE)
+				{
+					// std::cout << "thread pool filled " << std::endl;
+					for (thread_i = 0; thread_i < THREADPOOL_SIZE; ++thread_i)
+					{
+						pointThreads[thread_i].join();
+						// std::cout << "thread join" << std::endl;
+					}
+					thread_i = 0;
+					// std::cout << "thread reset" << std::endl;
+				}
 				// g_ThreadPool.ClearTasks();
 				// std::thread dir1(EvaluateOneDir, &board, &playerColor, &curPoint, (t_dir)dir, &(dirBoardValues[0]));
 				// std::thread dir2(EvaluateOneDir, &board, &playerColor, &curPoint, (t_dir)dir + 1, &(dirBoardValues[1]));
@@ -128,10 +148,19 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 			}
 		}
 	}
-	while (g_ThreadPool.WaitForTasks() == false)
+	for (thread_i = 0; thread_i < THREADPOOL_SIZE; ++thread_i)
 	{
-
+		if (pointThreads[thread_i].joinable() == true)
+		{
+			pointThreads[thread_i].join();
+		}
+		// std::cout << "thread join" << std::endl;
 	}
+	// while (g_ThreadPool.WaitForTasks() == false)
+	// {
+
+	// }
+
 	for (i = 0; i < 361; ++i)
 	{
 		boardValue += boardValues[i];

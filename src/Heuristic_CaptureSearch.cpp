@@ -7,7 +7,6 @@ int		Heuristic::captureSearchPatterns(Board &board,
 	t_Color			enemyColor;
 
 	enemyColor = Tools::inverseColorPlayer(playerColor);
-
 	// ATTACK CAPTURE - I can capture
 	if (strncmp(line, "1220", 4) == 0)
 	{

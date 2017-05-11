@@ -8,7 +8,7 @@ class Heuristic
 	public:
 		// static ThreadPool	g_ThreadPool;
 
-		static int			EvaluateBoard(Board &board, t_Color playerColor);
+		static int			EvaluateBoard(Board &board, t_Color &playerColor);
 
 
 		static void			EvaluateOneDir(Board *board,

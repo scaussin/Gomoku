@@ -25,12 +25,12 @@ typedef struct	s_HeuristickReadLineTask
 class ThreadWorker
 {
 	public:
-		int								ThreadIndex;
-		bool							IsAsleep;
-		t_HeuristickReadLineTask		*TaskToProcess;
-		std::thread						Thread;
+		int												ThreadIndex;
+		bool											IsAsleep;
+		std::shared_ptr<t_HeuristickReadLineTask>		*TaskToProcess;
+		std::thread										Thread;
 
-		std::mutex						WorkerMutex;
+		std::mutex										WorkerMutex;
 
 
 		ThreadWorker(int index);
