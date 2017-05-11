@@ -12,6 +12,7 @@ class Board
 
 		// attributes
 		char			map[19][19];
+		map<char*, int > foo;
 		int				heuristic;
 		Board*			parent;
 		vector<Board*>	next;

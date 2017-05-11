@@ -3,6 +3,7 @@
 double time_IsPointIn = 0;
 double time_isMoveAuthorized = 0;
 double time_newBoard = 0;
+double time_delBoard = 0;
 double time_doCaptures = 0;
 double time_EvaluateBoard = 0;
 double time_IsInList = 0;
@@ -167,7 +168,11 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 					n_newBoard++;
 				}
 				else
+				{
+					/**/int start_delBoard = clock();
 					delete newBoard;
+					/**/time_delBoard += (clock() - start_delBoard) / double(CLOCKS_PER_SEC) * 1000;
+				}
 			}
 		}
 		nextMove.x += 1;

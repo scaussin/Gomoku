@@ -3,13 +3,21 @@
 extern double time_IsPointIn;
 extern double time_isMoveAuthorized;
 extern double time_newBoard;
+extern double time_delBoard;
 extern double time_doCaptures;
 extern double time_EvaluateBoard;
 extern double time_IsInList;
 extern double time_alphaBeta;
-
 extern double time_generatePossibleBoards;
 extern double time_generateBoardsFromPoint;
+
+extern double time_victorySearchPatterns;
+extern double time_simpleSearchPatterns;
+extern double time_threatSpaceSearchPatterns;
+extern double time_captureSearchPatterns;
+extern double time_GetPatternPointsLine;
+
+
 
 extern int n_newBoard;
 extern int n_EvaluateBoard;
@@ -106,15 +114,22 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		cout << "n_newBoard: " << n_newBoard << endl;
 		cout << "n_EvaluateBoard visited: " << n_EvaluateBoard << endl;
 		cout << "time alphaBeta: " << time_alphaBeta << " ms" << endl;
-		cout << "  time EvaluateBoard: " << time_EvaluateBoard<< " ms" << endl;
-		cout << "  time generatePossibleBoards: " << time_generatePossibleBoards << " ms" << endl;
-		cout << "    time time_generateBoardsFromPoint: " << time_generateBoardsFromPoint  << " ms" << endl;
-		cout << "      time IsPointIn: " << time_IsPointIn<< " ms" << endl;
-		cout << "      time isMoveAuthorized: " << time_isMoveAuthorized<< " ms" << endl;
-		cout << "      time newBoard: " << time_newBoard<< " ms" << endl;
-		cout << "      time doCaptures: " << time_doCaptures<< " ms" << endl;
-		cout << "      time IsInList: " << time_IsInList << " ms" << endl;
+		cout << "  time EvaluateBoard: " << time_EvaluateBoard<< " ms" << " (" << (time_EvaluateBoard / time_alphaBeta)*100<< "%) " << endl;
+		cout << "    time GetPatternPointsLine: " << time_GetPatternPointsLine << " ms"<< " (" << (time_GetPatternPointsLine / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "    time victorySearchPatterns: " << time_victorySearchPatterns << " ms"<< " (" << (time_victorySearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "    time simpleSearchPatterns: " << time_simpleSearchPatterns << " ms"<< " (" << (time_simpleSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "    time threatSpaceSearchPatterns: " << time_threatSpaceSearchPatterns << " ms"<< " (" << (time_threatSpaceSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "    time captureSearchPatterns: " << time_captureSearchPatterns << " ms"<< " (" << (time_captureSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "  time generatePossibleBoards: " << time_generatePossibleBoards << " ms" << " (" << (time_generatePossibleBoards / time_alphaBeta)*100<< "%) " << endl;
+		cout << "    time generateBoardsFromPoint: " << time_generateBoardsFromPoint<< " (" << (time_generateBoardsFromPoint / time_generatePossibleBoards)*100<< "%) " << " rest: " <<time_generateBoardsFromPoint - (time_IsPointIn+time_isMoveAuthorized+time_newBoard+time_IsInList+time_doCaptures+time_delBoard)  << " ms" << endl;
+		cout << "      time IsPointIn: " << time_IsPointIn<< " ms" << " (" << (time_IsPointIn / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "      time isMoveAuthorized: " << time_isMoveAuthorized << " ms"<< " (" << (time_isMoveAuthorized / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "      time newBoard: " << time_newBoard << " ms"<< " (" << (time_newBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "      time IsInList: " << time_IsInList << " ms"<< " (" << (time_IsInList / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "      time doCaptures: " << time_doCaptures<< " ms"<< " (" << (time_doCaptures / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "      time delBoard: " << time_delBoard << " ms"<< " (" << (time_delBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
 		time_alphaBeta = 0;
+		time_delBoard = 0;
 		time_generatePossibleBoards = 0;
 		time_generateBoardsFromPoint = 0;
 		time_IsInList = 0;
@@ -125,6 +140,12 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		time_EvaluateBoard = 0;
 		n_newBoard = 0;
 		n_EvaluateBoard = 0;
+
+		time_victorySearchPatterns = 0;
+		time_simpleSearchPatterns = 0;
+		time_threatSpaceSearchPatterns = 0;
+		time_captureSearchPatterns = 0;
+		time_GetPatternPointsLine = 0;
 
 		GameDatas.Board.setPoint(IaMove, WHITE);
 		GameRules::doCaptures(GameDatas.Board, WHITE, IaMove);

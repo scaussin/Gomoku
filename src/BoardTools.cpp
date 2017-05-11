@@ -51,14 +51,14 @@ void		BoardTools::DisplayBoardChars(Board &board)
 			else if (value == BLACK)
 			{
 				if (board.lastMove.y == y && board.lastMove.x == x)
-					cout << "\e[4m⚫ \e[24m";
+					cout << "\e[42m⚫ \e[0m";
 				else
 					cout << "⚫ ";
 			}
 			else if (value == WHITE)
 			{
 				if (board.lastMove.y == y && board.lastMove.x == x)
-					cout << "\e[4m⚪ \e[24m";
+					cout << "\e[42m⚪ \e[0m";
 				else
 					cout << "⚪ ";
 			}
