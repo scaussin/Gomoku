@@ -41,7 +41,6 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 			curPoint.y = y;
 			// we seek patterns on lines in every directions
 			curStone = board.getPoint(curPoint);
-			//if ((t_Color)board.getPoint(curPoint) != NONE && (t_Color)board.getPoint(curPoint) != SUGGESTION)
 			if (curStone == BLACK || curStone == WHITE)
 			{
 				for (dir = 1; dir != 9; ++dir)
@@ -49,7 +48,6 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 					// from the curPoint, we get the 7 values on the line, and the 7 values on the behind.
 					// /**/int start_GetPatternPointsLine = clock();
 					Tools::GetDualPatternPointsLine(&(line[0]), &(backLine[0]), board, curPoint, (t_dir)dir, 7, playerColor);
-					// Tools::GetPatternPointsLine(&(backLine[0]), board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7, playerColor);
 					// /**/time_GetPatternPointsLine += (clock() - start_GetPatternPointsLine) / double(CLOCKS_PER_SEC) * 1000;
 					
 
@@ -80,9 +78,6 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 
 					// OPPOSITE SIDE
 					// /**/start_GetPatternPointsLine = clock();
-					// Tools::GetPatternPointsLine(&(line[0]), board, curPoint, (t_dir)dir, 7, enemy_color);
-					// Tools::GetPatternPointsLine(&(backLine[0]), board, curPoint, Tools::GetOppositeDir((t_dir)dir), 7, enemy_color);
-
 					Tools::ReversePatternColors(&(line[0]), &(backLine[0]), 7);
 					// /**/time_GetPatternPointsLine += (clock() - start_GetPatternPointsLine) / double(CLOCKS_PER_SEC) * 1000;
 					// Here we add our different heuristic search patterns to the board's value.
@@ -117,8 +112,29 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 	return (boardValue);
 }
 
-// TODO: multithread / buffer for each dir.
-// int		Heuristic::EvaluateOneDir(Board &board, t_Color playerColor, t_vec2 curPoint, t_dir dir, char *line, char *backLine)
-// {
+// --------------------------------------------------------	//
+//															//
+//	Light pre Heuristic Function.							//
+//	Returns a int heuristic value for the last move			//
+//	of the board. Light and fast!							//
+//															//
+// --------------------------------------------------------	//
 
-// }
+int		Heuristic::PreEvaluateBoard(Board &board, t_Color playerColor)
+{
+	// the return value.
+	int					boardValue = 0;
+	static char			line[7];
+	static char			backLine[7];
+	static int			dir;
+
+	for (dir = 1; dir != 9; ++dir)
+	{
+		Tools::GetDualPatternPointsLine(&(line[0]), &(backLine[0]), board, board.lastMove, (t_dir)dir, 7, playerColor);
+		boardValue += victorySimpleSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
+		boardValue += threatSpaceSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
+		boardValue += captureSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
+	}
+	return (boardValue);
+}
+

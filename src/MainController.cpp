@@ -3,6 +3,10 @@
 MainController::MainController() : CurrentScene(IN_GAME)
 {
 	GameDatas.IA_Depth = DEFAULT_IA_DEEP;
+	GameDatas.ActivePlayer = BLACK; // black always start the game.
+	GameDatas.LastSuggestion.x = 0;
+	GameDatas.LastSuggestion.y = 0;
+	GameDatas.CanClick = true;
 	if (DEBUG_MODE == 0)
 	{
 		CurrentScene = MAIN_MENU;

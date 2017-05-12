@@ -132,6 +132,10 @@ void		GameUI::UpdateUIValues(t_GameDatas &GameDatas, SDLHandler &SDLHandler)
 	BlackCapturesTextValue->SetText(SDLHandler, std::to_string(GameDatas.Board.BlackCaptures));
 	WhiteCapturesTextValue->SetText(SDLHandler, std::to_string(GameDatas.Board.WhiteCaptures));
 	IATimerValueText->SetText(SDLHandler, std::to_string(GameDatas.LastTurnIATime) + " ms");
+	if (GameDatas.ActivePlayer == BLACK)
+		PlayerTurnText->SetText(SDLHandler, "Black Turn");
+	if (GameDatas.ActivePlayer == WHITE)
+		PlayerTurnText->SetText(SDLHandler, "White Turn");
 }
 
 void		GameUI::DisplayUI(t_GameDatas &GameDatas, SDLHandler &SDLHandler)

@@ -142,9 +142,9 @@ typedef struct		s_VictorySequence
 
 // threat value defines
 
-# define THREE 12
+# define THREE 20
 # define STRAIGHT_THREE 16
-# define BROKEN_THREE 16
+# define BROKEN_THREE 20
 # define FOUR 20
 # define STRAIGHT_FOUR 200
 # define BROKEN_FOUR 150
@@ -152,6 +152,7 @@ typedef struct		s_VictorySequence
 // capture search defines
 
 # define ATTACK_CAPTURE_FORM 10
+# define CAPTURE_DONE 200
 # define VICTORY_CAPTURE_FORM 3000
 
 /*
@@ -169,6 +170,8 @@ typedef	struct		s_GameDatas
 
 	Board			Board;
 
+	bool			CanClick; // prevent multi click.
+
 	t_Color			ActivePlayer;
 	int				TurnNumber;
 	int				LastTurnIATime;
@@ -183,6 +186,8 @@ typedef	struct		s_GameDatas
 
 	bool			IsGameOver;
 	t_Color			WinnerColor;
+
+	t_vec2			LastSuggestion;
 
 }					t_GameDatas;
 

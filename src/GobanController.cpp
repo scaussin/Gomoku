@@ -153,8 +153,6 @@ void	GobanController::PutDisplay(t_GameDatas &Game, SDLHandler &SDLHandler)
 	i = 0;
 	while (i != _max_stones)
 	{
-		if (StonesImgList[i]->GetAlpha() < 255)
-			StonesImgList[i]->FadeIn();
 		StonesImgList[i]->PutImage(SDLHandler);
 		i++;
 	}
@@ -195,6 +193,10 @@ void	GobanController::SetPointDisplay(int x, int y, t_Color color, SDLHandler &S
 		new_surface = NoStoneSurface;
 	_index_tmp = y * 19 + x;
 	StonesImgList[_index_tmp]->SetSurface(SDLHandler, new_surface);
+	if (color == SUGGESTION)
+		StonesImgList[_index_tmp]->SetAlpha(150);
+	else
+		StonesImgList[_index_tmp]->SetAlpha(255);
 	StonesImgList[_index_tmp]->PutImage(SDLHandler);
 }
 

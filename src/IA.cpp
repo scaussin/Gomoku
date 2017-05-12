@@ -33,15 +33,18 @@ IA::~IA()
 
 t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 {
-	t_vec2 decidedMove;
-	Board	*finalMove;
+	t_vec2		decidedMove;
+	Board		*finalMove;
+	t_Color		enemyColor;
+
 	srand (time(NULL));
 
 	decidedMove.x = 0;
 	decidedMove.y = 0;
+	enemyColor = Tools::inverseColorPlayer(gameDatas.ActivePlayer);
 
 	// /**/double start_alphaBeta = clock();
-	finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, WHITE, WHITE);
+	finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, enemyColor, enemyColor);
 	// /**/time_alphaBeta += (clock() - start_alphaBeta) / double(CLOCKS_PER_SEC) * 1000;
 
 	BoardTools::printParents(finalMove);
@@ -61,7 +64,7 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 	Board	*bestBoard = NULL;
 
 	// /**/int start_EvaluateBoard = clock();
-	board->heuristic = Heuristic::EvaluateBoard(*board, decideMoveFor);
+	board->heuristic += Heuristic::EvaluateBoard(*board, decideMoveFor);
 	// std::cout << "heuristic = " << board->heuristic << std::endl;
 	// BoardTools::DisplayBoardChars(*board);
 

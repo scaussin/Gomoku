@@ -40,8 +40,10 @@ void	GameController::ResetGame(t_GameDatas &GameDatas)
 	GameDatas.Board.BlackCaptures = 0;
 	GameDatas.WhiteCaptures = 0;
 	GameDatas.Board.WhiteCaptures = 0;
+	GameDatas.Board.isVictory = false;
 	GameDatas.IsGameOver = false;
 	GameDatas.WinnerColor = NONE;
+	GameDatas.ActivePlayer = BLACK;
 
 	GameDatas.BlackInCheck = false;
 	GameDatas.WhiteInCheck = false;
@@ -63,8 +65,14 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	//	Input reception side												//
 	//																		//
 	// --------------------------------------------------------------------	//
+
 	std::cout << std::endl << KBLU "------ " KYEL <<  " Move " << GameDatas.TurnNumber << KBLU " ------" KRESET << std::endl;
 	std::cout << std::endl << KYEL << Tools::printColor(GameDatas.ActivePlayer) << KRESET << " tries to play move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
+		// erase last suggestion if not followed.
+	if (GameDatas.Board.getPoint(GameDatas.LastSuggestion) == SUGGESTION)
+	{
+		GameDatas.Board.setPoint(GameDatas.LastSuggestion, NONE);
+	}
 	if (GameRules.isMoveAuthorized(GameDatas.Board, GameDatas.ActivePlayer, move))
 	{
 		std::cout << KGRN "AUTHORIZED move for "
@@ -78,6 +86,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		std::cout << "Current board value: " << boardVal << std::endl;
 		GameDatas.TurnNumber += 1;
 		Goban.UpdateBoard(GameDatas, SDLHandler);
+		GameRules::CheckVictory(GameDatas);
 	}
 	else
 	{
@@ -85,7 +94,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 					<< Tools::printColor(GameDatas.ActivePlayer) << KRESET << std::endl;
 		return ;
 	}
-	GameRules::CheckVictory(GameDatas);
+	
 	if (GameDatas.IsGameOver)
 		return ;
 	// --------------------------------------------------------------------	//
@@ -107,59 +116,65 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	GameDatas.LastTurnIATime = std::chrono::duration_cast<std::chrono::milliseconds>
 		(chrono_end-chrono_start).count();
 
+	// ----- Time debug printing
+	cout << "n_newBoard: " << n_newBoard << endl;
+	cout << "n_EvaluateBoard visited: " << n_EvaluateBoard << endl;
+	cout << "time alphaBeta: " << time_alphaBeta << " ms" << endl;
+	cout << "  time EvaluateBoard: " << time_EvaluateBoard<< " ms" << " (" << (time_EvaluateBoard / time_alphaBeta)*100<< "%) " << endl;
+	cout << "    time GetPatternPointsLine: " << time_GetPatternPointsLine << " ms"<< " (" << (time_GetPatternPointsLine / time_EvaluateBoard)*100<< "%)" << endl;
+	cout << "    time victorySearchPatterns: " << time_victorySearchPatterns << " ms"<< " (" << (time_victorySearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+	cout << "    time simpleSearchPatterns: " << time_simpleSearchPatterns << " ms"<< " (" << (time_simpleSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+	cout << "    time threatSpaceSearchPatterns: " << time_threatSpaceSearchPatterns << " ms"<< " (" << (time_threatSpaceSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+	cout << "    time captureSearchPatterns: " << time_captureSearchPatterns << " ms"<< " (" << (time_captureSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+	cout << "  time generatePossibleBoards: " << time_generatePossibleBoards << " ms" << " (" << (time_generatePossibleBoards / time_alphaBeta)*100<< "%) " << endl;
+	cout << "    time generateBoardsFromPoint: " << time_generateBoardsFromPoint<< " (" << (time_generateBoardsFromPoint / time_generatePossibleBoards)*100<< "%) " << " rest: " <<time_generateBoardsFromPoint - (time_IsPointIn+time_isMoveAuthorized+time_newBoard+time_IsInList+time_doCaptures+time_delBoard)  << " ms" << endl;
+	cout << "      time IsPointIn: " << time_IsPointIn<< " ms" << " (" << (time_IsPointIn / time_generateBoardsFromPoint)*100<< "%)" << endl;
+	cout << "      time isMoveAuthorized: " << time_isMoveAuthorized << " ms"<< " (" << (time_isMoveAuthorized / time_generateBoardsFromPoint)*100<< "%)" << endl;
+	cout << "      time newBoard: " << time_newBoard << " ms"<< " (" << (time_newBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
+	cout << "      time IsInList: " << time_IsInList << " ms"<< " (" << (time_IsInList / time_generateBoardsFromPoint)*100<< "%)" << endl;
+	cout << "      time doCaptures: " << time_doCaptures<< " ms"<< " (" << (time_doCaptures / time_generateBoardsFromPoint)*100<< "%)" << endl;
+	cout << "      time delBoard: " << time_delBoard << " ms"<< " (" << (time_delBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
+	time_alphaBeta = 0;
+	time_delBoard = 0;
+	time_generatePossibleBoards = 0;
+	time_generateBoardsFromPoint = 0;
+	time_IsInList = 0;
+	time_IsPointIn = 0;
+	time_isMoveAuthorized = 0;
+	time_newBoard = 0;
+	time_doCaptures = 0;
+	time_EvaluateBoard = 0;
+	n_newBoard = 0;
+	n_EvaluateBoard = 0;
+
+	time_victorySearchPatterns = 0;
+	time_simpleSearchPatterns = 0;
+	time_threatSpaceSearchPatterns = 0;
+	time_captureSearchPatterns = 0;
+	time_GetPatternPointsLine = 0;
+	// ----- Time debug printing ----- END
+
 	if (GameDatas.SelectedGameMode == VS_IA)
 	{
 		std::cout << std::endl << KBLU "------ " KYEL <<  " Move " << GameDatas.TurnNumber << KBLU " ------" KRESET << std::endl;
 		std::cout << std::endl << KYEL "IA - WHITE" KRESET << " plays move in " << KYEL << IaMove.x << "x " << IaMove.y << "y" KRESET << std::endl;
 
-		cout << "n_newBoard: " << n_newBoard << endl;
-		cout << "n_EvaluateBoard visited: " << n_EvaluateBoard << endl;
-		cout << "time alphaBeta: " << time_alphaBeta << " ms" << endl;
-		cout << "  time EvaluateBoard: " << time_EvaluateBoard<< " ms" << " (" << (time_EvaluateBoard / time_alphaBeta)*100<< "%) " << endl;
-		cout << "    time GetPatternPointsLine: " << time_GetPatternPointsLine << " ms"<< " (" << (time_GetPatternPointsLine / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "    time victorySearchPatterns: " << time_victorySearchPatterns << " ms"<< " (" << (time_victorySearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "    time simpleSearchPatterns: " << time_simpleSearchPatterns << " ms"<< " (" << (time_simpleSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "    time threatSpaceSearchPatterns: " << time_threatSpaceSearchPatterns << " ms"<< " (" << (time_threatSpaceSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "    time captureSearchPatterns: " << time_captureSearchPatterns << " ms"<< " (" << (time_captureSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "  time generatePossibleBoards: " << time_generatePossibleBoards << " ms" << " (" << (time_generatePossibleBoards / time_alphaBeta)*100<< "%) " << endl;
-		cout << "    time generateBoardsFromPoint: " << time_generateBoardsFromPoint<< " (" << (time_generateBoardsFromPoint / time_generatePossibleBoards)*100<< "%) " << " rest: " <<time_generateBoardsFromPoint - (time_IsPointIn+time_isMoveAuthorized+time_newBoard+time_IsInList+time_doCaptures+time_delBoard)  << " ms" << endl;
-		cout << "      time IsPointIn: " << time_IsPointIn<< " ms" << " (" << (time_IsPointIn / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time isMoveAuthorized: " << time_isMoveAuthorized << " ms"<< " (" << (time_isMoveAuthorized / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time newBoard: " << time_newBoard << " ms"<< " (" << (time_newBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time IsInList: " << time_IsInList << " ms"<< " (" << (time_IsInList / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time doCaptures: " << time_doCaptures<< " ms"<< " (" << (time_doCaptures / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time delBoard: " << time_delBoard << " ms"<< " (" << (time_delBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		time_alphaBeta = 0;
-		time_delBoard = 0;
-		time_generatePossibleBoards = 0;
-		time_generateBoardsFromPoint = 0;
-		time_IsInList = 0;
-		time_IsPointIn = 0;
-		time_isMoveAuthorized = 0;
-		time_newBoard = 0;
-		time_doCaptures = 0;
-		time_EvaluateBoard = 0;
-		n_newBoard = 0;
-		n_EvaluateBoard = 0;
-
-		time_victorySearchPatterns = 0;
-		time_simpleSearchPatterns = 0;
-		time_threatSpaceSearchPatterns = 0;
-		time_captureSearchPatterns = 0;
-		time_GetPatternPointsLine = 0;
-
 		GameDatas.Board.setPoint(IaMove, WHITE);
 		GameRules::doCaptures(GameDatas.Board, WHITE, IaMove);
 		GameDatas.TurnNumber += 1;
+		GameRules::CheckVictory(GameDatas);
 	}
 	else if (GameDatas.SelectedGameMode == VS_P2)
 	{
-		Goban.SetPointDisplay(IaMove.x, IaMove.y, SUGGESTION, SDLHandler);
-		GameDatas.ActivePlayer = WHITE;
+
+		//Goban.SetPointDisplay(IaMove.x, IaMove.y, BLACK, SDLHandler);
+		GameDatas.Board.setPoint(IaMove, SUGGESTION);
+		GameDatas.ActivePlayer = Tools::inverseColorPlayer(GameDatas.ActivePlayer);
+		// needed to clear the board.
+		GameDatas.LastSuggestion.x = IaMove.x;
+		GameDatas.LastSuggestion.y = IaMove.y;
 	}
-	
 	Goban.UpdateBoard(GameDatas, SDLHandler);
-	GameRules::CheckVictory(GameDatas);
 }
 
 /*
