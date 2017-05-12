@@ -8,8 +8,8 @@ class BoardTools
 	public:
 		static t_Color		GetPointValue(Board &board, t_vec2 coord);
 		static t_Color		GetPointValue(Board &board, int x, int y);
-		static void			SetPointValue(Board &board, t_vec2 coord, t_Color newVal);
-		static void			SetPointValue(Board &board, int x, int y, t_Color newVal);
+		/*static void			SetPointValue(Board &board, t_vec2 coord, t_Color newVal);
+		static void			SetPointValue(Board &board, int x, int y, t_Color newVal);*/
 
 		static bool			IsPointIn(const t_vec2 point);
 

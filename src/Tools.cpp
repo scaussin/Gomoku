@@ -106,7 +106,7 @@ void		Tools::GetPatternPointsLine(char *line, Board &board, t_vec2 point,
 		}
 	}
 }
-
+/*
 t_Color		Tools::GetNextPoint(Board &board, t_vec2 point, t_dir dir)
 {
 	int				mod_x;
@@ -123,7 +123,7 @@ t_Color		Tools::GetNextPoint(Board &board, t_vec2 point, t_dir dir)
 		return ((t_Color)board.map[y_watch][x_watch]);
 	}
 	return ((t_Color)-1);
-}
+}*/
 
 /*
 **	We take two ints, and we set them according to the direction.
@@ -185,7 +185,7 @@ void	Tools::printError(string file, int line, string function, string msg, int e
 	if (errorLevel == ERR)
 	{
 		cout << "\e[41m[ERROR]\e[0m " << file << ":" << line << " in " << function << "()" << endl << "\t" << msg << endl;
-		//exit(1);
+		exit(1);
 	}
 	else if (errorLevel == WARN)
 		cout << "\e[43m[WARNING]\e[0m " << file << ":" << line << " in " << function << "()" << endl << "\t" << msg << endl;

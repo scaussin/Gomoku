@@ -114,20 +114,20 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		cout << "n_newBoard: " << n_newBoard << endl;
 		cout << "n_EvaluateBoard visited: " << n_EvaluateBoard << endl;
 		cout << "time alphaBeta: " << time_alphaBeta << " ms" << endl;
-		cout << "  time EvaluateBoard: " << time_EvaluateBoard<< " ms" << " (" << (time_EvaluateBoard / time_alphaBeta)*100<< "%) " << endl;
-		cout << "    time GetPatternPointsLine: " << time_GetPatternPointsLine << " ms"<< " (" << (time_GetPatternPointsLine / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "    time victorySearchPatterns: " << time_victorySearchPatterns << " ms"<< " (" << (time_victorySearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "    time simpleSearchPatterns: " << time_simpleSearchPatterns << " ms"<< " (" << (time_simpleSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "    time threatSpaceSearchPatterns: " << time_threatSpaceSearchPatterns << " ms"<< " (" << (time_threatSpaceSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "    time captureSearchPatterns: " << time_captureSearchPatterns << " ms"<< " (" << (time_captureSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
-		cout << "  time generatePossibleBoards: " << time_generatePossibleBoards << " ms" << " (" << (time_generatePossibleBoards / time_alphaBeta)*100<< "%) " << endl;
-		cout << "    time generateBoardsFromPoint: " << time_generateBoardsFromPoint<< " (" << (time_generateBoardsFromPoint / time_generatePossibleBoards)*100<< "%) " << " rest: " <<time_generateBoardsFromPoint - (time_IsPointIn+time_isMoveAuthorized+time_newBoard+time_IsInList+time_doCaptures+time_delBoard)  << " ms" << endl;
-		cout << "      time IsPointIn: " << time_IsPointIn<< " ms" << " (" << (time_IsPointIn / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time isMoveAuthorized: " << time_isMoveAuthorized << " ms"<< " (" << (time_isMoveAuthorized / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time newBoard: " << time_newBoard << " ms"<< " (" << (time_newBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time IsInList: " << time_IsInList << " ms"<< " (" << (time_IsInList / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time doCaptures: " << time_doCaptures<< " ms"<< " (" << (time_doCaptures / time_generateBoardsFromPoint)*100<< "%)" << endl;
-		cout << "      time delBoard: " << time_delBoard << " ms"<< " (" << (time_delBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "    time EvaluateBoard: " << time_EvaluateBoard<< " ms" << " (" << (time_EvaluateBoard / time_alphaBeta)*100<< "%) " << endl;
+		cout << "        time GetPatternPointsLine: " << time_GetPatternPointsLine << " ms"<< " (" << (time_GetPatternPointsLine / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "        time victorySearchPatterns: " << time_victorySearchPatterns << " ms"<< " (" << (time_victorySearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "        time simpleSearchPatterns: " << time_simpleSearchPatterns << " ms"<< " (" << (time_simpleSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "        time threatSpaceSearchPatterns: " << time_threatSpaceSearchPatterns << " ms"<< " (" << (time_threatSpaceSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "        time captureSearchPatterns: " << time_captureSearchPatterns << " ms"<< " (" << (time_captureSearchPatterns / time_EvaluateBoard)*100<< "%)" << endl;
+		cout << "    time generatePossibleBoards: " << time_generatePossibleBoards << " ms" << " (" << (time_generatePossibleBoards / time_alphaBeta)*100<< "%) " << endl;
+		cout << "        time generateBoardsFromPoint: " << time_generateBoardsFromPoint<< " (" << (time_generateBoardsFromPoint / time_generatePossibleBoards)*100<< "%) " << " rest: " <<time_generateBoardsFromPoint - (time_IsPointIn+time_isMoveAuthorized+time_newBoard+time_IsInList+time_doCaptures+time_delBoard)  << " ms" << endl;
+		cout << "            time IsPointIn: " << time_IsPointIn<< " ms" << " (" << (time_IsPointIn / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "            time isMoveAuthorized: " << time_isMoveAuthorized << " ms"<< " (" << (time_isMoveAuthorized / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "            time newBoard: " << time_newBoard << " ms"<< " (" << (time_newBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "            time IsInList: " << time_IsInList << " ms"<< " (" << (time_IsInList / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "            time doCaptures & push_back(): " << time_doCaptures<< " ms"<< " (" << (time_doCaptures / time_generateBoardsFromPoint)*100<< "%)" << endl;
+		cout << "            time delBoard: " << time_delBoard << " ms"<< " (" << (time_delBoard / time_generateBoardsFromPoint)*100<< "%)" << endl;
 		time_alphaBeta = 0;
 		time_delBoard = 0;
 		time_generatePossibleBoards = 0;
@@ -166,5 +166,5 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 */
 void	GameController::UpdatePointValue(t_GameDatas &GameDatas, t_Color color, t_vec2 move)
 {
-	GameDatas.Board.map[move.y][move.x] = color;
+	GameDatas.Board.setPoint(move, color);
 }

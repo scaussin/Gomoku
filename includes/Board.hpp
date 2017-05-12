@@ -12,7 +12,8 @@ class Board
 
 		// attributes
 		char			map[19][19];
-		map<char*, int > foo;
+		//::map<char *, t_vec2>	points;
+		vector<t_vec2>	points;
 		int				heuristic;
 		Board*			parent;
 		vector<Board*>	next;
