@@ -2,9 +2,16 @@
 
 MainController::MainController() : CurrentScene(IN_GAME)
 {
-
+	GameDatas.IA_Depth = DEFAULT_IA_DEEP;
+	GameDatas.ActivePlayer = BLACK; // black always start the game.
+	GameDatas.LastSuggestion.x = 0;
+	GameDatas.LastSuggestion.y = 0;
+	GameDatas.CanClick = true;
+	if (DEBUG_MODE == 0)
+	{
+		CurrentScene = MAIN_MENU;
+	}
 }
-
 
 MainController::~MainController()
 {
@@ -52,8 +59,11 @@ void	MainController::MainLoop()
 			{
 				if (SDLHandler.event.key.keysym.sym == SDLK_ESCAPE)
 				{
-					std::cout << "Escape pressed, quitting..." << std::endl;
-					break;
+					if (CurrentScene == MAIN_MENU)
+					{
+						std::cout << "Escape pressed in main menu, quitting..." << std::endl;
+						break;
+					}
 				}
 			}
 

@@ -7,10 +7,14 @@ class Heuristic
 {
 	public:
 		static int		EvaluateBoard(Board &board, t_Color playerColor);
+		static int		PreEvaluateBoard(Board &board, t_Color playerColor);
 
 	private:
 		// VICTORY SEARCH: forms of victory. give a lot of points.
 		static int		victorySearchPatterns(Board &board,
+							t_vec2 point, t_Color playerColor, t_dir dir,
+							char *line, char *backLine);
+		static int		victorySimpleSearchPatterns(Board &board,
 							t_vec2 point, t_Color playerColor, t_dir dir,
 							char *line, char *backLine);
 		static bool		isBlackStoneCapturable(Board &board,

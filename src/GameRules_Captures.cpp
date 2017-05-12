@@ -82,9 +82,14 @@ void		GameRules::applyCapture(Board &board, t_Color color,
 	board.setPoint(stone1_y,  stone1_x, NONE);
 	board.setPoint(stone2_y,  stone2_x, NONE);
 	if (color == BLACK)
+	{
 		board.BlackCaptures += 2;
+	}
 	else
+	{
 		board.WhiteCaptures += 2;
+	}
+	board.heuristic += CAPTURE_DONE;
 }
 
 /*

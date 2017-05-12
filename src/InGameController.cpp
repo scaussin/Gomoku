@@ -21,8 +21,6 @@ InGameController::~InGameController()
 void	InGameController::GameHandle(t_GameDatas &GameDatas,
 										SDLHandler &SDLHandler)
 {
-	(void)GameDatas;
-	GameDatas.ActivePlayer = BLACK;
 	// initializing visuals and GameDatas
 	if (!ImagesLoaded)
 	{
@@ -120,36 +118,58 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 {
 	t_vec2		move;
 
-	if (event.type == SDL_MOUSEBUTTONUP)
+	if (GameDatas.CanClick == true)
 	{
-		if (GameDatas.IsGameOver == false
-			&& Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 1) // LEFT CLICK
+		GameDatas.CanClick = false;
+		if (event.type == SDL_MOUSEBUTTONUP)
 		{
-			// user clicked on a valid point of the board.
-			GameDatas.ActivePlayer = BLACK;
-			Game.Play(GameDatas, Goban, SDLHandler, move);
-			UI.UpdateUIValues(GameDatas, SDLHandler);
-		}
-		// Debug mode only: WHITE pose stone.
-		else if (DEBUG_MODE == 1
-			&& GameDatas.IsGameOver == false
-			&& Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 2) // RIGHT CLICK
-		{
-			GameDatas.ActivePlayer = WHITE;
-			Game.Play(GameDatas, Goban, SDLHandler, move);
+			if (GameDatas.IsGameOver == false
+				&& Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 1) // LEFT CLICK
+			{
+				// user clicked on a valid point of the board.
+				if (DEBUG_MODE == 1) // in debug, left click is always BLACK
+					GameDatas.ActivePlayer = BLACK;
+				Game.Play(GameDatas, Goban, SDLHandler, move);
+				UI.UpdateUIValues(GameDatas, SDLHandler);
+			}
+			// Debug mode only: WHITE pose stone.
+			else if (DEBUG_MODE == 1 && GameDatas.IsGameOver == false
+				&& Goban.HandleClickEvents(GameDatas, event, SDLHandler, move) == 2) // RIGHT CLICK
+			{
+				GameDatas.ActivePlayer = WHITE;
+				Game.Play(GameDatas, Goban, SDLHandler, move);
+			}
 		}
 		
-	}
-	// IF GAME OVER, PRESS RETURN TO RESET.
-	if (GameDatas.IsGameOver == true
-		&& event.type == SDL_KEYDOWN)
-	{
-		if (event.key.keysym.sym == SDLK_RETURN)
+		if (event.type == SDL_KEYDOWN)
 		{
-			std::cout << "return pressed on game over, reseting board" << std::endl;
-			Goban.ResetBoardVisuals(SDLHandler);
-			Game.ResetGame(GameDatas);
-			UI.UpdateUIValues(GameDatas, SDLHandler);
+			// IF GAME OVER, PRESS RETURN TO RESET.
+			if (GameDatas.IsGameOver == true)
+			{
+				if (event.key.keysym.sym == SDLK_RETURN)
+				{
+					std::cout << "return pressed on game over, reseting board" << std::endl;
+					Goban.ResetBoardVisuals(SDLHandler);
+					Game.ResetGame(GameDatas);
+					UI.UpdateUIValues(GameDatas, SDLHandler);
+				}
+			}
+			// press r to reset anytime.
+			if (event.key.keysym.sym == SDLK_r)
+			{
+				std::cout << "reset key pressed, reseting board" << std::endl;
+				Goban.ResetBoardVisuals(SDLHandler);
+				Game.ResetGame(GameDatas);
+				UI.UpdateUIValues(GameDatas, SDLHandler);
+			}
 		}
+		GameDatas.CanClick = true;
 	}
 }
+
+// TODO
+// void	InGameController::TransitionBackToMainMenu(SDLHandler &SDLHandler)
+// {
+
+// }
+

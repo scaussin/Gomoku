@@ -46,7 +46,7 @@ using namespace std;
 # define PERROR(msg, level) (Tools::printError(__FILE__, __LINE__, __func__, msg, level))
 
 
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
 
 /*
 **	SDL engine defines
@@ -61,7 +61,8 @@ using namespace std;
 /*
 **	Alpaha-Bata defines
 */
-# define IA_DEEP 3
+
+# define DEFAULT_IA_DEEP 3
 # define ALPHA -10000
 # define BETA 10000
 
@@ -131,25 +132,29 @@ typedef struct		s_VictorySequence
 */
 
 // victory search values
-# define SURE_VICTORY 2000
+# define SURE_VICTORY 3000
 # define VICTORY_CAPTURABLE 1000
 
 // simple search values
-# define FREE_ONE 2
+# define FREE_ONE 3
 # define ONE 1
-# define STRAIGHT_TWO 8
-# define TWO 4
+# define STRAIGHT_TWO 4
+# define TWO 2
 
 // threat value defines
 
-# define THREE 12
-# define BROKEN_THREE 16
+# define THREE 20
+# define STRAIGHT_THREE 16
+# define BROKEN_THREE 20
 # define FOUR 20
-# define STRAIGHT_FOUR 100
+# define STRAIGHT_FOUR 200
+# define BROKEN_FOUR 150
 
 // capture search defines
 
-# define ATTACK_CAPTURE_FORM 40
+# define ATTACK_CAPTURE_FORM 10
+# define CAPTURE_DONE 200
+# define VICTORY_CAPTURE_FORM 3000
 
 /*
 **	Gomoku structures
@@ -166,6 +171,8 @@ typedef	struct		s_GameDatas
 
 	Board			Board;
 
+	bool			CanClick; // prevent multi click.
+
 	t_Color			ActivePlayer;
 	int				TurnNumber;
 	int				LastTurnIATime;
@@ -180,6 +187,9 @@ typedef	struct		s_GameDatas
 
 	bool			IsGameOver;
 	t_Color			WinnerColor;
+
+	t_vec2			LastSuggestion;
+
 }					t_GameDatas;
 
 

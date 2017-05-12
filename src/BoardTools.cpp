@@ -52,6 +52,10 @@ void		BoardTools::DisplayBoardChars(Board &board)
 				else
 					cout << "⚪ ";
 			}
+			else if (value == SUGGESTION)
+			{
+				cout << "\e[42m◯ \e[0m";
+			}
 		}
 		cout << endl;
 	}
