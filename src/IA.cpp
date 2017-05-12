@@ -5,6 +5,7 @@ double time_isMoveAuthorized = 0;
 double time_newBoard = 0;
 double time_delBoard = 0;
 double time_doCaptures = 0;
+double time_EvaluateBoard = 0;
 
 double time_IsInList = 0;
 double time_alphaBeta = 0;
@@ -94,40 +95,34 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 			sort(board->next.begin(), board->next.end(), sortNextMove);*/
 		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
-			if ((*it)->preheuristic != 0)
+			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
+			valBoard->heuristic = -valBoard->heuristic;
+			if (valBoard->heuristic > bestBoard->heuristic)
 			{
-				valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
-				valBoard->heuristic = -valBoard->heuristic;
-				if (valBoard->heuristic > bestBoard->heuristic)
+				bestBoard = valBoard;
+				if (bestBoard->heuristic > alpha)
 				{
-					bestBoard = valBoard;
-					if (bestBoard->heuristic > alpha)
-					{
-						alpha = bestBoard->heuristic;
-						if (alpha >= beta)
-							return (bestBoard);
-					}
-				}
-			}
-			else if (it + 1 == board->next.end() && (*it)->preheuristic == 0)
-			{
-				valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
-				valBoard->heuristic = -valBoard->heuristic;
-				if (valBoard->heuristic > bestBoard->heuristic)
-				{
-					bestBoard = valBoard;
-					if (bestBoard->heuristic > alpha)
-					{
-						alpha = bestBoard->heuristic;
-						if (alpha >= beta)
-							return (bestBoard);
-					}
+					alpha = bestBoard->heuristic;
+					if (alpha >= beta)
+						return (bestBoard);
 				}
 			}
 		}
 		return (bestBoard);
 	}
 }
+
+bool sortPreHeur(Board* a, Board* b)
+{ 
+    return (a->preheuristic < b->preheuristic);
+}
+
+bool sortPreHeurRev(Board* a, Board* b)
+{ 
+    return (a->preheuristic > b->preheuristic);
+}
+
+
 
 void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMoveFor)
 {
@@ -137,8 +132,10 @@ void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMove
 	{
 		generateBoardsFromPoint(board, *it, board->next, player, decideMoveFor);
 	}
+	sort(board->next.begin(), board->next.end(), sortPreHeurRev);
 	time_generatePossibleBoards += (clock() - start_generatePossibleBoards) / double(CLOCKS_PER_SEC) * 1000; //time
 }
+
 
 /*
 **	Generate all the boards for the given point into the given possibleBoards, from the curBoard.
@@ -174,7 +171,8 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 			{
 				int start_newBoard = clock(); //time
 				newBoard = new Board(*curBoard, curBoard, nextMove, player);
-				newBoard->preheuristic += Heuristic::PreEvaluateBoard(*newBoard, decideMoveFor);
+				newBoard->preheuristic += Heuristic::PreEvaluateBoard(*newBoard, player);
+				newBoard->preheuristic += Heuristic::PreEvaluateBoard(*newBoard, Tools::inverseColorPlayer(player));
 				// std::cout << "preheuristic = " << newBoard->preheuristic << std::endl;
 				time_newBoard += (clock() - start_newBoard) / double(CLOCKS_PER_SEC) * 1000; //time
 				
@@ -186,20 +184,20 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 				{
 					/**/int start_doCapture = clock();
 					GameRules::doCaptures(*newBoard, player, nextMove);
-					if (possibleBoards.size() != 0)
-					{
-						// best preheuristic is on top.
-						if (newBoard->preheuristic > possibleBoards[0]->preheuristic)
-						{
-							possibleBoards.insert(possibleBoards.begin(), newBoard);
-						}
-						else
-						{
-							possibleBoards.push_back(newBoard);
-						}
-					}
-					else
-						possibleBoards.push_back(newBoard);
+					// if (possibleBoards.size() != 0)
+					// {
+					// 	// best preheuristic is on top.
+					// 	if (newBoard->preheuristic > possibleBoards[0]->preheuristic)
+					// 	{
+					// 		possibleBoards.insert(possibleBoards.begin(), newBoard);
+					// 	}
+					// 	else
+					// 	{
+					// 		possibleBoards.push_back(newBoard);
+					// 	}
+					// }
+					// else
+					possibleBoards.push_back(newBoard);
 					n_newBoard++;
 					time_doCaptures += (clock() - start_doCapture) / double(CLOCKS_PER_SEC) * 1000; //time
 				}

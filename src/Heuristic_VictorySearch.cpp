@@ -78,7 +78,7 @@ bool	Heuristic::isWhiteStoneCapturable(Board &board,
 
 int		Heuristic::victorySimpleSearchPatterns(Board &board,
 									t_vec2 point, t_Color playerColor, t_dir dir,
-									char *line, char *backLine)
+									char *line)
 {
 	int						ret = 0;
 

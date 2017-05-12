@@ -219,6 +219,19 @@ void		Tools::ReversePatternColors(char *line, char *backLine, int nb_points)
 	}
 }
 
+void		Tools::ReversePatternColorsOneLine(char *line, int nb_points)
+{
+	static int i = 0;
+
+	for (i = 0; i != nb_points; ++i)
+	{
+		if (line[i] == '1')
+			line[i] = '2';
+		else if (line[i] == '2')
+			line[i] = '1';
+	}
+}
+
 /*
 **	We take two ints, and we set them according to the direction.
 **	With these ints, we can move in a given direction as many time

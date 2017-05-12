@@ -21,6 +21,7 @@ class Tools
 		static void				GetDualPatternPointsLine(char *line, char *backLine, Board &board, t_vec2 &point,
 									t_dir dir, int nb_points, t_Color color);
 		static void				ReversePatternColors(char *line, char *backLine, int nb_points);
+		static void				ReversePatternColorsOneLine(char *line, int nb_points);
 		static std::string		printColor(t_Color color);
 };
 

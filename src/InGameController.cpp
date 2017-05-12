@@ -166,10 +166,3 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 		GameDatas.CanClick = true;
 	}
 }
-
-// TODO
-// void	InGameController::TransitionBackToMainMenu(SDLHandler &SDLHandler)
-// {
-
-// }
-
