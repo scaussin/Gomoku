@@ -219,24 +219,6 @@ void		Tools::ReversePatternColors(char *line, char *backLine, int nb_points)
 	}
 }
 
-t_Color		Tools::GetNextPoint(Board &board, t_vec2 point, t_dir dir)
-{
-	int				mod_x;
-	int				mod_y;
-	int				x_watch;
-	int				y_watch;
-
-	SetMoveModifiers(mod_x, mod_y, dir);
-	y_watch = point.y + mod_y;
-	x_watch = point.x + mod_x;
-	if (y_watch >= 0 && y_watch < 19
-		&& x_watch >= 0 && x_watch < 19)
-	{
-		return ((t_Color)board.map[y_watch][x_watch]);
-	}
-	return ((t_Color)-1);
-}
-
 /*
 **	We take two ints, and we set them according to the direction.
 **	With these ints, we can move in a given direction as many time
@@ -297,7 +279,7 @@ void	Tools::printError(string file, int line, string function, string msg, int e
 	if (errorLevel == ERR)
 	{
 		cout << "\e[41m[ERROR]\e[0m " << file << ":" << line << " in " << function << "()" << endl << "\t" << msg << endl;
-		//exit(1);
+		exit(1);
 	}
 	else if (errorLevel == WARN)
 		cout << "\e[43m[WARNING]\e[0m " << file << ":" << line << " in " << function << "()" << endl << "\t" << msg << endl;

@@ -12,7 +12,7 @@ class Board
 
 		// attributes
 		char			map[19][19];
-		// map<char*, int > foo;
+		vector<t_vec2>	points;
 		int				heuristic;
 		int				preheuristic;
 		Board*			parent;

@@ -10,16 +10,6 @@ t_Color		BoardTools::GetPointValue(Board &board, int x, int y)
 	return ((t_Color)(board.map[y][x]));
 }
 
-void		BoardTools::SetPointValue(Board &board, t_vec2 coord, t_Color newVal)
-{
-	board.map[coord.y][coord.x] = newVal;
-}
-
-void		BoardTools::SetPointValue(Board &board, int x, int y, t_Color newVal)
-{
-	board.map[y][x] = newVal;
-}
-
 /*
 **	Simple check: is the point in the board ? -> segfault avoid;
 */
