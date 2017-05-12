@@ -83,7 +83,6 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 		generatePossibleBoards(board, player, decideMoveFor);
 		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
-
 			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
 			valBoard->heuristic = -valBoard->heuristic;
 			if (valBoard->heuristic > bestBoard->heuristic)
@@ -158,6 +157,8 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 			{
 				// /**/int start_newBoard = clock();
 				newBoard = new Board(*curBoard, curBoard, nextMove, player);
+				newBoard->preheuristic += Heuristic::PreEvaluateBoard(*newBoard, player);
+				std::cout << "node pre heuristic: " << newBoard->preheuristic << std::endl;
 				// /**/time_newBoard += (clock() - start_newBoard) / double(CLOCKS_PER_SEC) * 1000;
 				
 				// /**/int start_IsInList = clock();
@@ -165,11 +166,24 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 				// /**/time_IsInList += (clock() - start_IsInList) / double(CLOCKS_PER_SEC) * 1000;
 
 				if (b_IsInList == false)
-				{			
+				{
 					// /**/int start_doCapture = clock();
 					GameRules::doCaptures(*newBoard, player, nextMove);
 					// /**/time_doCaptures += (clock() - start_doCapture) / double(CLOCKS_PER_SEC) * 1000;
-					possibleBoards.push_back(newBoard);
+					if (possibleBoards.size() != 0)
+					{
+						// best preheuristic is on top.
+						if (newBoard->preheuristic > possibleBoards[0]->preheuristic)
+						{
+							possibleBoards.insert(possibleBoards.begin(), newBoard);
+						}
+						else
+						{
+							possibleBoards.push_back(newBoard);
+						}
+					}
+					else
+						possibleBoards.push_back(newBoard);
 					n_newBoard++;
 				}
 				else

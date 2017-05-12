@@ -90,6 +90,7 @@ void		GameRules::applyCapture(Board &board, t_Color color,
 		board.WhiteCaptures += 2;
 	}
 	board.heuristic += CAPTURE_DONE;
+	board.preheuristic += CAPTURE_DONE;
 }
 
 /*
