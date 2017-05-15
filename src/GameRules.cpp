@@ -12,8 +12,6 @@ GameRules::~GameRules()
 
 bool	GameRules::isMoveAuthorized(Board &board, t_Color color, t_vec2 move)
 {
-	(void)move;
-
 	if (board.map[move.y][move.x] == NONE || board.map[move.y][move.x] == SUGGESTION)
 	{
 		if (checkForbiddenPatterns(board, color, move) == true
@@ -30,7 +28,7 @@ bool	GameRules::isMoveAuthorized(Board &board, t_Color color, t_vec2 move)
 
 bool	GameRules::checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move)
 {
-	int				nb_free_3;
+	static int		nb_free_3;
 
 	static int		dir;
 	static char		line[5];
@@ -42,8 +40,7 @@ bool	GameRules::checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move)
 	while (dir != 9)
 	{
 		// for each direction, we extract a string.
-		Tools::GetPatternPointsLine(line, board, move, (t_dir)dir, 5, color);
-		Tools::GetPatternPointsLine(backLine, board, move, Tools::GetOppositeDir((t_dir)dir), 5, color);
+		Tools::GetDualPatternPointsLine(&(line[0]), &(backLine[0]), board, move, (t_dir)dir, 5, color);
 		// patterns are different for each color.
 		nb_free_3 += checkDoubleThreePatterns(board,
 						move, (t_dir)dir, line, backLine);

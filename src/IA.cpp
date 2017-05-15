@@ -172,7 +172,7 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 				int start_newBoard = clock(); //time
 				newBoard = new Board(*curBoard, curBoard, nextMove, player);
 				newBoard->preheuristic += Heuristic::PreEvaluateBoard(*newBoard, player);
-				newBoard->preheuristic += Heuristic::PreEvaluateBoard(*newBoard, Tools::inverseColorPlayer(player));
+				// newBoard->preheuristic += Heuristic::PreEvaluateBoard(*newBoard, Tools::inverseColorPlayer(player));
 				// std::cout << "preheuristic = " << newBoard->preheuristic << std::endl;
 				time_newBoard += (clock() - start_newBoard) / double(CLOCKS_PER_SEC) * 1000; //time
 				

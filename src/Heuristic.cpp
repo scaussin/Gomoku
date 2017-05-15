@@ -127,13 +127,19 @@ int		Heuristic::PreEvaluateBoard(Board &board, t_Color playerColor)
 	static char			line[7];
 	static char			backLine[7];
 	static int			dir;
+	t_Color				enemy_color;
 
+	enemy_color = Tools::inverseColorPlayer(playerColor);
 	for (dir = 1; dir != 9; ++dir)
 	{
 		Tools::GetDualPatternPointsLine(&(line[0]), &(backLine[0]), board, board.lastMove, (t_dir)dir, 7, playerColor);
 		boardValue += victorySimpleSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line);
 		boardValue += threatSpaceSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
 		boardValue += captureSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
+		Tools::ReversePatternColors(&(line[0]), &(backLine[0]), 7);
+		boardValue += victorySimpleSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line);
+		boardValue += threatSpaceSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
+		boardValue += captureSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
 	}
 	return (boardValue);
 }
