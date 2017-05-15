@@ -91,6 +91,8 @@ BoardMove	*IA::alphaBeta(Board *board, BoardMove *curMove, int deep, int alpha, 
 	else
 	{
 		curMove = new BoardMove();
+		curMove->Point.x = 0;
+		curMove->Point.y = 0;
 	}
 	curMove->heuristic += Heuristic::EvaluateBoard(*board, decideMoveFor);
 	n_EvaluateBoard++; //time
@@ -103,8 +105,6 @@ BoardMove	*IA::alphaBeta(Board *board, BoardMove *curMove, int deep, int alpha, 
 			curMove->heuristic = -curMove->heuristic;
 
 		UndoMove(*board, *curMove, decideMoveFor);
-
-			
 		return (curMove);
 	}
 	else
@@ -324,7 +324,7 @@ void		IA::UndoMove(Board &board, BoardMove &curMove, t_Color decideMoveFor)
 			it != curMove.Captures.end(); ++it)
 	{
 		board.setPoint((*it), Tools::inverseColorPlayer(decideMoveFor));
-		if (decideMoveFor == BLACK)
+		if (decideMoveFor == WHITE)
 		{
 			board.WhiteCaptures -= 1;
 		}
