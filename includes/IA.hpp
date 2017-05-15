@@ -17,8 +17,15 @@ class IA
 							t_Color decideMoveFor);
 		void			generateBoardsFromPoint(Board *curBoard, t_vec2 point,
 							vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor);
-		Board			*alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player,
+		BoardMove		*alphaBeta(Board *board, BoardMove *curMove, int deep, int alpha, int beta, t_Color player,
 							t_Color decideMoveFor);
+
+		void			generatePossibleBoardsNoCopy(Board *curBoard, BoardMove *curMove,
+							t_Color player, t_Color decideMoveFor);
+		void			generateBoardsFromPointNoCopy(Board *curBoard, BoardMove *curMove,
+							t_vec2 point, std::vector<BoardMove*> &possibleMoves,
+							t_Color player, t_Color decideMoveFor);
+		void			UndoMove(Board &board, BoardMove &curMove, t_Color decideMoveFor);
 };
 
 #endif

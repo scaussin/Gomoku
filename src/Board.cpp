@@ -132,3 +132,8 @@ bool 	Board::setPoint(int y, int x, t_Color color)
 	map[y][x] = color;
 	return (true);
 }
+
+BoardMove::BoardMove()
+{
+	prevMove = NULL;
+}

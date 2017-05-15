@@ -17,6 +17,12 @@ class Board
 		int				preheuristic;
 		Board*			parent;
 		vector<Board*>	next;
+
+
+		std::vector<t_vec2>	selectedMoves;
+		std::vector<t_vec2>			childMoves;
+		std::vector<t_vec2>			captures;
+
 		t_vec2			lastMove;
 		t_Color			player;
 		bool			isVictory;
@@ -31,6 +37,21 @@ class Board
 		char			getPoint(int y, int x);
 		bool			setPoint(t_vec2 at, t_Color color);
 		bool 			setPoint(int y, int x, t_Color color);
+};
+
+class BoardMove
+{
+	public:
+		BoardMove();
+
+		BoardMove				*prevMove;
+
+		t_vec2					Point;
+		int						heuristic;
+		std::vector<t_vec2>		Captures;
+
+
+		std::vector<BoardMove *>	childMoves;
 };
 
 #endif

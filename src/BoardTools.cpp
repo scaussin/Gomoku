@@ -113,6 +113,26 @@ bool		BoardTools::IsInList(const Board &board, std::vector<Board*> &boardList)
 	return (false);
 }
 
+
+bool		BoardTools::IsMoveInMoveList(t_vec2 move, std::vector<BoardMove *> &moveList)
+{
+	static int i = 0;
+	static int size;
+
+	size = moveList.size();
+	i = 0;
+	while (i != size)
+	{
+		if (move.x == (moveList[i])->Point.x
+			&& move.y == (moveList[i])->Point.y)
+		{
+			return (true);
+		}
+		i++;
+	}
+	return (false);
+}
+
 int		BoardTools::countChild(Board *board)
 {
 	static int i;

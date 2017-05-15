@@ -75,12 +75,124 @@ void		GameRules::doCaptures(Board &board, t_Color color, t_vec2 move)
 	}
 }
 
+void		GameRules::simulateCaptures(Board &board, BoardMove *curMove, t_Color color, t_vec2 move)
+{
+	t_Color enemy = Tools::inverseColorPlayer(color);
+	
+	//top left
+	if (board.getPoint(move.y + 1,  move.x - 1) == enemy
+		&& board.getPoint(move.y + 2,  move.x - 2) == enemy
+		&& board.getPoint(move.y + 3,  move.x - 3) == color)
+	{
+		applyCaptureSimulation(board, curMove, color, move.x - 1, move.y + 1, move.x - 2, move.y + 2);
+		// cout << "- Capture top left" << endl;
+	}
+	//top
+	if (board.getPoint(move.y + 1,  move.x) == enemy
+		&& board.getPoint(move.y + 2,  move.x) == enemy
+		&& board.getPoint(move.y + 3,  move.x) == color)
+	{
+		applyCaptureSimulation(board, curMove, color, move.x, move.y + 1, move.x, move.y + 2);
+		// cout << "- Capture top" << endl;
+	}
+	//top right
+	if (board.getPoint(move.y + 1,  move.x + 1) == enemy
+		&& board.getPoint(move.y + 2,  move.x + 2) == enemy
+		&& board.getPoint(move.y + 3,  move.x + 3) == color)
+	{
+		applyCaptureSimulation(board, curMove, color, move.x + 1, move.y + 1, move.x + 2, move.y + 2);
+		// cout << "- Capture top right" << endl;
+	}
+	// right
+	if (board.getPoint(move.y,  move.x + 1) == enemy
+		&& board.getPoint(move.y,  move.x + 2) == enemy
+		&& board.getPoint(move.y,  move.x + 3) == color)
+	{
+		applyCaptureSimulation(board, curMove, color, move.x + 1, move.y, move.x + 2, move.y);
+		// cout << "- Capture right" << endl;
+	}
+	//bottom right
+	if (board.getPoint(move.y - 1,  move.x + 1) == enemy
+		&& board.getPoint(move.y - 2,  move.x + 2) == enemy
+		&& board.getPoint(move.y - 3,  move.x + 3) == color)
+	{
+		applyCaptureSimulation(board, curMove, color, move.x + 1, move.y - 1, move.x + 2, move.y - 2);
+		// cout << "- Capture bottom right" << endl;
+	}
+	//bottom
+	if (board.getPoint(move.y - 1,  move.x) == enemy
+		&& board.getPoint(move.y - 2,  move.x) == enemy
+		&& board.getPoint(move.y - 3,  move.x) == color)
+	{
+		applyCaptureSimulation(board, curMove, color, move.x, move.y - 1, move.x, move.y - 2);
+		// cout << "- Capture bottom" << endl;
+	}
+	//bottom left
+	if (board.getPoint(move.y - 1,  move.x - 1) == enemy
+		&& board.getPoint(move.y - 2,  move.x - 2) == enemy
+		&& board.getPoint(move.y - 3,  move.x - 3) == color)
+	{
+		applyCaptureSimulation(board, curMove, color, move.x - 1, move.y - 1, move.x - 2, move.y - 2);
+		// cout << "- Capture bottom left" << endl;
+	}
+	//left
+	if (board.getPoint(move.y,  move.x - 1) == enemy
+		&& board.getPoint(move.y,  move.x - 2) == enemy
+		&& board.getPoint(move.y,  move.x - 3) == color)
+	{
+		applyCaptureSimulation(board, curMove, color, move.x - 1, move.y, move.x - 2, move.y);
+		// cout << "- Capture left" << endl;
+	}
+}
 
 void		GameRules::applyCapture(Board &board, t_Color color,
 				int stone1_x, int stone1_y, int stone2_x, int stone2_y)
 {
+	t_vec2	capturedPoint;
+
 	board.setPoint(stone1_y,  stone1_x, NONE);
 	board.setPoint(stone2_y,  stone2_x, NONE);
+
+	// add point 1 to captured point for simulation.
+	capturedPoint.x = stone1_x;
+	capturedPoint.y = stone1_y;
+	board.captures.push_back(capturedPoint);
+
+	// add point 2 to captured point for simulation.
+	capturedPoint.x = stone2_x;
+	capturedPoint.y = stone2_y;
+	board.captures.push_back(capturedPoint);
+
+	if (color == BLACK)
+	{
+		board.BlackCaptures += 2;
+	}
+	else
+	{
+		board.WhiteCaptures += 2;
+	}
+	board.heuristic += CAPTURE_DONE;
+	board.preheuristic += CAPTURE_DONE;
+}
+
+void		GameRules::applyCaptureSimulation(Board &board, BoardMove *curMove, t_Color color,
+				int stone1_x, int stone1_y, int stone2_x, int stone2_y)
+{
+	t_vec2	capturedPoint;
+
+	board.setPoint(stone1_y,  stone1_x, NONE);
+	board.setPoint(stone2_y,  stone2_x, NONE);
+
+	// add point 1 to captured point for simulation.
+	capturedPoint.x = stone1_x;
+	capturedPoint.y = stone1_y;
+	curMove->Captures.push_back(capturedPoint);
+
+	// add point 2 to captured point for simulation.
+	capturedPoint.x = stone2_x;
+	capturedPoint.y = stone2_y;
+	curMove->Captures.push_back(capturedPoint);
+
 	if (color == BLACK)
 	{
 		board.BlackCaptures += 2;

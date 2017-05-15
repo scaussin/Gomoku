@@ -159,8 +159,9 @@ typedef struct		s_VictorySequence
 /*
 **	Gomoku structures
 */
-
+class				BoardMove;
 class				Board;
+
 # include "Board.hpp"
 
 

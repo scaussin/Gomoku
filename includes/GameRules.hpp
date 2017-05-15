@@ -11,6 +11,7 @@ class GameRules
 
 		static bool			isMoveAuthorized(Board &board, t_Color color, t_vec2 move);
 		static void			doCaptures(Board &board, t_Color color, t_vec2 move);
+		static void			simulateCaptures(Board &board, BoardMove *curMove, t_Color color, t_vec2 move);
 
 
 		static void			CheckVictory(t_GameDatas &GameDatas);
@@ -33,6 +34,9 @@ class GameRules
 		static bool			IsWhiteStoneCapturable(Board &board,
 								t_vec2 stone, t_dir dir,
 								char *line, char *backLine);
+
+		static void			applyCaptureSimulation(Board &board, BoardMove *curMove,
+								t_Color color, int stone1_x, int stone1_y, int stone2_x, int stone2_y);
 
 
 		// ------ Forbidden move patterns.

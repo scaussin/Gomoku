@@ -35,8 +35,9 @@ IA::~IA()
 t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 {
 	t_vec2		decidedMove;
-	Board		*finalMove;
+	BoardMove	*finalMove;
 	t_Color		enemyColor;
+	Board		*board_copy;
 
 	srand (time(NULL));
 
@@ -45,17 +46,22 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	enemyColor = Tools::inverseColorPlayer(gameDatas.ActivePlayer);
 
 	double start_alphaBeta = clock(); //time
-	finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, enemyColor, enemyColor);
+	board_copy = new Board();
+	*board_copy = gameDatas.Board;
+
+	finalMove = NULL;
+	finalMove = alphaBeta(board_copy, finalMove, gameDatas.IA_Depth, ALPHA, BETA, enemyColor, enemyColor);
 	time_alphaBeta += (clock() - start_alphaBeta) / double(CLOCKS_PER_SEC) * 1000; //time
 
-	BoardTools::printParents(finalMove);
-	decidedMove = BoardTools::getFistMove(finalMove);
-	//cout << "final move: " << BoardTools::countChild(&gameDatas.Board) << " | heuristic to find: " << heuristic << endl << endl;
-	for (vector<Board *>::iterator it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
-	{
-		delete *it;
-	}
-	gameDatas.Board.next.clear();
+	// BoardTools::printParents(finalMove);
+	// decidedMove = BoardTools::getFistMove(finalMove);
+	decidedMove = finalMove->Point;
+	cout << "final move: " << decidedMove.x << "x" << decidedMove.y << "y" << std::endl << endl;
+	// // for (vector<Board *>::iterator it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
+	// // {
+	// // 	delete *it;
+	// // }
+	// gameDatas.Board.next.clear();
 	return (decidedMove);
 }
 
@@ -68,12 +74,25 @@ bool sortNextMoveRev (Board* a, Board* b)
 	return (a->heuristic > b->heuristic);
 }
 
-Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player, t_Color decideMoveFor)
+BoardMove	*IA::alphaBeta(Board *board, BoardMove *curMove, int deep, int alpha, int beta, t_Color player, t_Color decideMoveFor)
 {
-	Board	*valBoard = NULL;
-	Board	*bestBoard = NULL;
+	BoardMove	*valBoardMove = NULL;
+	BoardMove	*bestBoardMove = NULL;
 
-	board->heuristic += Heuristic::EvaluateBoard(*board, decideMoveFor);
+	
+	if (curMove)
+	{
+		// apply board no copy modification.
+		board->setPoint(curMove->Point, decideMoveFor);
+		GameRules::simulateCaptures(*board, curMove, decideMoveFor, curMove->Point);
+
+		// curMove->heuristic += Heuristic::EvaluateBoard(*board, decideMoveFor);
+	}
+	else
+	{
+		curMove = new BoardMove();
+	}
+	curMove->heuristic += Heuristic::EvaluateBoard(*board, decideMoveFor);
 	n_EvaluateBoard++; //time
 
 	// /**/time_EvaluateBoard += (clock() - start_EvaluateBoard) / double(CLOCKS_PER_SEC) * 1000;
@@ -81,34 +100,66 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 	if (deep == 0 || board->isVictory)
 	{
 		if (player != decideMoveFor)
-			board->heuristic = -board->heuristic;
-		return (board);
+			curMove->heuristic = -curMove->heuristic;
+
+		UndoMove(*board, *curMove, decideMoveFor);
+
+			
+		return (curMove);
 	}
 	else
 	{
-		bestBoard = new Board();
-		bestBoard->heuristic = ALPHA;
-		generatePossibleBoards(board, player, decideMoveFor);
-		/*if (player == decideMoveFor)
-			sort(board->next.begin(), board->next.end(), sortNextMoveRev);
-		else
-			sort(board->next.begin(), board->next.end(), sortNextMove);*/
-		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
+		// ----- no board copy version
+		bestBoardMove = new BoardMove();
+		bestBoardMove->Point.x = curMove->Point.x;
+		bestBoardMove->Point.y = curMove->Point.y;
+		bestBoardMove->heuristic = ALPHA;
+		generatePossibleBoardsNoCopy(board, curMove, player, decideMoveFor);
+		for (vector<BoardMove*>::iterator it = curMove->childMoves.begin();
+				it != curMove->childMoves.end() ; ++it)
 		{
-			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
-			valBoard->heuristic = -valBoard->heuristic;
-			if (valBoard->heuristic > bestBoard->heuristic)
+			valBoardMove = alphaBeta(board, (*it), deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
+			valBoardMove->heuristic = -valBoardMove->heuristic;
+			if (valBoardMove->heuristic > bestBoardMove->heuristic)
 			{
-				bestBoard = valBoard;
-				if (bestBoard->heuristic > alpha)
+				bestBoardMove = valBoardMove;
+				if (bestBoardMove->heuristic > alpha)
 				{
-					alpha = bestBoard->heuristic;
+					alpha = bestBoardMove->heuristic;
 					if (alpha >= beta)
-						return (bestBoard);
+					{
+						UndoMove(*board, *bestBoardMove, decideMoveFor);
+						return (bestBoardMove);
+					}
 				}
 			}
 		}
-		return (bestBoard);
+		UndoMove(*board, *bestBoardMove, decideMoveFor);
+		return (bestBoardMove);
+		// ----- board copy version
+		// bestBoard = new Board();
+		// bestBoard->heuristic = ALPHA;
+		// generatePossibleBoards(board, player, decideMoveFor);
+		// /*if (player == decideMoveFor)
+		// 	sort(board->next.begin(), board->next.end(), sortNextMoveRev);
+		// else
+		// 	sort(board->next.begin(), board->next.end(), sortNextMove);*/
+		// for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
+		// {
+		// 	valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
+		// 	valBoard->heuristic = -valBoard->heuristic;
+		// 	if (valBoard->heuristic > bestBoard->heuristic)
+		// 	{
+		// 		bestBoard = valBoard;
+		// 		if (bestBoard->heuristic > alpha)
+		// 		{
+		// 			alpha = bestBoard->heuristic;
+		// 			if (alpha >= beta)
+		// 				return (bestBoard);
+		// 		}
+		// 	}
+		// }
+		// return (bestBoard);
 	}
 }
 
@@ -132,10 +183,9 @@ void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMove
 	{
 		generateBoardsFromPoint(board, *it, board->next, player, decideMoveFor);
 	}
-	sort(board->next.begin(), board->next.end(), sortPreHeurRev);
+	//sort(board->next.begin(), board->next.end(), sortPreHeurRev);
 	time_generatePossibleBoards += (clock() - start_generatePossibleBoards) / double(CLOCKS_PER_SEC) * 1000; //time
 }
-
 
 /*
 **	Generate all the boards for the given point into the given possibleBoards, from the curBoard.
@@ -143,7 +193,8 @@ void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMove
 **	We check the adjacent points, and create boards for them.
 */
 
-void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor)
+void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point,
+	vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor)
 {
 	int start_generateBoardsFromPoint = clock(); //time
 	int		i = 8;
@@ -218,4 +269,69 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 		i--;
 	}
 	time_generateBoardsFromPoint += (clock() - start_generateBoardsFromPoint) / double(CLOCKS_PER_SEC) * 1000; //time
+}
+
+void	IA::generatePossibleBoardsNoCopy(Board *curBoard, BoardMove *curMove, t_Color player, t_Color decideMoveFor)
+{
+	for (vector<t_vec2>::iterator it = curBoard->points.begin() ; it != curBoard->points.end() ; ++it)
+	{
+		generateBoardsFromPointNoCopy(curBoard, curMove, *it, curMove->childMoves, player, decideMoveFor);
+	}
+}
+
+void	IA::generateBoardsFromPointNoCopy(Board *curBoard, BoardMove *curMove,
+			t_vec2 point, std::vector<BoardMove *> &possibleMoves,
+			t_Color player, t_Color decideMoveFor)
+{
+	int			i = 8;
+	t_vec2		nextMove;
+	BoardMove	*new_move;
+
+	nextMove.x = point.x - 1;
+	nextMove.y = point.y + 1;
+	while (i != -1)
+	{
+		if (BoardTools::IsPointIn(nextMove)
+				&& curBoard->map[nextMove.y][nextMove.x] == NONE)
+		{
+			if (GameRules::isMoveAuthorized(*curBoard, decideMoveFor, nextMove))
+			{
+				if (BoardTools::IsMoveInMoveList(nextMove, possibleMoves) == false)
+				{
+					new_move = new BoardMove();
+					new_move->prevMove = curMove;
+					new_move->Point.x = nextMove.x;
+					new_move->Point.y = nextMove.y;
+					possibleMoves.push_back(new_move);
+				}
+			}
+		}
+		nextMove.x += 1;
+		if (i % 3 == 0)
+		{
+			nextMove.x -= 3;
+			nextMove.y -= 1;
+		}
+		i--;
+	}
+}
+
+void		IA::UndoMove(Board &board, BoardMove &curMove, t_Color decideMoveFor)
+{
+	// move was applied, now we unapply it to go up in the depth.
+	board.setPoint(curMove.Point, NONE);
+	for (std::vector<t_vec2>::iterator it = curMove.Captures.begin();
+			it != curMove.Captures.end(); ++it)
+	{
+		board.setPoint((*it), Tools::inverseColorPlayer(decideMoveFor));
+		if (decideMoveFor == BLACK)
+		{
+			board.WhiteCaptures -= 1;
+		}
+		else
+		{
+			board.BlackCaptures -= 1;
+		}
+	}
+	board.isVictory = false;
 }
