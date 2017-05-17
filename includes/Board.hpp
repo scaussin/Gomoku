@@ -14,7 +14,7 @@ class Board
 		char			map[19][19];
 		vector<t_vec2>	points;
 		int				heuristic;
-		int				preheuristic;
+		int				preHeuristic;
 		Board*			parent;
 		vector<Board*>	next;
 		t_vec2			lastMove;

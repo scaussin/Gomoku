@@ -63,8 +63,8 @@ using namespace std;
 */
 
 # define DEFAULT_IA_DEEP 3
-# define ALPHA -10000
-# define BETA 10000
+# define ALPHA -100000
+# define BETA 100000
 
 
 /*

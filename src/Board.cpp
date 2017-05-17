@@ -7,7 +7,7 @@ Board::Board()
 	parent = NULL;
 	isVictory = false;
 	heuristic = 0;
-	preheuristic = 0;
+	preHeuristic = 0;
 }
 
 Board::Board(Board &rhs, Board *parent, t_vec2 move, t_Color player)
@@ -34,7 +34,7 @@ Board			&Board::operator=(const Board& other)
 	
 	isVictory = false;
 	heuristic = 0;
-	preheuristic = 0;
+	preHeuristic = 0;
 	points = other.points;
 	memcpy(&this->map, other.map, 19*19);
 	return (*this);
