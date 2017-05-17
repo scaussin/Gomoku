@@ -20,7 +20,10 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 
 	// board run through variables.
 	static int			dir;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2123ee285d2f8818d6c553e2cbbddcc5f7c39eea
 	t_Color				enemy_color;
 
 	static char			line[7];
@@ -31,7 +34,10 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 	if (board.points.size() == 0)
 		PERROR("points vector empty", ERR);
 	enemy_color = Tools::inverseColorPlayer(playerColor);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2123ee285d2f8818d6c553e2cbbddcc5f7c39eea
 	for (vector<t_vec2>::iterator it = board.points.begin() ; it != board.points.end() ; ++it)
 	{
 		for (dir = 1; dir != 9; ++dir)
