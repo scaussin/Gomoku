@@ -43,3 +43,30 @@ int		Heuristic::threatSpaceSearchPatterns(Board &board,
 	}
 	return (ret);
 }
+
+int		Heuristic::threatSpaceSimpleSearchPatterns(Board &board,
+	t_vec2 point, t_Color playerColor, t_dir dir, char *line)
+{
+	int				ret = 0;
+
+	if (strncmp(line, "1111", 4) == 0)
+	{
+		// std::cout << KMAG "- FOUR" KRESET << std::endl;
+		ret += FOUR;
+	}
+	else if (strncmp(line, "111", 3) == 0)
+	{
+		// std::cout << KMAG "- STRAIGHT FOUR" KRESET << std::endl;
+		ret += THREE;
+	}
+	else if (strncmp(line, "1011", 4) == 0) // two facing broken threes are defendable.
+	{
+		// std::cout << KMAG "- BROKEN THREE" KRESET << std::endl;
+		ret += BROKEN_THREE;
+	}
+	else if (strncmp(line, "10111", 5) == 0)
+	{
+		ret += BROKEN_FOUR;
+	}
+	return (ret);
+}

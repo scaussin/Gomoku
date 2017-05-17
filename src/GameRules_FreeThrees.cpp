@@ -49,7 +49,7 @@ int		GameRules::checkDoubleThreePatterns(Board &board,
 	}
 	// thourth possibility : 011010 middle pos. one side is enough.
 	// the other side will be true if it is not this one. -> not symetric form.
-	else if (strncmp(line, "0010", 3) == 0
+	else if (strncmp(line, "0010", 4) == 0
 		&& strncmp(backLine, "010", 3) == 0)
 	{
 		ret += 1;

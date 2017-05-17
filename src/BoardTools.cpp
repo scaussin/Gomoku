@@ -76,7 +76,7 @@ bool		BoardTools::IsIdentical(const Board &board_a, const Board &board_b)
 			return (false);
 	}*/
 
-	if (memcmp(&board_a.map, &board_b.map, 19 * 19) != 0)
+	if (memcmp(&board_a.map, &board_b.map, 361) != 0)
 			return (false);
 
 	/*for (y = 18; y != -1; y--)
@@ -103,7 +103,10 @@ bool		BoardTools::IsInList(const Board &board, std::vector<Board*> &boardList)
 	i = 0;
 	while (i != size)
 	{
-		if (IsIdentical(board, *boardList[i]))
+		// if (IsIdentical(board, *boardList[i]))
+		// 	return (true);
+		if (boardList[i]->lastMove.x == board.lastMove.x
+			&& boardList[i]->lastMove.y == board.lastMove.y)
 			return (true);
 		i++;
 	}

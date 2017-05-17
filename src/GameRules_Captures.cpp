@@ -99,7 +99,7 @@ void		GameRules::applyCapture(Board &board, t_Color color,
 
 bool		GameRules::checkCaptures(Board &board, t_Color color, t_vec2 move)
 {
-	t_Color enemy;
+	static t_Color enemy;
 
 	if (color == BLACK)
 		enemy = WHITE;
