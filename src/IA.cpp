@@ -121,14 +121,14 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 	}
 }
 
-bool sortPreHeur(Board* a, Board* b)
+bool sortPreheur(Board* a, Board* b)
 { 
-    return (a->preheuristic < b->preheuristic);
+    return (a->preHeuristic < b->preHeuristic);
 }
 
-bool sortPreHeurRev(Board* a, Board* b)
+bool sortPreheurRev(Board* a, Board* b)
 { 
-    return (a->preheuristic > b->preheuristic);
+    return (a->preHeuristic > b->preHeuristic);
 }
 
 
