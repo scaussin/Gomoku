@@ -98,10 +98,6 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 		bestBoard = new Board();
 		bestBoard->heuristic = ALPHA;
 		generatePossibleBoards(board, player, decideMoveFor);
-		/*if (player == decideMoveFor)
-			sort(board->next.begin(), board->next.end(), sortNextMoveRev);
-		else
-			sort(board->next.begin(), board->next.end(), sortNextMove);*/
 		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
 			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
@@ -121,17 +117,76 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 	}
 }
 
-bool sortPreHeur(Board* a, Board* b)
-{ 
-    return (a->preheuristic < b->preheuristic);
+Board *IA::maxBoard(Board *a, Board *b)
+{
+	return ((a->heuristic > b->heuristic)? a : b);
 }
 
-bool sortPreHeurRev(Board* a, Board* b)
-{ 
-    return (a->preheuristic > b->preheuristic);
+Board *IA::minBoard(Board *a, Board *b)
+{
+	return ((a->heuristic < b->heuristic)? a : b);
 }
 
+Board	*IA::alphaBeta2(Board *board, int depth, int alpha, int beta, t_Color player, t_Color decideMoveFor)
+{
+	Board *v = NULL;
 
+	board->heuristic += Heuristic::EvaluateBoard(*board, decideMoveFor);
+	n_EvaluateBoard++; //time
+
+	if (depth == 0 || board->isVictory)
+		return (board);
+	generatePossibleBoards(board, player, decideMoveFor);
+	if (player == decideMoveFor) //max
+	{
+		v = new Board();
+		v->heuristic = ALPHA;
+		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
+		{
+			v = maxBoard(v, alphaBeta2(*it, depth - 1, alpha, beta, Tools::inverseColorPlayer(player), decideMoveFor));
+			alpha = max(alpha, v->heuristic);
+			if (beta <= alpha)
+				break ;
+		}
+		return v;
+	}
+	else //min
+	{
+		v = new Board();
+		v->heuristic = BETA;
+		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
+		{
+			v = minBoard(v, alphaBeta2(*it, depth - 1, alpha, beta, Tools::inverseColorPlayer(player), decideMoveFor));
+			beta = min(beta, v->heuristic);
+			if (beta <= alpha)
+				break ;
+		}
+		return v;
+	}
+
+}
+
+/*
+function alphabeta(node, depth, α, β, maximizingPlayer)
+     if depth = 0 or node is a terminal node
+         return the heuristic value of node
+     if maximizingPlayer
+         v := -∞
+         for each child of node
+             v := max(v, alphabeta(child, depth – 1, α, β, FALSE))
+             α := max(α, v)
+             if β ≤ α
+                 break (* β cut-off *)
+         return v
+     else
+         v := +∞
+         for each child of node
+             v := min(v, alphabeta(child, depth – 1, α, β, TRUE))
+             β := min(β, v)
+             if β ≤ α
+                 break (* α cut-off *)
+         return v*/
+/**/
 
 void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMoveFor)
 {
@@ -191,7 +246,6 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 					/**/int start_doCapture = clock();
 					GameRules::doCaptures(*newBoard, player, nextMove);
 					newBoard->preHeuristic += Heuristic::PreEvaluateBoard(*newBoard, player);
-					newBoard->preHeuristic += Heuristic::PreEvaluateBoard(*newBoard, Tools::inverseColorPlayer(player));
 					possibleBoards.push_back(newBoard);
 					n_newBoard++;
 					time_doCaptures += (clock() - start_doCapture) / double(CLOCKS_PER_SEC) * 1000; //time

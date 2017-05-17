@@ -19,6 +19,10 @@ class IA
 							vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor);
 		Board			*alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player,
 							t_Color decideMoveFor);
+
+		Board *maxBoard(Board *a, Board *b);
+		Board *minBoard(Board *a, Board *b);
+		Board	*alphaBeta2(Board *board, int depth, int alpha, int beta, t_Color player, t_Color decideMoveFor);
 };
 
 #endif
