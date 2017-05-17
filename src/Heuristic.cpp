@@ -20,7 +20,7 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 
 	// board run through variables.
 	static int			dir;
-	t_Color				enemy_color;
+	static t_Color		enemy_color;
 
 	static char			line[7];
 	static char			backLine[7];
@@ -46,6 +46,7 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 			// /**/time_victorySearchPatterns += (clock() - start_victorySearchPatterns) / double(CLOCKS_PER_SEC) * 1000;
 			
 			// /**/int start_simpleSearchPatterns = clock();
+
 			boardValue += simpleSearchPatterns(board,
 							*it, playerColor, (t_dir)dir,
 							line, backLine);
@@ -57,10 +58,10 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 							line, backLine);
 			// /**/time_threatSpaceSearchPatterns += (clock() - start_threatSpaceSearchPatterns) / double(CLOCKS_PER_SEC) * 1000;
 			
-			// /**/int start_captureSearchPatterns = clock();
-			boardValue += captureSearchPatterns(board,
-							*it, playerColor, (t_dir)dir,
-							line, backLine);
+			// // /**/int start_captureSearchPatterns = clock();
+			// boardValue += captureSearchPatterns(board,
+			// 				*it, playerColor, (t_dir)dir,
+			// 				line, backLine);
 			// /**/time_captureSearchPatterns += (clock() - start_captureSearchPatterns) / double(CLOCKS_PER_SEC) * 1000;
 
 			// OPPOSITE SIDE
@@ -76,6 +77,7 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 			// /**/time_victorySearchPatterns += (clock() - start_victorySearchPatterns) / double(CLOCKS_PER_SEC) * 1000;
 
 			// /**/start_simpleSearchPatterns = clock();
+
 			boardValue -= simpleSearchPatterns(board,
 							*it, enemy_color, (t_dir)dir,
 							line, backLine);
@@ -88,9 +90,9 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 			// /**/time_threatSpaceSearchPatterns += (clock() - start_threatSpaceSearchPatterns) / double(CLOCKS_PER_SEC) * 1000;
 			
 			// /**/start_captureSearchPatterns = clock();
-			boardValue -= captureSearchPatterns(board,
-							*it, enemy_color, (t_dir)dir,
-							line, backLine);
+			// boardValue -= captureSearchPatterns(board,
+			// 				*it, enemy_color, (t_dir)dir,
+			// 				line, backLine);
 			// /**/time_captureSearchPatterns += (clock() - start_captureSearchPatterns) / double(CLOCKS_PER_SEC) * 1000;
 		}
 	}
@@ -120,11 +122,13 @@ int		Heuristic::PreEvaluateBoard(Board &board, t_Color playerColor)
 		Tools::GetDualPatternPointsLine(&(line[0]), &(backLine[0]), board, board.lastMove, (t_dir)dir, 7, playerColor);
 		boardValue += victorySimpleSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line);
 		boardValue += threatSpaceSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
-		boardValue += captureSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
+		// boardValue += simpleSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
+		// boardValue += captureSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
 		Tools::ReversePatternColors(&(line[0]), &(backLine[0]), 7);
 		boardValue += victorySimpleSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line);
 		boardValue += threatSpaceSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
-		boardValue += captureSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
+		// boardValue += simpleSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
+		// boardValue += captureSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
 	}
 	return (boardValue);
 }

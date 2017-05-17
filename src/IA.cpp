@@ -191,7 +191,7 @@ void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &
 					/**/int start_doCapture = clock();
 					GameRules::doCaptures(*newBoard, player, nextMove);
 					newBoard->preHeuristic += Heuristic::PreEvaluateBoard(*newBoard, player);
-					newBoard->preHeuristic += Heuristic::PreEvaluateBoard(*newBoard, Tools::inverseColorPlayer(player));
+					// newBoard->preHeuristic += Heuristic::PreEvaluateBoard(*newBoard, Tools::inverseColorPlayer(player));
 					possibleBoards.push_back(newBoard);
 					n_newBoard++;
 					time_doCaptures += (clock() - start_doCapture) / double(CLOCKS_PER_SEC) * 1000; //time
