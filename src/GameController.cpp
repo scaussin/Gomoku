@@ -33,20 +33,72 @@ GameController::~GameController()
 
 }
 
+void	GameController::RevertLastMove(t_GameDatas &GameDatas,
+			SDLHandler &SDLHandler, GobanController &Goban)
+{
+	if (GameDatas.IsGameOver == false
+		&& GameDatas.BoardStates.size() != 0)
+	{
+		GameDatas.Board = GameDatas.BoardStates.back();
+		Goban.UpdateBoard(GameDatas, SDLHandler);
+		GameDatas.BoardStates.pop_back();
+		GameDatas.BlackInCheck = false;
+		GameDatas.WhiteInCheck = false;
+		if (GameDatas.SelectedGameMode == VS_IA)
+		{
+			if (GameDatas.TurnNumber > 0)
+				GameDatas.TurnNumber -= 1;
+			if (GameDatas.MoveNumber > 0)
+				GameDatas.MoveNumber -= 2;
+		}
+		else if (GameDatas.SelectedGameMode == VS_P2)
+		{
+			// erase last suggestion if not followed.
+			if (GameDatas.Board.getPoint(GameDatas.LastSuggestion) == SUGGESTION)
+			{
+				GameDatas.Board.setPoint(GameDatas.LastSuggestion, NONE);
+				Goban.UpdateBoard(GameDatas, SDLHandler);
+			}
+			// Set turn counter
+			// white plays = turn + 1;
+			// so white reverse = turn - 1;
+			// white reverse means actual player is black.
+			if (GameDatas.TurnNumber > 0 && GameDatas.ActivePlayer == BLACK)
+				GameDatas.TurnNumber -= 1;
+			if (GameDatas.MoveNumber > 0)
+				GameDatas.MoveNumber -= 1;
+
+			// set active turn player.
+			if (GameDatas.ActivePlayer == WHITE)
+			{
+				GameDatas.ActivePlayer = BLACK;
+			}
+			else if (GameDatas.ActivePlayer == BLACK)
+			{
+				GameDatas.ActivePlayer = WHITE;
+			}
+		}
+	}
+	else
+	{
+		std::cout << "No board state to revert to!" << std::endl;
+	}
+}
+
 void	GameController::ResetGame(t_GameDatas &GameDatas)
 {
 	GameDatas.TurnNumber = 0;
-	GameDatas.BlackCaptures = 0;
+	GameDatas.MoveNumber = 0;
 	GameDatas.Board.BlackCaptures = 0;
-	GameDatas.WhiteCaptures = 0;
 	GameDatas.Board.WhiteCaptures = 0;
 	GameDatas.Board.isVictory = false;
 	GameDatas.IsGameOver = false;
 	GameDatas.WinnerColor = NONE;
 	GameDatas.ActivePlayer = BLACK;
-
+	GameDatas.LastTurnIATime = 0;
 	GameDatas.BlackInCheck = false;
 	GameDatas.WhiteInCheck = false;
+	GameDatas.BoardStates.clear();
 
 	// clean current board values.
 	for (int y = 0; y < 19; ++y)
@@ -65,10 +117,10 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	//	Input reception side												//
 	//																		//
 	// --------------------------------------------------------------------	//
-
-	std::cout << std::endl << KBLU "------ " KYEL <<  " Move " << GameDatas.TurnNumber << KBLU " ------" KRESET << std::endl;
+	GameDatas.BoardStates.push_back(GameDatas.Board);
+	std::cout << std::endl << KBLU "------ " KYEL <<  "TURN " << GameDatas.TurnNumber << " - Move " << GameDatas.MoveNumber << KBLU " ------" KRESET << std::endl;
 	std::cout << std::endl << KYEL << Tools::printColor(GameDatas.ActivePlayer) << KRESET << " tries to play move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
-		// erase last suggestion if not followed.
+	// erase last suggestion if not followed.
 	if (GameDatas.Board.getPoint(GameDatas.LastSuggestion) == SUGGESTION)
 	{
 		GameDatas.Board.setPoint(GameDatas.LastSuggestion, NONE);
@@ -84,7 +136,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 
 		int boardVal = Heuristic::EvaluateBoard(GameDatas.Board, GameDatas.ActivePlayer);
 		std::cout << "Current board value: " << boardVal << std::endl;
-		GameDatas.TurnNumber += 1;
+		GameDatas.MoveNumber += 1;
 		Goban.UpdateBoard(GameDatas, SDLHandler);
 		GameRules::CheckVictory(GameDatas);
 	}
@@ -156,22 +208,25 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 
 	if (GameDatas.SelectedGameMode == VS_IA)
 	{
-		std::cout << std::endl << KBLU "------ " KYEL <<  " Move " << GameDatas.TurnNumber << KBLU " ------" KRESET << std::endl;
+		std::cout << std::endl << KBLU "------ " KYEL <<  "TURN " << GameDatas.TurnNumber << " - Move " << GameDatas.MoveNumber << KBLU " ------" KRESET << std::endl;
 		std::cout << std::endl << KYEL "IA - WHITE" KRESET << " plays move in " << KYEL << IaMove.x << "x " << IaMove.y << "y" KRESET << std::endl;
 		GameDatas.Board.setPoint(IaMove, WHITE);
 		GameRules::doCaptures(GameDatas.Board, WHITE, IaMove);
-		GameDatas.TurnNumber += 1;
+		GameDatas.MoveNumber += 1;
 		GameRules::CheckVictory(GameDatas);
+		GameDatas.TurnNumber += 1;
 	}
 	else if (GameDatas.SelectedGameMode == VS_P2)
 	{
-
+		if (GameDatas.ActivePlayer == WHITE) // if white just played.
+			GameDatas.TurnNumber += 1;
 		//Goban.SetPointDisplay(IaMove.x, IaMove.y, BLACK, SDLHandler);
 		GameDatas.Board.setPoint(IaMove, SUGGESTION);
 		GameDatas.ActivePlayer = Tools::inverseColorPlayer(GameDatas.ActivePlayer);
 		// needed to clear the board.
 		GameDatas.LastSuggestion.x = IaMove.x;
 		GameDatas.LastSuggestion.y = IaMove.y;
+
 	}
 	Goban.UpdateBoard(GameDatas, SDLHandler);
 }

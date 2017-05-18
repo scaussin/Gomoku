@@ -26,6 +26,9 @@ class InGameController
 		GameImage			*GameModeCaseImg;
 		GameText			*GameModeText;
 
+		bool				TransitionningOut;
+		bool				TransitionEnd;
+
 		// class methods
 		void		GameHandle(t_GameDatas &Game, SDLHandler &SDLHandler);
 		void		LoadImages(SDLHandler &SDLHandler);
@@ -33,6 +36,7 @@ class InGameController
 		void		DisplayImages(SDLHandler &SDLHandler);
 		void		HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 						SDLHandler &SDLHandler);
+		void		TransitionOut(SDLHandler &SDLHandler);
 };
 
 #endif

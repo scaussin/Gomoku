@@ -46,7 +46,9 @@ void	MainController::MainLoop()
 		// --------------------------------------------	//
 		// For the events								//
 		// --------------------------------------------	//
-		if (SDL_PollEvent(&(SDLHandler.event)))
+		if (SDL_PollEvent(&(SDLHandler.event))
+			&& MainMenu.TransitionningOut == false
+			&& InGame.TransitionningOut == false)
 		{
 			// Check for the quit message
 			if (SDLHandler.event.type == SDL_QUIT)
@@ -66,13 +68,14 @@ void	MainController::MainLoop()
 					}
 				}
 			}
-
+			// MAIN MENU EVENTS -> click, keys, ... etc
 			if (CurrentScene == MAIN_MENU
 				&& MainMenu.TransitionningOut == false)
 			{
 				MainMenu.HandleEvents(GameDatas, SDLHandler.event,
 										SDLHandler);
 			}
+			// IN GAME EVENTS -> click, keys, ... etc
 			else if (CurrentScene == IN_GAME)
 			{
 				InGame.HandleEvents(GameDatas, SDLHandler.event,
@@ -81,7 +84,13 @@ void	MainController::MainLoop()
 		}
 
 		// --------------------------------------------	//
-		// For the MAIN_MENU SCENE						//
+		//												//
+		// GLOBAL DISPLAY - TRANSITIONS AND DISPLAYING	//
+		//												//
+		// --------------------------------------------	//
+
+		// --------------------------------------------	//
+		// For the MAIN_MENU SCENE -> INGAME			//
 		// --------------------------------------------	//
 		if (CurrentScene == MAIN_MENU)
 		{
@@ -97,15 +106,32 @@ void	MainController::MainLoop()
 			if (MainMenu.TransitionEnd == true)
 			{
 				std::cout << "SCENE CHANGE" << std::endl;
+				MainMenu.TransitionningOut = false;
+				MainMenu.TransitionEnd = false;
 				CurrentScene = GameDatas.SelectedScene;
 			}
 		}
 		// --------------------------------------------	//
-		// For the IN_GAME SCENE						//
+		// For the IN_GAME SCENE -> MAIN_MENU			//
 		// --------------------------------------------	//
 		else if (CurrentScene == IN_GAME)
 		{
-			InGame.GameHandle(GameDatas, SDLHandler);
+			if (InGame.TransitionningOut == false)
+			{
+				InGame.GameHandle(GameDatas, SDLHandler);
+			}
+			else
+			{
+				InGame.TransitionOut(SDLHandler);
+			}
+			if (InGame.TransitionEnd == true)
+			{
+				std::cout << "SCENE CHANGE" << std::endl;
+				InGame.TransitionningOut = false;
+				InGame.TransitionEnd = false;
+				CurrentScene = MAIN_MENU;
+			}
+			
 		}
 		SDL_RenderPresent(SDLHandler.renderer);
 	}

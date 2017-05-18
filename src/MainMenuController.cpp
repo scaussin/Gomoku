@@ -184,7 +184,7 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 						event.button.y))
 			{
 				// std::cout << "Onclick lower IA DEPTH" << std::endl;
-				if (GameDatas.IA_Depth > 1)
+				if (GameDatas.IA_Depth > MIN_DEPTH)
 					GameDatas.IA_Depth -= 1; 
 				depth_value_txt->SetText(SDLHandler, std::to_string(GameDatas.IA_Depth));
 				depth_value_txt->PutText(SDLHandler);
@@ -193,7 +193,7 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 						event.button.y))
 			{
 				// std::cout << "Onclick up IA DEPTH" << std::endl;
-				if (GameDatas.IA_Depth < 10)
+				if (GameDatas.IA_Depth < MAX_DEPTH)
 					GameDatas.IA_Depth += 1;
 				depth_value_txt->SetText(SDLHandler, std::to_string(GameDatas.IA_Depth));
 				depth_value_txt->PutText(SDLHandler);
