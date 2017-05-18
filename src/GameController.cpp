@@ -158,6 +158,14 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	// Start IA decision timer.
 	chrono_start = std::chrono::system_clock::now();
 
+	if (GameDatas.SelectedGameMode == VS_IA)
+	{
+		GameDatas.ActivePlayer = WHITE;
+	}
+	else if (GameDatas.SelectedGameMode == VS_P2)
+	{
+		GameDatas.ActivePlayer = Tools::inverseColorPlayer(GameDatas.ActivePlayer);
+	}
 	IaMove = IA.decideMove(GameDatas); // the selected move is AUTHORIZED && CAPTURE APPLIED.
 
 	// IaMove.x = 0;
@@ -215,6 +223,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		GameDatas.MoveNumber += 1;
 		GameRules::CheckVictory(GameDatas);
 		GameDatas.TurnNumber += 1;
+		GameDatas.ActivePlayer = BLACK;
 	}
 	else if (GameDatas.SelectedGameMode == VS_P2)
 	{
