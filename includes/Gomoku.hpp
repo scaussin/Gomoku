@@ -147,7 +147,7 @@ typedef struct		s_VictorySequence
 // threat value defines
 
 # define THREE 20
-# define STRAIGHT_THREE 30
+# define STRAIGHT_THREE 16
 # define BROKEN_THREE 20
 # define FOUR 20
 # define STRAIGHT_FOUR 200
@@ -156,7 +156,7 @@ typedef struct		s_VictorySequence
 // capture search defines
 
 # define ATTACK_CAPTURE_FORM 10
-# define CAPTURE_DONE 100
+# define CAPTURE_DONE 200
 # define VICTORY_CAPTURE_FORM 3000
 
 /*

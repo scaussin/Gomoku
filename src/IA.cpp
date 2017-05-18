@@ -45,7 +45,7 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	enemyColor = Tools::inverseColorPlayer(gameDatas.ActivePlayer);
 
 	double start_alphaBeta = clock(); //time
-	finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, enemyColor, enemyColor);
+	finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, gameDatas.ActivePlayer, enemyColor);
 	time_alphaBeta += (clock() - start_alphaBeta) / double(CLOCKS_PER_SEC) * 1000; //time
 
 	BoardTools::printParents(finalMove);
