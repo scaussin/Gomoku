@@ -37,6 +37,7 @@ bool sortNextMoveRev (Board* a, Board* b)
 	return (a->heuristic > b->heuristic);
 }
 
+
 t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 {
 	t_vec2		decidedMove;
@@ -48,7 +49,8 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	enemyColor = Tools::inverseColorPlayer(gameDatas.ActivePlayer);
 
 	double start_alphaBeta = clock(); //time
-	generatePossibleBoards(&gameDatas.Board, gameDatas.ActivePlayer, enemyColor);
+	cout << "color: " << Tools::printColor(gameDatas.ActivePlayer) << endl;
+	generatePossibleBoards(&gameDatas.Board, enemyColor);
 	for (vector<Board *>::iterator it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
 	{
 		(*it)->heuristic += Heuristic::EvaluateBoard(**it, enemyColor);
@@ -61,7 +63,7 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 	if (finalMove == NULL)
 	{
 		sort(gameDatas.Board.next.begin(), gameDatas.Board.next.end(), sortNextMoveRev);
-		finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, gameDatas.ActivePlayer, enemyColor);
+		finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, enemyColor, enemyColor);
 	}
 	time_alphaBeta += (clock() - start_alphaBeta) / double(CLOCKS_PER_SEC) * 1000; //time
 
@@ -94,7 +96,7 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 	Board	*valBoard = NULL;
 	Board	*bestBoard = NULL;
 
-	board->heuristic += Heuristic::EvaluateBoard(*board, decideMoveFor);
+	board->heuristic += Heuristic::EvaluateBoard(*board, player);
 	n_EvaluateBoard++; //time
 
 	// /**/time_EvaluateBoard += (clock() - start_EvaluateBoard) / double(CLOCKS_PER_SEC) * 1000;
@@ -109,7 +111,7 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 		bestBoard = new Board();
 		bestBoard->heuristic = ALPHA;
 		if (board->next.size() == 0)
-			generatePossibleBoards(board, player, decideMoveFor);
+			generatePossibleBoards(board, player);
 		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
 			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
@@ -138,7 +140,7 @@ Board *IA::minBoard(Board *a, Board *b)
 {
 	return ((a->heuristic < b->heuristic)? a : b);
 }
-
+/*
 Board	*IA::alphaBeta2(Board *board, int depth, int alpha, int beta, t_Color player, t_Color decideMoveFor)
 {
 	Board *v = NULL;
@@ -177,15 +179,15 @@ Board	*IA::alphaBeta2(Board *board, int depth, int alpha, int beta, t_Color play
 		return v;
 	}
 
-}
+}*/
 
-void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMoveFor)
+void	IA::generatePossibleBoards(Board *board, t_Color player)
 {
 	int start_generatePossibleBoards = clock(); //time
 
 	for (vector<t_vec2>::iterator it = board->points.begin() ; it != board->points.end() ; ++it)
 	{
-		generateBoardsFromPoint(board, *it, board->next, player, decideMoveFor);
+		generateBoardsFromPoint(board, *it, board->next, player);
 	}
 	sort(board->next.begin(), board->next.end(), sortPreHeurRev);
 	time_generatePossibleBoards += (clock() - start_generatePossibleBoards) / double(CLOCKS_PER_SEC) * 1000; //time
@@ -198,7 +200,7 @@ void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMove
 **	We check the adjacent points, and create boards for them.
 */
 
-void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor)
+void	IA::generateBoardsFromPoint(Board *curBoard, t_vec2 point, vector<Board*> &possibleBoards, t_Color player)
 {
 	int start_generateBoardsFromPoint = clock(); //time
 	int		i = 8;
