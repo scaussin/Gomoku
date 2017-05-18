@@ -127,7 +127,7 @@ int		BoardTools::countChild(Board *board)
 
 void	BoardTools::printParents(Board *board)
 {
-	if (board && board->parent)
+	if (board && board->parent && board->parent->parent)
 	{
 		BoardTools::printParents(board->parent);
 	}

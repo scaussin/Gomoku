@@ -32,25 +32,41 @@ IA::~IA()
 //																	  //
 // ------------------------------------------------------------------ //
 
+bool sortNextMoveRev (Board* a, Board* b)
+{ 
+	return (a->heuristic > b->heuristic);
+}
+
 t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 {
 	t_vec2		decidedMove;
-	Board		*finalMove;
+	Board		*finalMove = NULL;
 	t_Color		enemyColor;
-
-	srand (time(NULL));
 
 	decidedMove.x = 0;
 	decidedMove.y = 0;
 	enemyColor = Tools::inverseColorPlayer(gameDatas.ActivePlayer);
 
 	double start_alphaBeta = clock(); //time
-	finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, enemyColor, enemyColor);
+	generatePossibleBoards(&gameDatas.Board, gameDatas.ActivePlayer, enemyColor);
+	for (vector<Board *>::iterator it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
+	{
+		(*it)->heuristic += Heuristic::EvaluateBoard(**it, enemyColor);
+		if ((*it)->isVictory)
+		{
+			finalMove = *it;
+			break;
+		}
+	}
+	if (finalMove == NULL)
+	{
+		sort(gameDatas.Board.next.begin(), gameDatas.Board.next.end(), sortNextMoveRev);
+		finalMove = alphaBeta(&gameDatas.Board, gameDatas.IA_Depth, ALPHA, BETA, gameDatas.ActivePlayer, enemyColor);
+	}
 	time_alphaBeta += (clock() - start_alphaBeta) / double(CLOCKS_PER_SEC) * 1000; //time
 
 	BoardTools::printParents(finalMove);
 	decidedMove = BoardTools::getFistMove(finalMove);
-	//cout << "final move: " << BoardTools::countChild(&gameDatas.Board) << " | heuristic to find: " << heuristic << endl << endl;
 	for (vector<Board *>::iterator it = gameDatas.Board.next.begin() ; it != gameDatas.Board.next.end() ; ++it)
 	{
 		delete *it;
@@ -62,10 +78,6 @@ t_vec2		IA::decideMove(t_GameDatas &gameDatas)
 bool sortNextMove (Board* a, Board* b)
 { 
 	return (a->heuristic < b->heuristic);
-}
-bool sortNextMoveRev (Board* a, Board* b)
-{ 
-	return (a->heuristic > b->heuristic);
 }
 
 bool sortPreHeur (Board* a, Board* b)
@@ -86,7 +98,6 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 	n_EvaluateBoard++; //time
 
 	// /**/time_EvaluateBoard += (clock() - start_EvaluateBoard) / double(CLOCKS_PER_SEC) * 1000;
-	// /**/n_EvaluateBoard++;
 	if (deep == 0 || board->isVictory)
 	{
 		if (player != decideMoveFor)
@@ -97,7 +108,8 @@ Board	*IA::alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player
 	{
 		bestBoard = new Board();
 		bestBoard->heuristic = ALPHA;
-		generatePossibleBoards(board, player, decideMoveFor);
+		if (board->next.size() == 0)
+			generatePossibleBoards(board, player, decideMoveFor);
 		for (vector<Board *>::iterator it = board->next.begin() ; it != board->next.end() ; ++it)
 		{
 			valBoard = alphaBeta(*it, deep - 1, -beta, -alpha, Tools::inverseColorPlayer(player), decideMoveFor);
@@ -136,7 +148,8 @@ Board	*IA::alphaBeta2(Board *board, int depth, int alpha, int beta, t_Color play
 
 	if (depth == 0 || board->isVictory)
 		return (board);
-	generatePossibleBoards(board, player, decideMoveFor);
+	if (board->next.size() == 0)
+		generatePossibleBoards(board, player, decideMoveFor);
 	if (player == decideMoveFor) //max
 	{
 		v = new Board();
@@ -165,28 +178,6 @@ Board	*IA::alphaBeta2(Board *board, int depth, int alpha, int beta, t_Color play
 	}
 
 }
-
-/*
-function alphabeta(node, depth, α, β, maximizingPlayer)
-     if depth = 0 or node is a terminal node
-         return the heuristic value of node
-     if maximizingPlayer
-         v := -∞
-         for each child of node
-             v := max(v, alphabeta(child, depth – 1, α, β, FALSE))
-             α := max(α, v)
-             if β ≤ α
-                 break (* β cut-off *)
-         return v
-     else
-         v := +∞
-         for each child of node
-             v := min(v, alphabeta(child, depth – 1, α, β, TRUE))
-             β := min(β, v)
-             if β ≤ α
-                 break (* α cut-off *)
-         return v*/
-/**/
 
 void	IA::generatePossibleBoards(Board *board, t_Color player, t_Color decideMoveFor)
 {

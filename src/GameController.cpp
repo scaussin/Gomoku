@@ -65,7 +65,6 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	//	Input reception side												//
 	//																		//
 	// --------------------------------------------------------------------	//
-
 	std::cout << std::endl << KBLU "------ " KYEL <<  " Move " << GameDatas.TurnNumber << KBLU " ------" KRESET << std::endl;
 	std::cout << std::endl << KYEL << Tools::printColor(GameDatas.ActivePlayer) << KRESET << " tries to play move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
 		// erase last suggestion if not followed.
