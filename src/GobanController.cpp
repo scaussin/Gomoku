@@ -158,6 +158,13 @@ void	GobanController::PutDisplay(t_GameDatas &Game, SDLHandler &SDLHandler)
 	}
 }
 
+void	GobanController::TransitionOut(SDLHandler &SDLHandler)
+{
+	if (GobanImg->GetAlpha() > 0)
+		GobanImg->FadeOut();
+	GobanImg->PutImage(SDLHandler);
+}
+
 // This will update the board display from the modifications made in game.
 void	GobanController::UpdateBoard(t_GameDatas &Game, SDLHandler &SDLHandler)
 {

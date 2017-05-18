@@ -32,6 +32,7 @@ class GobanController
 		// class display methods
 		void			PutDisplay(t_GameDatas &Game,
 										SDLHandler &SDLHandler);
+		void			TransitionOut(SDLHandler &SDLHandler);
 		void			UpdateBoard(t_GameDatas &GameDatas, SDLHandler &SDLHandler);
 		void			SetPointDisplay(int x, int y, t_Color color,
 										SDLHandler &SDLHandler);

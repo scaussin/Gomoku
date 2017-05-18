@@ -37,6 +37,8 @@ void		GameUI::LoadUI(SDLHandler &SDLHandler)
 	VictoryCaseImg = new GameImage(SDLHandler, "./ressources/img/in_game/info_back.bmp");
 	VictoryText = new GameText(SDLHandler, "Victory for XXXXX!", 124);
 	VictorySubText = new GameText(SDLHandler, "Press Enter to reset board", 124);
+
+	HelpOverlay = new GameImage(SDLHandler, "./ressources/img/in_game/help_overlay.bmp");
 }
 
 void		GameUI::PlaceImagesOnStart(SDLHandler &SDLHandler)
@@ -125,6 +127,12 @@ void		GameUI::PlaceImagesOnStart(SDLHandler &SDLHandler)
 	VictorySubText->SetTextSize(330, 45);
 	VictorySubText->SetAlpha(0);
 	VictorySubText->PutText(SDLHandler);
+
+	// help overlay
+	HelpOverlay->SetImgPos(544, 124);
+	HelpOverlay->SetImgSize(832, 832);
+	HelpOverlay->SetAlpha(0);
+	HelpOverlay->PutImage(SDLHandler);
 }
 
 void		GameUI::UpdateUIValues(t_GameDatas &GameDatas, SDLHandler &SDLHandler)
@@ -186,6 +194,8 @@ void		GameUI::DisplayUI(t_GameDatas &GameDatas, SDLHandler &SDLHandler)
 	if (WhiteCapturesTextValue->GetAlpha() < 255)
 		WhiteCapturesTextValue->FadeIn();
 	WhiteCapturesTextValue->PutText(SDLHandler);
+
+	HelpOverlay->PutImage(SDLHandler);
 
 	// // Victory display
 	// if (VictoryCaseImg->GetAlpha() < 255)

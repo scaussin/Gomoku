@@ -63,6 +63,9 @@ using namespace std;
 */
 
 # define DEFAULT_IA_DEEP 3
+# define MIN_DEPTH 1
+# define MAX_DEPTH 10
+
 # define ALPHA -100000
 # define BETA 100000
 
@@ -175,10 +178,8 @@ typedef	struct		s_GameDatas
 
 	t_Color			ActivePlayer;
 	int				TurnNumber;
+	int				MoveNumber;
 	int				LastTurnIATime;
-
-	int				BlackCaptures;
-	int				WhiteCaptures;
 
 	bool			WhiteInCheck;
 	bool			BlackInCheck;
@@ -189,6 +190,8 @@ typedef	struct		s_GameDatas
 	t_Color			WinnerColor;
 
 	t_vec2			LastSuggestion;
+
+	std::vector<class Board> BoardStates;
 
 }					t_GameDatas;
 

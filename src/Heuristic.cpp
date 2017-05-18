@@ -127,8 +127,8 @@ int		Heuristic::PreEvaluateBoard(Board &board, t_Color playerColor)
 		// boardValue += simpleSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
 		// boardValue += captureSearchPatterns(board, board.lastMove, playerColor, (t_dir)dir, line, backLine);
 		Tools::ReversePatternColors(&(line[0]), &(backLine[0]), 7);
-		boardValue += victorySimpleSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line);
-		boardValue += threatSpaceSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
+		boardValue -= victorySimpleSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line);
+		boardValue -= threatSpaceSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
 		// boardValue += simpleSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
 		// boardValue += captureSearchPatterns(board, board.lastMove, enemy_color, (t_dir)dir, line, backLine);
 	}

@@ -1,7 +1,9 @@
 #include "../includes/Gomoku.hpp"
 
 InGameController::InGameController() :
-	ImagesLoaded(false)
+	ImagesLoaded(false),
+	TransitionningOut(false),
+	TransitionEnd(false)
 {
 
 }
@@ -107,6 +109,32 @@ void	InGameController::DisplayImages(SDLHandler &SDLHandler)
 	GameModeText->PutText(SDLHandler);
 }
 
+void	InGameController::TransitionOut(SDLHandler &SDLHandler)
+{
+	
+	if (InGameBgImg->GetAlpha() > 0)
+		InGameBgImg->FadeOut();
+	InGameBgImg->PutImage(SDLHandler);
+	if (InGameTitleImg->GetAlpha() > 0)
+		InGameTitleImg->FadeOut();
+	InGameTitleImg->PutImage(SDLHandler);
+	if (GameModeCaseImg->GetAlpha() > 0)
+		GameModeCaseImg->FadeOut();
+	GameModeCaseImg->PutImage(SDLHandler);
+	if (GameModeText->GetAlpha() > 0)
+		GameModeText->FadeOut();
+	GameModeText->PutText(SDLHandler);
+	Goban.TransitionOut(SDLHandler);
+	if (InGameBgImg->GetAlpha() == 0
+		&& InGameTitleImg->GetAlpha() == 0
+		&& GameModeCaseImg->GetAlpha() == 0
+		&& GameModeText->GetAlpha() == 0
+		&& Goban.GobanImg->GetAlpha() == 0)
+	{
+		TransitionEnd = true;
+	}
+}
+
 // ------------------------------------------------------------	//
 //																//
 //	Methods of the scene's events								//
@@ -161,6 +189,38 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 				Goban.ResetBoardVisuals(SDLHandler);
 				Game.ResetGame(GameDatas);
 				UI.UpdateUIValues(GameDatas, SDLHandler);
+			}
+			// press delete to revert last move;
+			if (event.key.keysym.sym == SDLK_BACKSPACE)
+			{
+				std::cout << KYEL "- Reverting last move! -" KRESET << std::endl;
+				Game.RevertLastMove(GameDatas, SDLHandler, Goban);
+				UI.UpdateUIValues(GameDatas, SDLHandler);
+			}
+			// press h to display key help.
+			if (event.key.keysym.sym == SDLK_h)
+			{
+				UI.HelpOverlay->SetAlpha(255);
+				UI.HelpOverlay->PutImage(SDLHandler);
+			}
+			// press escape to go to main menu.
+			if (event.key.keysym.sym == SDLK_ESCAPE)
+			{
+				GameDatas.CanClick = false;
+				std::cout << "escape key pressed, back to titlescreen." << std::endl;
+				Goban.ResetBoardVisuals(SDLHandler);
+				Game.ResetGame(GameDatas);
+				UI.UpdateUIValues(GameDatas, SDLHandler);
+				TransitionningOut = true;
+			}
+		}
+		if (event.type == SDL_KEYUP)
+		{
+			// hide help when h released.
+			if (event.key.keysym.sym == SDLK_h)
+			{
+				UI.HelpOverlay->SetAlpha(0);
+				UI.HelpOverlay->PutImage(SDLHandler);
 			}
 		}
 		GameDatas.CanClick = true;
