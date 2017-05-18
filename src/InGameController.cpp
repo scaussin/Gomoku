@@ -197,6 +197,12 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 				Game.RevertLastMove(GameDatas, SDLHandler, Goban);
 				UI.UpdateUIValues(GameDatas, SDLHandler);
 			}
+			// press h to display key help.
+			if (event.key.keysym.sym == SDLK_h)
+			{
+				UI.HelpOverlay->SetAlpha(255);
+				UI.HelpOverlay->PutImage(SDLHandler);
+			}
 			// press escape to go to main menu.
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 			{
@@ -206,6 +212,15 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 				Game.ResetGame(GameDatas);
 				UI.UpdateUIValues(GameDatas, SDLHandler);
 				TransitionningOut = true;
+			}
+		}
+		if (event.type == SDL_KEYUP)
+		{
+			// hide help when h released.
+			if (event.key.keysym.sym == SDLK_h)
+			{
+				UI.HelpOverlay->SetAlpha(0);
+				UI.HelpOverlay->PutImage(SDLHandler);
 			}
 		}
 		GameDatas.CanClick = true;

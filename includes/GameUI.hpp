@@ -30,6 +30,8 @@ class GameUI
 		GameText			*VictoryText;
 		GameText			*VictorySubText;
 
+		GameImage			*HelpOverlay;
+
 		void				LoadUI(SDLHandler &SDLHandler);
 		void				PlaceImagesOnStart(SDLHandler &SDLHandler);
 
