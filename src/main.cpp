@@ -8,6 +8,7 @@
 ** #04 - affichage raisonnement (terminal)
 ** #05 - abandon de partie et retry (touche R)
 ** #06 - rejouer apres une victoire (touche RETURN)
+** #07 - aucune fuite memoire.
 */
 
 int		main(void)

@@ -231,7 +231,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 			GameDatas.TurnNumber += 1;
 		//Goban.SetPointDisplay(IaMove.x, IaMove.y, BLACK, SDLHandler);
 		GameDatas.Board.setPoint(IaMove, SUGGESTION);
-		GameDatas.ActivePlayer = Tools::inverseColorPlayer(GameDatas.ActivePlayer);
+		//GameDatas.ActivePlayer = Tools::inverseColorPlayer(GameDatas.ActivePlayer);
 		// needed to clear the board.
 		GameDatas.LastSuggestion.x = IaMove.x;
 		GameDatas.LastSuggestion.y = IaMove.y;

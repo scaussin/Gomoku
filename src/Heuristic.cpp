@@ -30,6 +30,8 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 	if (board.points.size() == 0)
 		PERROR("points vector empty", ERR);
 	enemy_color = Tools::inverseColorPlayer(playerColor);
+	
+	
 	for (vector<t_vec2>::iterator it = board.points.begin() ; it != board.points.end() ; ++it)
 	{
 		for (dir = 1; dir != 9; ++dir)
@@ -98,6 +100,29 @@ int		Heuristic::EvaluateBoard(Board &board, t_Color playerColor)
 			// /**/time_captureSearchPatterns += (clock() - start_captureSearchPatterns) / double(CLOCKS_PER_SEC) * 1000;
 		}
 	}
+	//the next commentary comment the next four if()
+	//commentary
+	/*if (playerColor == BLACK && board.BlackCaptures == 10)
+	{
+		boardValue -= -SURE_VICTORY;
+		board.isVictory = true;
+	}
+	if (playerColor == WHITE && board.WhiteCaptures == 10)
+	{
+		boardValue -= -SURE_VICTORY;
+		board.isVictory = true;
+	}
+
+	if (playerColor == BLACK && board.WhiteCaptures == 10)
+	{
+		boardValue += -SURE_VICTORY;
+		board.isVictory = false;
+	}
+	if (playerColor == WHITE && board.BlackCaptures == 10)
+	{
+		boardValue += -SURE_VICTORY;
+		board.isVictory = false;
+	}*/
 	return (boardValue);
 }
 

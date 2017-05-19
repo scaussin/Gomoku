@@ -13,10 +13,10 @@ class IA
 
 		t_vec2			decideMove(t_GameDatas &gameDatas);
 
-		void			generatePossibleBoards(Board *board, t_Color player);
+		void			generatePossibleBoards(Board *board, t_Color player, t_Color decideMoveFor, bool isFirstDepth);
 		void			generateBoardsFromPoint(Board *curBoard, t_vec2 point,
-							vector<Board*> &possibleBoards, t_Color player);
-		Board			*alphaBeta(Board *board, int deep, int alpha, int beta, t_Color player,
+							vector<Board*> &possibleBoards, t_Color player, t_Color decideMoveFor, bool isFirstDepth);
+		Board			*alphaBeta(Board *board, int depth, int alpha, int beta, t_Color player,
 							t_Color decideMoveFor);
 
 		Board *maxBoard(Board *a, Board *b);
