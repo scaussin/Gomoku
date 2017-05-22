@@ -176,7 +176,7 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			{
 				if (event.key.keysym.sym == SDLK_RETURN)
 				{
-					std::cout << "return pressed on game over, reseting board" << std::endl;
+					// std::cout << "return pressed on game over, reseting board" << std::endl;
 					Goban.ResetBoardVisuals(SDLHandler);
 					Game.ResetGame(GameDatas);
 					UI.UpdateUIValues(GameDatas, SDLHandler);
@@ -185,7 +185,7 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			// press r to reset anytime.
 			if (event.key.keysym.sym == SDLK_r)
 			{
-				std::cout << "reset key pressed, reseting board" << std::endl;
+				// std::cout << "reset key pressed, reseting board" << std::endl;
 				Goban.ResetBoardVisuals(SDLHandler);
 				Game.ResetGame(GameDatas);
 				UI.UpdateUIValues(GameDatas, SDLHandler);
@@ -193,7 +193,7 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			// press delete to revert last move;
 			if (event.key.keysym.sym == SDLK_BACKSPACE)
 			{
-				std::cout << KYEL "- Reverting last move! -" KRESET << std::endl;
+				// std::cout << KYEL "- Reverting last move! -" KRESET << std::endl;
 				Game.RevertLastMove(GameDatas, SDLHandler, Goban);
 				UI.UpdateUIValues(GameDatas, SDLHandler);
 			}
@@ -207,7 +207,7 @@ void	InGameController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 			{
 				GameDatas.CanClick = false;
-				std::cout << "escape key pressed, back to titlescreen." << std::endl;
+				// std::cout << "escape key pressed, back to titlescreen." << std::endl;
 				Goban.ResetBoardVisuals(SDLHandler);
 				Game.ResetGame(GameDatas);
 				UI.UpdateUIValues(GameDatas, SDLHandler);

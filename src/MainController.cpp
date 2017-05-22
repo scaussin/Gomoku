@@ -63,7 +63,7 @@ void	MainController::MainLoop()
 				{
 					if (CurrentScene == MAIN_MENU)
 					{
-						std::cout << "Escape pressed in main menu, quitting..." << std::endl;
+						// std::cout << "Escape pressed in main menu, quitting..." << std::endl;
 						break;
 					}
 				}
@@ -105,7 +105,7 @@ void	MainController::MainLoop()
 			}
 			if (MainMenu.TransitionEnd == true)
 			{
-				std::cout << "SCENE CHANGE" << std::endl;
+				// std::cout << "SCENE CHANGE" << std::endl;
 				MainMenu.TransitionningOut = false;
 				MainMenu.TransitionEnd = false;
 				CurrentScene = GameDatas.SelectedScene;
@@ -126,7 +126,7 @@ void	MainController::MainLoop()
 			}
 			if (InGame.TransitionEnd == true)
 			{
-				std::cout << "SCENE CHANGE" << std::endl;
+				// std::cout << "SCENE CHANGE" << std::endl;
 				InGame.TransitionningOut = false;
 				InGame.TransitionEnd = false;
 				CurrentScene = MAIN_MENU;

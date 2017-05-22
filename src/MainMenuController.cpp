@@ -160,7 +160,7 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			if (btn_play_ia->IsColliding(event.button.x,
 						event.button.y))
 			{
-				std::cout << "Onclick play ia" << std::endl;
+				// std::cout << "Onclick play ia" << std::endl;
 				GameDatas.SelectedGameMode = VS_IA;
 				GameDatas.SelectedScene = IN_GAME;
 				TransitionningOut = true;  // give the order to change scene.
@@ -168,7 +168,7 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			else if (btn_play_p2->IsColliding(event.button.x,
 						event.button.y))
 			{
-				std::cout << "Onclick play p2" << std::endl;
+				// std::cout << "Onclick play p2" << std::endl;
 				GameDatas.SelectedGameMode = VS_P2;
 				GameDatas.SelectedScene = IN_GAME;
 				TransitionningOut = true; // give the order to change scene.
@@ -176,7 +176,7 @@ void	MainMenuController::HandleEvents(t_GameDatas &GameDatas, SDL_Event &event,
 			else if (btn_quit->IsColliding(event.button.x,
 						event.button.y))
 			{
-				std::cout << "Onclick quit" << std::endl;
+				// std::cout << "Onclick quit" << std::endl;
 				SDL_Quit();
 				exit (0);
 			}

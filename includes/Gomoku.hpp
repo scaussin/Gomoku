@@ -47,6 +47,7 @@ using namespace std;
 
 
 # define DEBUG_MODE 0
+# define IA_ON_BLACK
 
 /*
 **	SDL engine defines
