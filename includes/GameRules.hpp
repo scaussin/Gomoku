@@ -34,7 +34,6 @@ class GameRules
 								t_vec2 stone, t_dir dir,
 								char *line, char *backLine);
 
-
 		// ------ Forbidden move patterns.
 		static bool			checkForbiddenPatterns(Board &board, t_Color color, t_vec2 move);
 
@@ -52,6 +51,9 @@ class GameRules
 		static bool			GetCaptureMove(Board &board, t_vec2 curPoint, t_dir dir,
 										char *line, char *backLine,
 										t_vec2 &retMove);
+
+		static void			setWinningSequenceValues(Board &board,
+										t_VictorySequence &victorySequence);
 };
 
 #endif

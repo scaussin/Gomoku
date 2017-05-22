@@ -34,6 +34,7 @@ void	GobanController::LoadImages(SDLHandler &SDLHandler)
 	WhiteStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_white.bmp");
 	BlackStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_black.bmp");
 	SuggestStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_suggest.bmp");
+	WinningStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_winning.bmp");
 	NoStoneSurface = SDL_LoadBMP("./ressources/img/in_game/go_stone_none.bmp");
 }
 
@@ -196,6 +197,8 @@ void	GobanController::SetPointDisplay(int x, int y, t_Color color, SDLHandler &S
 		new_surface = WhiteStoneSurface;
 	else if (color == SUGGESTION)
 		new_surface = SuggestStoneSurface;
+	else if (color == WINNING)
+		new_surface = WinningStoneSurface;
 	else
 		new_surface = NoStoneSurface;
 	_index_tmp = y * 19 + x;

@@ -17,6 +17,7 @@ class GobanController
 		SDL_Surface					*BlackStoneSurface;
 		SDL_Surface					*WhiteStoneSurface;
 		SDL_Surface					*SuggestStoneSurface;
+		SDL_Surface					*WinningStoneSurface;
 		SDL_Surface					*NoStoneSurface;
 
 		// class init methods.

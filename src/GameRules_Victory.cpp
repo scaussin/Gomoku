@@ -165,7 +165,10 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 						blackStoneCapturableFound = true;
 						std::cout << KMAG "- Capturable stone in BLACK sequence in " KRESET << captureMove.x << "x " << captureMove.y << "y" << std::endl;
 						if (GameDatas.WhiteInCheck == true) // if White has missed the chance to capture this sequence.
+						{
+							setWinningSequenceValues(board, (*curSequence));
 							return (BLACK); // -> black wins.
+						}
 						(*curSequence).CapturePoints.push_back(captureMove);
 						break ;
 					}
@@ -178,7 +181,10 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 						whiteStoneCapturableFound = true;
 						std::cout << KMAG "- Capturable stone in WHITE sequence in " KRESET << captureMove.x << "x " << captureMove.y << "y" << std::endl;
 						if (GameDatas.BlackInCheck == true)
+						{
+							setWinningSequenceValues(board, (*curSequence));
 							return (WHITE);
+						}
 						(*curSequence).CapturePoints.push_back(captureMove);
 						break ;
 					}
@@ -187,6 +193,7 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 		}
 		if (blackStoneCapturableFound == false && whiteStoneCapturableFound == false) // -> valid line of 5.
 		{
+			setWinningSequenceValues(board, (*curSequence));
 			if ((*curSequence).Color == BLACK)
 			{
 				if (GameDatas.BlackInCheck == false)
@@ -237,4 +244,17 @@ bool		GameRules::GetCaptureMove(Board &board, t_vec2 curPoint, t_dir dir,
 		return (true);
 	}
 	return (false);
+}
+
+/*
+** Put the sure winning sequence color value to WINNING.
+*/
+
+void	GameRules::setWinningSequenceValues(Board &board, t_VictorySequence &victorySequence)
+{
+	for (std::vector<t_vec2>::iterator vec_it = victorySequence.Stones.begin();
+				vec_it != victorySequence.Stones.end(); vec_it++)
+	{
+		board.setPoint(*vec_it, WINNING);
+	}
 }
