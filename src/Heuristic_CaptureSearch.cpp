@@ -12,12 +12,18 @@ int		Heuristic::captureSearchPatterns(Board &board,
 		if (playerColor == BLACK)
 		{
 			if (board.BlackCaptures == 8)
+			{
+				board.isVictory = true;
 				ret += VICTORY_CAPTURE_FORM;
+			}
 		}
 		else
 		{
 			if (board.WhiteCaptures == 8)
+			{
+				board.isVictory = true;
 				ret += VICTORY_CAPTURE_FORM;
+			}
 		}
 	}
 	return (ret);

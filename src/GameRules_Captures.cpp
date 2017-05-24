@@ -84,10 +84,18 @@ void		GameRules::applyCapture(Board &board, t_Color color,
 	if (color == BLACK)
 	{
 		board.BlackCaptures += 2;
+		if (board.BlackCaptures == 10)
+		{
+			board.isVictory = true;
+		}
 	}
 	else
 	{
 		board.WhiteCaptures += 2;
+		if (board.WhiteCaptures == 10)
+		{
+			board.isVictory = true;
+		}
 	}
 	board.heuristic += CAPTURE_DONE;
 	board.preHeuristic += CAPTURE_DONE;
