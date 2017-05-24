@@ -163,7 +163,6 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 						std::cout << KMAG "- Capturable stone in BLACK sequence in " KRESET << captureMove.x << "x " << captureMove.y << "y" << std::endl;
 						if (GameDatas.WhiteInCheck == true) // if White has missed the chance to capture this sequence.
 						{
-							GameDatas.WhiteWasInCheck = true;
 							setWinningSequenceValues(board, (*curSequence));
 							return (BLACK); // -> black wins.
 						}
@@ -180,7 +179,6 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 						std::cout << KMAG "- Capturable stone in WHITE sequence in " KRESET << captureMove.x << "x " << captureMove.y << "y" << std::endl;
 						if (GameDatas.BlackInCheck == true)
 						{
-							GameDatas.BlackWasInCheck = true;
 							setWinningSequenceValues(board, (*curSequence));
 							return (WHITE);
 						}

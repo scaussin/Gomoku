@@ -13,29 +13,21 @@ GameController::~GameController()
 void	GameController::RevertLastMove(t_GameDatas &GameDatas,
 			SDLHandler &SDLHandler, GobanController &Goban)
 {
+	t_vec2 IaMove;
+
 	if (GameDatas.BoardStates.size() != 0)
 	{
 		GameDatas.Board = GameDatas.BoardStates.back();
+		
+		// to reapply the check status
+		GameDatas.WhiteInCheck = false;
+		GameDatas.BlackInCheck = false;
+		GameRules::CheckVictory(GameDatas);
+
 		Goban.UpdateBoard(GameDatas, SDLHandler);
+
 		GameDatas.BoardStates.pop_back();
-
-		// reset the InCheck flag status
-		if (GameDatas.BlackWasInCheck)
-		{
-			GameDatas.BlackWasInCheck = false;
-			GameDatas.BlackInCheck = true;
-		}
-		else
-			GameDatas.BlackInCheck = false;
-		if (GameDatas.WhiteWasInCheck)
-		{
-			GameDatas.WhiteWasInCheck = false;
-			GameDatas.WhiteInCheck = true;
-		}
-		else
-			GameDatas.WhiteInCheck = false;
 		GameDatas.IsGameOver = false;
-
 		// set game behavior according to game mode.
 		if (GameDatas.SelectedGameMode == VS_IA)
 		{
@@ -46,12 +38,7 @@ void	GameController::RevertLastMove(t_GameDatas &GameDatas,
 		}
 		else if (GameDatas.SelectedGameMode == VS_P2)
 		{
-			// erase last suggestion if not followed.
-			if (GameDatas.Board.getPoint(GameDatas.LastSuggestion) == SUGGESTION)
-			{
-				GameDatas.Board.setPoint(GameDatas.LastSuggestion, NONE);
-				Goban.UpdateBoard(GameDatas, SDLHandler);
-			}
+			BoardTools::ClearSuggestions(GameDatas.Board);
 			// Set turn counter
 			// white plays = turn + 1;
 			// so white reverse = turn - 1;
@@ -69,6 +56,10 @@ void	GameController::RevertLastMove(t_GameDatas &GameDatas,
 			else if (GameDatas.ActivePlayer == BLACK)
 			{
 				GameDatas.ActivePlayer = WHITE;
+				IaMove = IA.decideMove(GameDatas); // the selected move is AUTHORIZED && CAPTURE APPLIED.
+				GameDatas.Board.setPoint(IaMove, SUGGESTION);
+				GameDatas.LastSuggestion.x = IaMove.x;
+				GameDatas.LastSuggestion.y = IaMove.y;
 			}
 		}
 		Goban.UpdateBoard(GameDatas, SDLHandler);
@@ -112,19 +103,22 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	//																		//
 	// --------------------------------------------------------------------	//
 	// Printing turn count.
+
 	GameDatas.BoardStates.push_back(GameDatas.Board);
 	std::cout << std::endl << KBLU "------ " KYEL <<  "TURN " << GameDatas.TurnNumber
 			<< " - Move " << GameDatas.MoveNumber << KBLU " ------" KRESET << std::endl;
 	std::cout << std::endl << KYEL << Tools::printColor(GameDatas.ActivePlayer) << KRESET
 			<< " tries to play move in " << KYEL << move.x << "x " << move.y << "y" KRESET << std::endl;
-	// Erase last suggestion if not followed.
-	if (GameDatas.Board.getPoint(GameDatas.LastSuggestion) == SUGGESTION)
-	{
-		GameDatas.Board.setPoint(GameDatas.LastSuggestion, NONE);
-	}
+	
 	// ----- Processing user click.
 	if (GameRules.isMoveAuthorized(GameDatas.Board, GameDatas.ActivePlayer, move))
 	{
+		// Erase last suggestion if not followed.
+		if (GameDatas.Board.getPoint(GameDatas.LastSuggestion) == SUGGESTION)
+		{
+			GameDatas.Board.setPoint(GameDatas.LastSuggestion, NONE);
+		}
+		Goban.UpdateBoard(GameDatas, SDLHandler);
 		std::cout << KGRN "AUTHORIZED move for "
 					<< Tools::printColor(GameDatas.ActivePlayer) << KRESET << std::endl;
 
@@ -136,7 +130,6 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		// int boardVal = Heuristic::EvaluateBoard(GameDatas.Board, GameDatas.ActivePlayer);
 		// std::cout << "Current board value: " << boardVal << std::endl;
 		GameDatas.MoveNumber += 1;
-		Goban.UpdateBoard(GameDatas, SDLHandler);
 		GameRules::CheckVictory(GameDatas);
 		Goban.UpdateBoard(GameDatas, SDLHandler);
 	}
@@ -149,7 +142,11 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	}
 	
 	if (GameDatas.IsGameOver)
+	{
+		if (GameDatas.SelectedGameMode == VS_P2)
+			GameDatas.ActivePlayer = Tools::inverseColorPlayer(GameDatas.ActivePlayer);
 		return ;
+	}
 	// --------------------------------------------------------------------	//
 	//	Response side -> IA or player2										//
 	//																		//
@@ -164,14 +161,16 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	{
 		GameDatas.ActivePlayer = Tools::inverseColorPlayer(GameDatas.ActivePlayer);
 	}
+	if (GameDatas.ActivePlayer == WHITE)
+	{
+		// ----- Start IA decision timer.
+		chrono_start = std::chrono::system_clock::now();
+		
+		IaMove = IA.decideMove(GameDatas); // the selected move is AUTHORIZED && CAPTURE APPLIED.
 
-	// ----- Start IA decision timer.
-	chrono_start = std::chrono::system_clock::now();
-
-	IaMove = IA.decideMove(GameDatas); // the selected move is AUTHORIZED && CAPTURE APPLIED.
-
-	// ----- End IA timer.
-	chrono_end = std::chrono::system_clock::now();
+		// ----- End IA timer.
+		chrono_end = std::chrono::system_clock::now();
+	}
 	GameDatas.LastTurnIATime = std::chrono::duration_cast<std::chrono::milliseconds>
 		(chrono_end-chrono_start).count();
 
@@ -191,15 +190,16 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		GameDatas.TurnNumber += 1;
 		GameDatas.ActivePlayer = BLACK;
 	}
-	// ------ Two player mode: set the next player color.
+	// ------ Two player mode
 	else if (GameDatas.SelectedGameMode == VS_P2)
 	{
 		if (GameDatas.ActivePlayer == WHITE) // if white just played.
+		{
 			GameDatas.TurnNumber += 1;
-		GameDatas.Board.setPoint(IaMove, SUGGESTION);
-		// needed to clear the board.
-		GameDatas.LastSuggestion.x = IaMove.x;
-		GameDatas.LastSuggestion.y = IaMove.y;
+			GameDatas.Board.setPoint(IaMove, SUGGESTION);
+			GameDatas.LastSuggestion.x = IaMove.x;
+			GameDatas.LastSuggestion.y = IaMove.y;
+		}
 	}
 	Goban.UpdateBoard(GameDatas, SDLHandler);
 }

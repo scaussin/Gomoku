@@ -182,8 +182,6 @@ typedef	struct		s_GameDatas
 	int				MoveNumber;
 	int				LastTurnIATime;
 
-	bool			WhiteWasInCheck;
-	bool			BlackWasInCheck;
 	bool			WhiteInCheck;
 	bool			BlackInCheck;
 

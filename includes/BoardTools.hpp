@@ -20,6 +20,7 @@ class BoardTools
 		static int			countChild(Board *board);
 		static void			printParents(Board *board);
 		static t_vec2		getFistMove(Board *board);
+		static void			ClearSuggestions(Board &board);
 };
 
 #endif

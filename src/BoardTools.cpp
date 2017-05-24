@@ -150,3 +150,15 @@ t_vec2	BoardTools::getFistMove(Board *board)
 	PERROR("last move not found", ERR);
 	return (err);
 }
+
+void	BoardTools::ClearSuggestions(Board &board)
+{
+	for (int y = 0; y < 19; y++)
+	{
+		for (int x = 0; x < 19 ; x++)
+		{
+			if (board.getPoint(y, x) == SUGGESTION)
+				board.setPoint(y, x, NONE);
+		}
+	}
+}
