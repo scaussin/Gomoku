@@ -13,14 +13,14 @@ GameController::~GameController()
 void	GameController::RevertLastMove(t_GameDatas &GameDatas,
 			SDLHandler &SDLHandler, GobanController &Goban)
 {
-	if (GameDatas.IsGameOver == false
-		&& GameDatas.BoardStates.size() != 0)
+	if (GameDatas.BoardStates.size() != 0)
 	{
 		GameDatas.Board = GameDatas.BoardStates.back();
 		Goban.UpdateBoard(GameDatas, SDLHandler);
 		GameDatas.BoardStates.pop_back();
 		GameDatas.BlackInCheck = false;
 		GameDatas.WhiteInCheck = false;
+		GameDatas.IsGameOver = false;
 		if (GameDatas.SelectedGameMode == VS_IA)
 		{
 			if (GameDatas.TurnNumber > 0)
