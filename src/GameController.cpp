@@ -18,9 +18,25 @@ void	GameController::RevertLastMove(t_GameDatas &GameDatas,
 		GameDatas.Board = GameDatas.BoardStates.back();
 		Goban.UpdateBoard(GameDatas, SDLHandler);
 		GameDatas.BoardStates.pop_back();
-		GameDatas.BlackInCheck = false;
-		GameDatas.WhiteInCheck = false;
+
+		// reset the InCheck flag status
+		if (GameDatas.BlackWasInCheck)
+		{
+			GameDatas.BlackWasInCheck = false;
+			GameDatas.BlackInCheck = true;
+		}
+		else
+			GameDatas.BlackInCheck = false;
+		if (GameDatas.WhiteWasInCheck)
+		{
+			GameDatas.WhiteWasInCheck = false;
+			GameDatas.WhiteInCheck = true;
+		}
+		else
+			GameDatas.WhiteInCheck = false;
 		GameDatas.IsGameOver = false;
+
+		// set game behavior according to game mode.
 		if (GameDatas.SelectedGameMode == VS_IA)
 		{
 			if (GameDatas.TurnNumber > 0)
@@ -55,6 +71,7 @@ void	GameController::RevertLastMove(t_GameDatas &GameDatas,
 				GameDatas.ActivePlayer = WHITE;
 			}
 		}
+		Goban.UpdateBoard(GameDatas, SDLHandler);
 	}
 	else
 	{
@@ -121,6 +138,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 		GameDatas.MoveNumber += 1;
 		Goban.UpdateBoard(GameDatas, SDLHandler);
 		GameRules::CheckVictory(GameDatas);
+		Goban.UpdateBoard(GameDatas, SDLHandler);
 	}
 	else
 	{

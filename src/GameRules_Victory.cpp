@@ -154,9 +154,6 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 			// for each direction on the current stone from the current sequence.
 			for (dir = 1; dir != 9; dir++)
 			{
-				// Tools::GetPatternPointsLine(line, board, curPoint, (t_dir)dir, 3, BLACK);
-				// Tools::GetPatternPointsLine(backLine, board, curPoint, Tools::GetOppositeDir((t_dir)dir), 3, BLACK);
-				
 				if ((*curSequence).Color == BLACK)
 				{
 					Tools::GetDualPatternPointsLine(&(line[0]), &(backLine[0]), board, curPoint, (t_dir)dir, 3, BLACK);
@@ -166,6 +163,7 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 						std::cout << KMAG "- Capturable stone in BLACK sequence in " KRESET << captureMove.x << "x " << captureMove.y << "y" << std::endl;
 						if (GameDatas.WhiteInCheck == true) // if White has missed the chance to capture this sequence.
 						{
+							GameDatas.WhiteWasInCheck = true;
 							setWinningSequenceValues(board, (*curSequence));
 							return (BLACK); // -> black wins.
 						}
@@ -182,6 +180,7 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 						std::cout << KMAG "- Capturable stone in WHITE sequence in " KRESET << captureMove.x << "x " << captureMove.y << "y" << std::endl;
 						if (GameDatas.BlackInCheck == true)
 						{
+							GameDatas.BlackWasInCheck = true;
 							setWinningSequenceValues(board, (*curSequence));
 							return (WHITE);
 						}
@@ -191,29 +190,28 @@ t_Color		GameRules::areVictorySequencesValid(t_GameDatas &GameDatas, Board &boar
 				}
 			}
 		}
+		// at this point, all five stones of the current sequence cant be captured.
 		if (blackStoneCapturableFound == false && whiteStoneCapturableFound == false) // -> valid line of 5.
 		{
 			setWinningSequenceValues(board, (*curSequence));
 			if ((*curSequence).Color == BLACK)
 			{
-				if (GameDatas.BlackInCheck == false)
-					return (BLACK);
-				else
-					return (WHITE);
+				return (BLACK);
 			}
-			else 
+			else
 			{
-				if (GameDatas.WhiteInCheck == false)
-					return (WHITE);
-				else
-					return (BLACK);
+				return (WHITE);
 			}
 		}
 	}
 	if (blackStoneCapturableFound == true)
+	{
 		GameDatas.WhiteInCheck = true;
+	}
 	else
+	{
 		GameDatas.BlackInCheck = true;
+	}
 	return (NONE);
 }
 
