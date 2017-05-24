@@ -144,6 +144,7 @@ void	GameController::Play(t_GameDatas &GameDatas, GobanController &Goban,
 	{
 		std::cout << KMAG "UNAUTHORIZED move for "
 					<< Tools::printColor(GameDatas.ActivePlayer) << KRESET << std::endl;
+		GameDatas.BoardStates.pop_back();
 		return ;
 	}
 	
