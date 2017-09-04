@@ -30,4 +30,4 @@ For more on threat-space search, see [this documentation](http://www.renju.nu/wp
 
 Video of the game:
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/A97sY5tTSNk/0.jpg)](https://www.youtube.com/watch?v=A97sY5tTSNk)
+[![Gomoku running video link](https://img.youtube.com/vi/A97sY5tTSNk/0.jpg)](https://www.youtube.com/watch?v=A97sY5tTSNk)
