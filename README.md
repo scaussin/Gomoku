@@ -22,9 +22,9 @@ That is the core of min-max: searching for the move that give the maximum of poi
 This makes a program that looks alive in its play-style, by trying to create forms on several turns.
 
 Aside from its algorithm, the IA also have an advanced heuristic, that is a means of evaluating the board. For this, we used theories
-about gomoku, especially the threat-space search devised by L. V. Allis and M. P. H. Huntjens. This theory defines "forms" that leads
-to victory. Our program search for these forms on several turns, which makes it very agile in its play style, as there are several
-threat forms, that can be combined.
+about gomoku, especially the threat-space search devised by L. V. Allis and M. P. H. Huntjens. This theory defines forms as "threats"
+that leads to victory and must be seeked or countered. Our program search for these forms on several turns,
+which makes it very agile in its play style, as there are several threat forms, that can be combined.
 
 For more on threat-space search, see [this documentation](http://www.renju.nu/wp-content/uploads/sites/46/2016/09/Go-Moku.pdf).
 
