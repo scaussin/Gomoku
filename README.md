@@ -1,5 +1,5 @@
 # Gomoku
-By [aleung-c](https://github.com/aleung-c) and [scaussin](https://github.com/scaussin)
+By [aleung-c](https://github.com/aleung-c) and [scaussin](https://github.com/scaussin).
 
 This two-man project is an implementation of a game of Gomoku.
 
@@ -27,3 +27,7 @@ to victory. Our program search for these forms on several turns, which makes it 
 threat forms, that can be combined.
 
 For more on threat-space search, see [this documentation](http://www.renju.nu/wp-content/uploads/sites/46/2016/09/Go-Moku.pdf).
+
+Video of the game:
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/A97sY5tTSNk/0.jpg)](https://www.youtube.com/watch?v=A97sY5tTSNk)
