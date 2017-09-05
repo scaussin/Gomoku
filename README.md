@@ -31,3 +31,9 @@ For more on threat-space search, see [this documentation](http://www.renju.nu/wp
 Video of the game:
 
 [![Gomoku running video link](https://img.youtube.com/vi/A97sY5tTSNk/0.jpg)](https://www.youtube.com/watch?v=A97sY5tTSNk)
+
+Screenshots:
+
+![Alt text](./screens/gomoku_1.png "Gomoku screenshot 1")
+![Alt text](./screens/gomoku_2.png "Gomoku screenshot 2")
+![Alt text](./screens/gomoku_3.png "Gomoku screenshot 3")
