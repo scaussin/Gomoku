@@ -12,6 +12,8 @@ Playable in 1vs1 or against an AI. This program provides a graphical interface i
 ## AI
 The core of this project is __Artificial Intelligence__ using a [Min-Max](https://en.wikipedia.org/wiki/Minimax) algorithm with [Alpha-Beta](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning) pruning.  
 the AI analyses the board, and "search" for the most interesting move to make, thanks to our game heuristic.
+![Alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/AB_pruning.svg/400px-AB_pruning.svg.png "Alpha-Beta")
+
 
 ## Demo
 Video:  
