@@ -1,4 +1,4 @@
-| Language | Field           | project | grade |
+| Language | Field           | Project | Grade |
 | :------: |:---------------:| :------:|:-----:|
 | C++      | Algorithms & AI | Duo     |113/125|
 
