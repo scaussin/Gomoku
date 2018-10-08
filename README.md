@@ -1,6 +1,6 @@
 | Language | Field           | project | grade |
 | :------: |:---------------:| :------:|:-----:|
-| c++      | Algorithms & AI | Duo     |113/125|
+| C++      | Algorithms & AI | Duo     |113/125|
 
 # Gomoku
 [Gomoku](https://en.wikipedia.org/wiki/Gomoku) is a strategy board game similar to [Go](https://en.wikipedia.org/wiki/Go_(game)) game.
