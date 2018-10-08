@@ -1,13 +1,14 @@
+By [scaussin](https://github.com/scaussin) and [aleung-c](https://github.com/aleung-c)
+field: Algorithms & AI 
 # Gomoku
-By [aleung-c](https://github.com/aleung-c) and [scaussin](https://github.com/scaussin).
+[Gomoku](https://en.wikipedia.org/wiki/Gomoku) is a strategy board game similar to [Go](https://en.wikipedia.org/wiki/Go_(game)) game.
+The winner is the first player to form an unbroken chain of five stones (horizontally, vertically, or diagonally) or the first to capture 10 enemy's stones.
 
-This two-man project is an implementation of a game of Gomoku.
+## Introduction
+Playable in 1vs1 or against an AI. This program provides a graphical interface in [SDL2](https://www.libsdl.org/). The challenge of this two-man project is to develop an optimized AI and heuristic in order to respect the computation time constraints.
 
-The gomoku is a variant of the go game, an oriental chess-like game where two players put stones on a wood board.
-In the original go game, players have to occupate the biggest area on the board by capturing adverse stones and placing stones.
-
-In the gomoku variant, the board and the stones are the same, but the goal is to align 5 stones. ("go" meaning "5" in japanese)
-This game is also known as "pente" or "darpion".
+## AI
+Artificial Intelligence uses a Min-Max algorithm with Alpha-Beta pruning.
 
 Our project recreate a fully functional gomoku game. We implemented the whole game with C++, with the SDL2 framework for
 displaying the game, and with an intensive use of the min-max algorithm.
