@@ -6,7 +6,7 @@
 [Gomoku](https://en.wikipedia.org/wiki/Gomoku) is a strategy board game similar to [Go](https://en.wikipedia.org/wiki/Go_(game)) game.
 The winner is the first player to form an unbroken chain of five stones (horizontally, vertically, or diagonally) or the first to capture 10 enemy's stones.
 
-## Introduction
+## Project
 Playable in 1vs1 or against an AI. This program provides a graphical interface in [SDL2](https://www.libsdl.org/) framework. The challenge of this project is to develop an optimized AI and heuristic in order to respect the computation time constraints.
 
 ## AI
